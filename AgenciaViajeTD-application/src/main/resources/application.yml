@@ -1,10 +1,10 @@
 spring:
   profiles: local
   datasource:
-    url: jdbc:oracle:thin:@IP:PUERTO:SID
-    username: user
-    password: password
-    driver-class-name: driver.database #change
+    url: jdbc:oracle:thin:@database-1.c4qbfoflnenh.us-east-2.rds.amazonaws.com:1521:academia
+    username: agenciatd
+    password: C4pgemini2023 
+    driver-class-name: oracle.jdbc.OracleDriver
     tomcat:
        testOnBorrow: true 
        testOnConnect: true 
@@ -16,7 +16,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect:  dialect.database #change
+        dialect:  org.hibernate.dialect.Oracle12cDialect
         format_sql: true
     show-sql: true
 
