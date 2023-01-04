@@ -169,9 +169,9 @@
                 <version>2.20</version>
                 <configuration>
                     <skipTests>${unit-tests.skip}</skipTests>
+                    <skipTests>true</skipTests>
                     <excludes>
-                        <exclude>**/*IT.java</exclude>
-                        <skipTests>true</skipTests>
+                        <exclude>**/*IT.java</exclude>                        
                     </excludes>
                 </configuration>
             </plugin>
