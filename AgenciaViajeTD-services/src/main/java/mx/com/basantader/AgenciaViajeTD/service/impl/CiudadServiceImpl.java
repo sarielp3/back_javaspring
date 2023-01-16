@@ -22,12 +22,11 @@ public class CiudadServiceImpl implements CiudadService {
 
     @Autowired
     private CiudadRepository ciudadRepository;
+    @Autowired
     private ModelMapper mapper;
 
     @Override
     public List<CiudadDto> getAllCiudades() {
-
-        mapper = new ModelMapper();
 
         List<CiudadDto> listaCiudadesDto = ciudadRepository.findAll().stream()
                 .map(ciudadEntity -> mapper.map(ciudadEntity, CiudadDto.class))
@@ -39,13 +38,11 @@ public class CiudadServiceImpl implements CiudadService {
     @Override
     public CiudadDto getCiudadbyName(String nombreCiudad) {
 
-        mapper = new ModelMapper();
-
         Optional<CiudadEntity> ciudadEntity = Optional.ofNullable(ciudadRepository.findByNombreCiudad(nombreCiudad));
         if (!ciudadEntity.isPresent()){
             throw new BusinessException(5);
         }
-        CiudadDto ciudadDto = this.mapper.map(ciudadEntity, CiudadDto.class);
+        CiudadDto ciudadDto = this.mapper.map(ciudadEntity.get(), CiudadDto.class);
 
         return ciudadDto;
     }
