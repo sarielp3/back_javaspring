@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CiuadadRepository extends JpaRepository<CiudadEntity, Long> {
-    CiudadEntity findByNombre_Ciudad(String nombreCiudad);
+public interface CiudadRepository extends JpaRepository<CiudadEntity, Long> {
+    CiudadEntity findByNombreCiudad(String nombreCiudad);
 }

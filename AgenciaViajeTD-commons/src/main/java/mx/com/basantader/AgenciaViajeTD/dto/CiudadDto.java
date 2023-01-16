@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CiudadDto {
 
-    private Integer idCiudad;
+    private Long idCiudad;
 
     private String nombreCiudad;
 }
