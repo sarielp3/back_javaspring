@@ -19,11 +19,11 @@ public class CiudadController {
     @Autowired
     CiudadService ciudadService;
 
-    @GetMapping()
+    @GetMapping( produces = "application/json")
     public List<CiudadDto> listaCiudades(){
         return ciudadService.getAllCiudades();
     }
-    @GetMapping("/{nombreCiudad}")
+    @GetMapping(value = "/{nombreCiudad}",  produces = "application/json")
     public CiudadDto getCiudad(@PathVariable String nombreCiudad){
         return ciudadService.getCiudadbyName(nombreCiudad);
     }
