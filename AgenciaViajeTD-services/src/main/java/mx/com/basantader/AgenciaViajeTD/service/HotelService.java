@@ -11,5 +11,5 @@ public interface HotelService {
 	
 	HotelesDto getHotelByciudad(Long ciudad_hotel);
 	
-	HotelesDto CreateHotel(HotelesDto newHotel);
+	HotelesDto createHotel(HotelesDto newHotel);
 }

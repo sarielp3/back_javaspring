@@ -9,8 +9,7 @@ import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 @Repository
 public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
 	
-	//@Query(value ="Select e from HotelEntity e where e.nombre_hotel like %:nombreHotel% or e.codigo_hotel like %:codigohotel% or e.ciudad.idCiudad = :idCiudad")
-	
+	@Query(value ="Select e from HotelEntity e where e.nombre_hotel like %:nombreHotel% or e.codigo_hotel like %:codigohotel% or e.ciudad.idCiudad = :idCiudad")
 	HotelEntity findByNombre_hotelOrCodigo_hotelOrCiudadIdCiudad(String nombreHotel,String codigohotel,Long idCiudad);
 
 	@Query(value ="Select e from HotelEntity e where e.ciudad.idCiudad = :idCiudad ")

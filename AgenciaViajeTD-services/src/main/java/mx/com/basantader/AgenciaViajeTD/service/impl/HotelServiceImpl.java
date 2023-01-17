@@ -78,7 +78,7 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	@Transactional
-	public HotelesDto CreateHotel(HotelesDto newHotel) {
+	public HotelesDto createHotel(HotelesDto newHotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(Long.parseLong(newHotel.getCodigo_Hotel())));
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
