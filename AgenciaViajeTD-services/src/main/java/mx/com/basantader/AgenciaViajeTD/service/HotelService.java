@@ -9,7 +9,7 @@ public interface HotelService {
 	
 	HotelesDto getHotelbyName(String nomHotel,String codHotel,Long idCiudad);
 	
-	HotelesDto gethotelByciudad(Long ciudad_hotel);
+	HotelesDto getHotelByciudad(Long ciudad_hotel);
 	
-	HotelesDto CreateHotel(HotelesDto NewHotel);
+	HotelesDto CreateHotel(HotelesDto newHotel);
 }

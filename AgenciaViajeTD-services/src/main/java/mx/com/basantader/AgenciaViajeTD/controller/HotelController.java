@@ -33,8 +33,8 @@ public class HotelController {
     }
     
     @GetMapping(value="/codigo/{ciudad_hotel}", produces = "application/json")
-    public HotelesDto getcodigoHotel(@PathVariable Long ciudad_hotel) {
-    	return hotelservice.gethotelByciudad(ciudad_hotel);
+    public HotelesDto getCodigoHotel(@PathVariable Long ciudad_hotel) {
+    	return hotelservice.getHotelByciudad(ciudad_hotel);
     }
    
 }

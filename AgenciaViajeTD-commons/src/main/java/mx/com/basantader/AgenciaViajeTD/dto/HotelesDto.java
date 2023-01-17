@@ -18,17 +18,17 @@ import lombok.NoArgsConstructor;
 public class HotelesDto implements Serializable {
 	private Long id_hotel;
 	
-	private CiudadDto Ciudad;
+	private CiudadDto ciudad;
 	
-	private String Nombre_Hotel;
+	private String nombre_Hotel;
 	
-	private String Codigo_Hotel;
+	private String codigo_Hotel;
 	
-	private String Direccion;
+	private String direccion;
 	
-	private String Estatus;
+	private String estatus;
 	
-	private String Logo;
+	private String logo;
 	
 
 }

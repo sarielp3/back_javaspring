@@ -51,7 +51,7 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public HotelesDto getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.buscarFiltro(nomHotel,codHotel,idCiudad));
+		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByNombre_hotelOrCodigo_hotelOrCiudadIdCiudad(nomHotel,codHotel,idCiudad));
 		if(!hotelEntity.isPresent()) {
 			throw new BusinessException("No existe un hotel con el nombre ingresado");
 		}
@@ -62,7 +62,7 @@ public class HotelServiceImpl implements HotelService {
 
 
 	@Override
-	public HotelesDto gethotelByciudad(Long ciudad_hotel) {
+	public HotelesDto getHotelByciudad(Long ciudad_hotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(ciudad_hotel));
 		if(!hotelEntity.isPresent()) {
 			throw new BusinessException("No existe un hotel con id ciudad ingresado");
@@ -78,23 +78,23 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	@Transactional
-	public HotelesDto CreateHotel(HotelesDto NewHotel) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(Long.parseLong(NewHotel.getCodigo_Hotel())));
+	public HotelesDto CreateHotel(HotelesDto newHotel) {
+		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(Long.parseLong(newHotel.getCodigo_Hotel())));
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
 	
 		CiudadEntity ciudadentidad = new CiudadEntity();
-		ciudadentidad.setIdCiudad(NewHotel.getCiudad().getIdCiudad());
+		ciudadentidad.setIdCiudad(newHotel.getCiudad().getIdCiudad());
 		
 		HotelEntity nuevoRegistro = new HotelEntity();
 		nuevoRegistro.setCiudad(ciudadentidad);
-		nuevoRegistro.setNombre_hotel(NewHotel.getNombre_Hotel());
-		nuevoRegistro.setCodigo_hotel(NewHotel.getCodigo_Hotel());
-		nuevoRegistro.setDireccion(NewHotel.getDireccion());
-		nuevoRegistro.setEstatus(NewHotel.getEstatus());
-		
-		byte[] decodedByte = NewHotel.getLogo().getBytes(); 
+		nuevoRegistro.setNombre_hotel(newHotel.getNombre_Hotel());
+		nuevoRegistro.setCodigo_hotel(newHotel.getCodigo_Hotel());
+		nuevoRegistro.setDireccion(newHotel.getDireccion());
+		nuevoRegistro.setEstatus(newHotel.getEstatus());
+		/*
+		byte[] decodedByte = newHotel.getLogo().getBytes(); 
 		Blob b=null;
 		try {
 			b = new SerialBlob(decodedByte);
@@ -105,11 +105,11 @@ public class HotelServiceImpl implements HotelService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		nuevoRegistro.setLogo(b);
+		nuevoRegistro.setLogo(b);*/
 		hotelRepository.save(nuevoRegistro);
-		NewHotel.setId_hotel(nuevoRegistro.getId_Hotel());
+		newHotel.setId_hotel(nuevoRegistro.getId_hotel());
 		
-		return NewHotel;
+		return newHotel;
 	}
 
 }

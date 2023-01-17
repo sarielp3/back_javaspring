@@ -32,7 +32,7 @@ public class HotelEntity implements Serializable {
 	@Id
     @SequenceGenerator(name = "hotel", sequenceName = "hotel_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "hotel")
-    private Long id_Hotel;
+    private Long id_hotel;
 	
 	@OneToOne
 	@JoinColumn(name = "ID_CIUDAD")
