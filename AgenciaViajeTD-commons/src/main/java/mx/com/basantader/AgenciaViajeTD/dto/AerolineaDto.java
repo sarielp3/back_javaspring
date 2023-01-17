@@ -11,13 +11,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CiudadDto {
+public class AerolineaDto {
 
-    private Long idCiudad;
+    private Long idAerolinea;
 
-    private String nombreCiudad;
+    private String nombreAerolinea;
 
-    private List<VuelosDto> vuelosOrigen;
-
-    private List<VuelosDto> vuelosDestino;
+    private List<VuelosDto> vuelosAeroliea;
 }
