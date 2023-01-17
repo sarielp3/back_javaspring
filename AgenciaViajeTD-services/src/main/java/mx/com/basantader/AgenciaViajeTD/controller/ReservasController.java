@@ -30,7 +30,7 @@ public class ReservasController {
 	@Autowired
 	private ReservasService reservasService;
 	
-	@RequestMapping(method = RequestMethod.GET, produces = "json", value = { "/mostarTodas" })
+	@RequestMapping(method = RequestMethod.GET, produces = "json", value = { "/mostar-todas" })
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = ReservasDto.class)
 	public List<ReservasDto> allReservas() {
