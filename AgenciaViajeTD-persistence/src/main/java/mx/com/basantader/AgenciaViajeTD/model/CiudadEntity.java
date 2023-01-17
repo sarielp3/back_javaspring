@@ -21,4 +21,7 @@ public class CiudadEntity {
 
     @Column(name = "NOMBRE_CIUDAD", nullable = false)
     private String nombreCiudad;
+    
+    @OneToOne(mappedBy="ciudad",cascade = CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+    private HotelEntity hotel;
 }
