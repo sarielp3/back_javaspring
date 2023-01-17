@@ -38,8 +38,8 @@ public class CuartosEntity {
     @Column(name = "TIPO_CUARTO", nullable = false)
     private String tipoCuarto;
 
-    //@ManyToOne
-    //@JoinColumn(name = "ID_HOTEL")
-    //private HotelEntity hotel;
+    @ManyToOne
+    @JoinColumn(name = "ID_HOTEL")
+    private HotelEntity hotel;
 
 }

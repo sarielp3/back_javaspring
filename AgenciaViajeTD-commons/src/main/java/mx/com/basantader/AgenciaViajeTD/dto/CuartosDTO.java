@@ -20,7 +20,6 @@ public class CuartosDTO {
   private Float costoNoche;
   private String tipoCuarto;
 
-  //Relacion con tabla Hotel
   private Long idHotel;
 
 }
