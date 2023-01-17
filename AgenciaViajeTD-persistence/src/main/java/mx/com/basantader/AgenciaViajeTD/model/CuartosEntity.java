@@ -18,13 +18,13 @@ public class CuartosEntity {
     @Id
     @SequenceGenerator(name = "sequ", sequenceName = "application_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "sequ")
-    private Long idcuarto;
+    private Long idCuarto;
 
     @Column(name = "NOMBRE_CUARTO", nullable = false)
     private String nombreCuarto;
 
     @Column(name = "DESCRIPCION", nullable = false)
-    private String Descripcion;
+    private String descripcion;
 
     @Column(name = "NUMERO_PERSONAS", nullable = false)
     private Long numeroPersonas;

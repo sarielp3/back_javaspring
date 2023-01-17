@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CuartosDTO {
 
-  private Long idcuarto;
+  private Long idCuarto;
   private String nombreCuarto;
-  private String Descripcion;
+  private String descripcion;
   private Long numeroPersonas;
   private String codigoCuartos;
   private Float costoNoche;
