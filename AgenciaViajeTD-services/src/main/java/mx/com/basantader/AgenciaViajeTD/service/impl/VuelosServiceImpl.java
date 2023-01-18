@@ -44,6 +44,9 @@ public class VuelosServiceImpl implements VuelosService {
 
     @Override
     public List<VuelosDto> getVuelosByOrigen(Long origen) {
+        if (!(origen instanceof Long)){
+            throw new ResourceNotFoundException("Tipo de dato invalida");
+        }
         Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(origen);
         if (!ciudadEntity.isPresent()){
             throw new ResourceNotFoundException("No se encotrno con la ciudad");

@@ -26,9 +26,6 @@ public class VuerlosContorller {
             @RequestParam(required = false) Long destino,
             @RequestParam(required = false) Long aerolinea
     ){
-        if (!(origen instanceof Long)){
-            throw new ResourceNotFoundException("Tipo de dato invalida");
-        }
         if (origen != null){
             return vuelosService.getVuelosByOrigen(origen);
         }
