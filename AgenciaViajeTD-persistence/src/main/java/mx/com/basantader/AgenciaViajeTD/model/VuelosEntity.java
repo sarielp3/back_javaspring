@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.List;
 
 @Entity
 @Table(name = "VUELOS")
@@ -47,4 +48,7 @@ public class VuelosEntity {
 
     @Column(name = "COSTO", nullable = false)
     private Float costo;
+    
+    @OneToMany(mappedBy = "vuelo")
+    private List<ReservasEntity> reservas;
 }
