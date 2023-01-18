@@ -18,9 +18,9 @@ public class ReservasDto {
 	private String apellidoPaternoCliente;
 	private String apellidoMaternoCliente;
 	private Long idReserva;
-	private Long idHotel;
-	private Long idCuarto;
-	private Long idVuelo;
+	private Long Hotel;
+	private Long Cuarto;
+	private Long Vuelo;
 	
 	
 	

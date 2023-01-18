@@ -1,10 +1,10 @@
 package mx.com.basantader.AgenciaViajeTD.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,20 +30,20 @@ public class ReservasController {
 	@Autowired
 	private ReservasService reservasService;
 	
-	@RequestMapping(method = RequestMethod.GET, produces = "json", value = { "/mostar-todas" })
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value =  "/todas" )
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = ReservasDto.class)
-	public List<ReservasDto> allReservas() {
+	public List<ReservasDto> reservas() {
 		log.debug("Recuperando todas las alertas");
-		return reservasService.getReservasEntity();
+		return reservasService.getAllReservas();
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, produces = "json", value={"/{id}"})
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/{id}")
     @ResponseBody
     @ApiOperation(value = "Ver vuelo asignado a la reserva", response = ReservasDto.class)
-	public ReservasEntity reservaId(@RequestParam(required = false) Long idVuelo, @RequestParam(required = false) Long idHotel ) {
+	public ReservasEntity reserva(@PathVariable Long Vuelo) {
 		log.debug("Recuperando la reserva");
-		return (ReservasEntity) reservasService.getReservaByVueloOrHotel(idVuelo, idHotel);
+		return reservasService.getReservaById(Vuelo);
 		
 	}
 

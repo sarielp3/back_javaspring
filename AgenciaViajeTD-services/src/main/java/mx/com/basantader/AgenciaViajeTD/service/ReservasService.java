@@ -7,9 +7,9 @@ import mx.com.basantader.AgenciaViajeTD.model.ReservasEntity;
 
 public interface ReservasService {
 	
-	List<ReservasDto> getReservasEntity();
+	List<ReservasDto> getAllReservas();
 	
-	List<ReservasEntity> getReservaByVueloOrHotel(Long idVuelo, Long idHotel);
+	ReservasEntity getReservaById(Long Vuelo);
 	
 	
 }

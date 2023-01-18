@@ -19,22 +19,23 @@ import mx.com.basantader.AgenciaViajeTD.service.ReservasService;
 public class ReservasServiceImpl implements ReservasService {
 
 	@Autowired
-	private ModelMapper modelMapper;
+	private ModelMapper mapper;
 
 	@Autowired
 	private ReservasRepository reservasRepository;
 
 	@Override
-	@Transactional(readOnly = true)
-	public List<ReservasDto> getReservasEntity() {
+	@Transactional
+	public List<ReservasDto> getAllReservas() {
 		List<ReservasDto> reservas = reservasRepository.findAll().stream()
-				.map(reservasItem -> modelMapper.map(reservasItem, ReservasDto.class)).collect(Collectors.toList());
+				.map(reservasEntity -> mapper.map(reservasEntity, ReservasDto.class))
+				.collect(Collectors.toList());
 		return reservas;
 	}
 
 	@Override
-	public List<ReservasEntity> getReservaByVueloOrHotel(Long idVuelo, Long idHotel) {
-		Optional<List<ReservasEntity>> optId = Optional.ofNullable (reservasRepository.finByVueloOrHotel(idVuelo, idHotel));
+	public ReservasEntity getReservaById(Long Vuelo) {
+		Optional<ReservasEntity> optId = reservasRepository.findById(Vuelo);
 		if(!optId.isPresent()) {
 			
 			throw new BusinessException(6);
