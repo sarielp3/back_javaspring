@@ -15,11 +15,11 @@ public class VuelosDto {
 
     private Long idVuelo;
 
-    private Long origen;
+    private CiudadDto origen;
 
-    private Long destino;
+    private CiudadDto destino;
 
-    private Long idAerolinea;
+    private AerolineaDto aerolinea;
 
     private String estatus;
 
@@ -27,7 +27,7 @@ public class VuelosDto {
 
     private Time horaLlegada;
 
-    private String codigoViulo;
+    private String codigoVuelo;
 
     private Float costo;
 

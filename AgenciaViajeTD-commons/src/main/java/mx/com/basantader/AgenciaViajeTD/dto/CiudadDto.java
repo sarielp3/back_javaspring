@@ -17,7 +17,4 @@ public class CiudadDto {
 
     private String nombreCiudad;
 
-    private List<VuelosDto> vuelosOrigen;
-
-    private List<VuelosDto> vuelosDestino;
 }
