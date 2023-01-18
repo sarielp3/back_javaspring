@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -41,5 +43,8 @@ public class CuartosEntity {
     @ManyToOne
     @JoinColumn(name = "ID_HOTEL")
     private HotelEntity hotel;
+    
+    @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ReservasEntity> vuelo;
 
 }

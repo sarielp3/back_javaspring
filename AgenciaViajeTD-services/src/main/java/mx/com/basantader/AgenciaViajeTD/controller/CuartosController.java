@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Cuartos")
+@RequestMapping("/cuartos")
 @Api(value = "CRUD de tabla Cuartos")
 public class CuartosController {
 
@@ -22,11 +22,8 @@ public class CuartosController {
     @Autowired
     private CuartosService cuartosService;
 
-    @GetMapping(value = "filterCuartos/{idHotel}")
-    public CuartosDTO filterCuartos(@PathVariable Long idHotel){
-        if (idHotel == null){
-            throw  new BusinessException(1);
-        }
+    @GetMapping(value = "filter-cuartos/{idHotel}")
+    public CuartosDTO filterCuartos(@PathVariable("idHotel") Long idHotel){
         return  cuartosService.filterCuartosById(idHotel);
     }
 }

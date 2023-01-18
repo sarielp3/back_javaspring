@@ -7,6 +7,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CuartosEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CuartosRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.HotelRepository;
 import mx.com.basantader.AgenciaViajeTD.service.CuartosService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class CuartosServiceImpl implements CuartosService {
     @Autowired
     private HotelRepository hotelRepository;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public CuartosDTO filterCuartosById(Long idHotel) {
         Optional<CuartosEntity> filter = cuartosRepository.findById(idHotel);
@@ -33,18 +37,7 @@ public class CuartosServiceImpl implements CuartosService {
             throw new BusinessException(6);
         }
 
-        CuartosDTO cuartosDTO = new CuartosDTO();
-
-        cuartosDTO.setIdCuarto(filter.get().getIdCuarto());
-        cuartosDTO.setNombreCuarto(filter.get().getNombreCuarto());
-        cuartosDTO.setDescripcion(filter.get().getDescripcion());
-        cuartosDTO.setNumeroPersonas(filter.get().getNumeroPersonas());
-        cuartosDTO.setCodigoCuartos(filter.get().getCodigoCuartos());
-        cuartosDTO.setCostoNoche(filter.get().getCostoNoche());
-        cuartosDTO.setTipoCuarto(filter.get().getTipoCuarto());
-
-        //Datos tomados de la tabla hotel
-        cuartosDTO.setIdHotel(filter.get().getHotel().getId_hotel());
+       CuartosDTO cuartosDTO = mapper.map(filter.get(), CuartosDTO.class);
 
         return  cuartosDTO;
     }
