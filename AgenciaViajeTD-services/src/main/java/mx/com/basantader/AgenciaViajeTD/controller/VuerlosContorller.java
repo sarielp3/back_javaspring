@@ -38,4 +38,12 @@ public class VuerlosContorller {
         return vuelosService.getAllVuelos();
 
     }
+    /*@GetMapping(value = "/filtros", produces = "application/json")
+    public List<VuelosDto> listaVuelosfiltrados(
+            @RequestParam(required = false) Long origen,
+            @RequestParam(required = false) Long destino,
+            @RequestParam(required = false) Long aerolinea
+    ){
+        return vuelosService.getVuelosByFiltros(origen, destino, aerolinea);
+    }*/
 }

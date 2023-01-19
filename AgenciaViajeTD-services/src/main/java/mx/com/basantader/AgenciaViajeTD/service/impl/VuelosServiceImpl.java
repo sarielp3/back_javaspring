@@ -85,4 +85,27 @@ public class VuelosServiceImpl implements VuelosService {
 
     }
 
+    /*
+    @Override
+    public List<VuelosDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
+
+        Optional<CiudadEntity> origenEntity = ciudadRepository.findById(origen);
+        Optional<CiudadEntity> destinoEntity = ciudadRepository.findById(destino);
+        if (!origenEntity.isPresent() || !destinoEntity.isPresent()){
+            throw new ResourceNotFoundException("No se encotrno con la ciudad");
+        }
+
+        Optional<AerolineaEntity> aerolineaEntity = aerolineaRepository.findById(aerolinea);
+        if (!aerolineaEntity.isPresent()){
+            throw new ResourceNotFoundException("No se encotrno aerolinea con el id:" + aerolineaEntity);
+        }
+
+        List<VuelosDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity.get(), destinoEntity.get(), aerolineaEntity.get())
+                .stream()
+                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
+                .collect(Collectors.toList());
+
+        return listaVuelosDto;
+    }*/
+
 }

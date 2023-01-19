@@ -11,4 +11,6 @@ public interface VuelosService {
     List<VuelosDto> getVuelosByDestino(Long destino);
     List<VuelosDto> getVuelosByAerolinea(Long aerolinea);
 
+    //List<VuelosDto> getVuelosByFiltros(Long origen, Long destino,Long aerolinea);
+
 }
