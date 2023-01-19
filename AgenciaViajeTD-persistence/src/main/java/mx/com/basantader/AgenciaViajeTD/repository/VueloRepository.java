@@ -9,19 +9,20 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+
 public interface VueloRepository extends JpaRepository<VuelosEntity, Long> {
 
     List<VuelosEntity> findByOrigen(CiudadEntity origen);
     List<VuelosEntity> findByDestino(CiudadEntity destino);
     List<VuelosEntity> findByAerolinea(AerolineaEntity aerolinea);
 
-    /*@Query("SELECT v FROM Vuelos v WHERE (:origen is null or v.origen = :origen) " +
+    @Query("SELECT v FROM Vuelos v WHERE (:origen is null or v.origen = :origen) " +
             "and (:destino is null or v.destino = :destino) " +
-            "and (:id_aerolinea is null or v.id_aerolinea = :id_aerolinea)")
+            "and (:aerolinea is null or v.aerolinea = :aerolinea)")
     List<VuelosEntity> findVuelosByFiltros(
             @Param("origen") CiudadEntity origen,
             @Param("destino") CiudadEntity destino,
-            @Param("id_aerolinea") AerolineaEntity aerolinea);*/
+            @Param("aerolinea") AerolineaEntity aerolinea);
 
 
 }

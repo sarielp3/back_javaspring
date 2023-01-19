@@ -85,7 +85,7 @@ public class VuelosServiceImpl implements VuelosService {
 
     }
 
-    /*
+
     @Override
     public List<VuelosDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
 
@@ -106,6 +106,6 @@ public class VuelosServiceImpl implements VuelosService {
                 .collect(Collectors.toList());
 
         return listaVuelosDto;
-    }*/
+    }
 
 }
