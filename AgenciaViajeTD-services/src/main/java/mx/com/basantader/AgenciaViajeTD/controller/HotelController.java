@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
 import mx.com.basantader.AgenciaViajeTD.dto.ReservasDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
 @RestController
@@ -45,10 +46,10 @@ public class HotelController {
     	return hotelservice.getHotelBycodigo(codHotel);
     }
     
-    @PostMapping(value="/nuevoHotel",produces="application/json")
+    @PostMapping(value="/nuevo-hotel",produces="application/json")
     public HotelesDto crearHotel(@RequestBody HotelesDto nuevoReg) {
     	if(nuevoReg.getCodigoHotel() == null) {
-    		throw new BusinessException("Codigo de hotel necesario");
+    		throw new ResourceNotFoundException("Codigo de hotel necesario");
     	}
     	
     	return hotelservice.createHotel(nuevoReg);

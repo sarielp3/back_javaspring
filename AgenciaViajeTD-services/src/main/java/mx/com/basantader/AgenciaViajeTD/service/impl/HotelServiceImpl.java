@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
@@ -54,9 +55,9 @@ public class HotelServiceImpl implements HotelService {
 	public List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
 		List<HotelEntity> hotelEntity = hotelRepository.findByNombreHotelOrCodigoHotelOrCiudadIdCiudad(nomHotel,codHotel,idCiudad);
 		if(hotelEntity.isEmpty()) {
-			throw new BusinessException("No existe un hotel con el nombre ingresado");
+			throw new ResourceNotFoundException("No existe un hotel con el nombre ingresado");
 		}
-		//HotelesDto hoteldto = this.mapper.map(hotelEntity.get(), HotelesDto.class);
+	
 		List<HotelesDto> lstHoteles = hotelRepository.findByNombreHotelOrCodigoHotelOrCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
 				.collect(Collectors.toList());
@@ -69,16 +70,9 @@ public class HotelServiceImpl implements HotelService {
 	public HotelesDto getHotelBycodigo(String codHotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(codHotel));
 		if(!hotelEntity.isPresent()) {
-			throw new BusinessException("No existe un hotel con id ciudad ingresado");
+			throw new ResourceNotFoundException("No existe un hotel con el codigo ingresado");
 		}
 		HotelesDto hoteldto = this.mapper.map(hotelEntity.get(), HotelesDto.class);
-
-		
-	/*	CiudadDto ciudad = new CiudadDto();
-		ciudad.setIdCiudad(hotelEntity.get().getCiudad().getIdCiudad());
-		hoteldto.setId_hotel(hotelEntity.get().getId_hotel());
-		hoteldto.setCiudad(ciudad);
-		//hoteldto.setLogo("hihi");*/
 		
 		return hoteldto;
 	}
@@ -101,8 +95,6 @@ public class HotelServiceImpl implements HotelService {
 		nuevoRegistro.setCodigoHotel(newHotel.getCodigoHotel());
 		nuevoRegistro.setDireccion(newHotel.getDireccion());
 		nuevoRegistro.setEstatus(newHotel.getEstatus());
-		//byte[] decodedByte = Base64.decode(newHotel.getLogo());*/
-	//	HotelEntity hotelItem = this.mapper.map(newHotel, HotelEntity.class);
 		byte[] decodedByte = newHotel.getLogo().getBytes(); 
 		Blob b=null;
 		try {
