@@ -1,9 +1,8 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 
-import mx.com.basantader.AgenciaViajeTD.dto.CuartosDTO;
+import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
-import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartosEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CuartosRepository;
@@ -34,26 +33,26 @@ public class CuartosServiceImpl implements CuartosService {
 
     @PostConstruct
     private  void init(){
-        TypeMap<CuartosEntity, CuartosDTO> mapeoHotel = mapper.createTypeMap(CuartosEntity.class, CuartosDTO.class);
+        TypeMap<CuartosEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartosEntity.class, CuartoDto.class);
 
-        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getId_hotel(), CuartosDTO::setIdHotel) );
+        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getId_hotel(), CuartoDto::setIdHotel) );
     }
 
     @Override
-    public CuartosDTO filterCuartosById(Long idHotel) {
+    public CuartoDto filterCuartosById(Long idHotel) {
         Optional<CuartosEntity> filter = cuartosRepository.findById(idHotel);
 
         if (!filter.isPresent()){
             throw new BusinessException(6);
         }
 
-       CuartosDTO cuartosDTO = mapper.map(filter.get(), CuartosDTO.class);
+       CuartoDto cuartosDTO = mapper.map(filter.get(), CuartoDto.class);
 
         return  cuartosDTO;
     }
 
     @Override
-    public CuartosDTO crearCuarto(CuartosDTO cuartoAdd, Long idHotel) {
+    public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       Optional<HotelEntity> hotelId = hotelRepository.findById(idHotel);
       CuartosEntity cuartosEntity = mapper.map(cuartoAdd, CuartosEntity.class);
 
@@ -71,7 +70,7 @@ public class CuartosServiceImpl implements CuartosService {
       cuartosEntity.setHotel(hotelId.get());
 
       CuartosEntity cuartosEn = cuartosRepository.save(cuartosEntity);
-      CuartosDTO cuartosDTO = mapper.map(cuartosEn, CuartosDTO.class);
+      CuartoDto cuartosDTO = mapper.map(cuartosEn, CuartoDto.class);
 
       return cuartosDTO;
 

@@ -1,10 +1,10 @@
 package mx.com.basantader.AgenciaViajeTD.service;
 
-import mx.com.basantader.AgenciaViajeTD.dto.CuartosDTO;
+import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 
 public interface CuartosService {
 
-    CuartosDTO filterCuartosById(Long idHotel);
+    CuartoDto filterCuartosById(Long idHotel);
 
-    CuartosDTO crearCuarto(CuartosDTO cuartoAdd, Long idHotel);
+    CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel);
 }
