@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface CuartosRepository extends JpaRepository<CuartosEntity, Long> {
-   Optional<CuartosEntity> finByNombreCuarto(String validarNC);
-  // Optional<CuartosEntity> finByCodigoCuarto(String validarCC);
+   Optional<CuartosEntity> findByNombreCuarto(String validarNC);
+   Optional<CuartosEntity> findByCodigoCuartos(String validarCC);
 }

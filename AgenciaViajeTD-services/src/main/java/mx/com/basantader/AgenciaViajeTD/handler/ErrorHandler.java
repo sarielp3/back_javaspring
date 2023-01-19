@@ -37,6 +37,7 @@ public class ErrorHandler {
 	@ResponseBody
 	public CustomErrorResponse handleNotFound(BusinessException ex) {
 		 log.error("Generic exception", ex);
+
 		return new CustomErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(),HttpStatus.UNPROCESSABLE_ENTITY, ex.getDescription());
 	}
 	

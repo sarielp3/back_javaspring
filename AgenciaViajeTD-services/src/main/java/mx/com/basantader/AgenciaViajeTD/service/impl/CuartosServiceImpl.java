@@ -57,16 +57,16 @@ public class CuartosServiceImpl implements CuartosService {
       Optional<HotelEntity> hotelId = hotelRepository.findById(idHotel);
       CuartosEntity cuartosEntity = mapper.map(cuartoAdd, CuartosEntity.class);
 
-      //Optional<CuartosEntity> validarNC = cuartosRepository.finByNombreCuarto(cuartoAdd.getNombreCuarto());
-      // Optional<CuartosEntity> validarCC = cuartosRepository.finByCodigoCuarto(cuartoAdd.getCodigoCuartos());
+      Optional<CuartosEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
+      Optional<CuartosEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
 
-     /* if (validarNC.isPresent()){
-          throw new ResourceNotFoundException("El nombre del cuarto ya existe");
+      if (validarNC.isPresent()){
+          throw new BusinessException("El nombre del cuarto ya existe");
       }
 
-        /*if (validarCC.isPresent()){
-            throw new ResourceNotFoundException("El codigo del cuarto ya existe");
-        }*/
+        if (validarCC.isPresent()){
+            throw new BusinessException("El codigo del cuarto ya existe");
+        }
 
       cuartosEntity.setHotel(hotelId.get());
 
