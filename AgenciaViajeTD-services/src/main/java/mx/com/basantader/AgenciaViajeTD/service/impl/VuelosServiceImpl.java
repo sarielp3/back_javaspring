@@ -32,75 +32,23 @@ public class VuelosServiceImpl implements VuelosService {
     @Autowired
     private ModelMapper mapper;
 
-
-    @Override
-    public List<VuelosDto> getAllVuelos() {
-        List<VuelosDto> listaVuelosDto = vueloRepository.findAll().stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByOrigen(Long origen) {
-        if (!(origen instanceof Long)){
-            throw new ResourceNotFoundException("Tipo de dato invalida");
-        }
-        Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(origen);
-        if (!ciudadEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno con la ciudad");
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByOrigen(ciudadEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByDestino(Long destino) {
-        Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(destino);
-        if (!ciudadEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno con la ciudad");
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByDestino(ciudadEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByAerolinea(Long aerolinea) {
-        Optional<AerolineaEntity> aerolineaEntity = aerolineaRepository.findById(aerolinea);
-        if (!aerolineaEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno aerolinea con el id:" + aerolineaEntity);
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByAerolinea(aerolineaEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-
-    }
-
-
     @Override
     public List<VuelosDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
+        CiudadEntity origenEntity = null;
+        CiudadEntity destinoEntity = null;
+        AerolineaEntity aerolineaEntity = null;
 
-        Optional<CiudadEntity> origenEntity = ciudadRepository.findById(origen);
-        Optional<CiudadEntity> destinoEntity = ciudadRepository.findById(destino);
-        if (!origenEntity.isPresent() || !destinoEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno con la ciudad");
+        if(origen != null){
+            origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos desde esta ciudad"));
         }
 
-        Optional<AerolineaEntity> aerolineaEntity = aerolineaRepository.findById(aerolinea);
-        if (!aerolineaEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno aerolinea con el id:" + aerolineaEntity);
+        if(destino != null){
+            destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
         }
-
-        List<VuelosDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity.get(), destinoEntity.get(), aerolineaEntity.get())
+        if(aerolinea != null){
+            aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
+        }
+        List<VuelosDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
                 .stream()
                 .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
                 .collect(Collectors.toList());

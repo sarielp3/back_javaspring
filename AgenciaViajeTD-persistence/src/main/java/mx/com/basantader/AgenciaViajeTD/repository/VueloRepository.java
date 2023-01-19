@@ -16,7 +16,7 @@ public interface VueloRepository extends JpaRepository<VuelosEntity, Long> {
     List<VuelosEntity> findByDestino(CiudadEntity destino);
     List<VuelosEntity> findByAerolinea(AerolineaEntity aerolinea);
 
-    @Query("SELECT v FROM Vuelos v WHERE (:origen is null or v.origen = :origen) " +
+    @Query("SELECT v FROM VuelosEntity v WHERE (:origen is null or v.origen = :origen) " +
             "and (:destino is null or v.destino = :destino) " +
             "and (:aerolinea is null or v.aerolinea = :aerolinea)")
     List<VuelosEntity> findVuelosByFiltros(
