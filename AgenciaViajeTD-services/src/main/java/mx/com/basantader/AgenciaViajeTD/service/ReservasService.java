@@ -11,5 +11,7 @@ public interface ReservasService {
 	
 	ReservasEntity getReservaById(Long Vuelo);
 	
+	ReservasEntity createReserva(ReservasDto createReserva);
+	
 	
 }

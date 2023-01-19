@@ -45,6 +45,6 @@ public class CuartosEntity {
     private HotelEntity hotel;
     
     @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ReservasEntity> vuelo;
+    private List<ReservasEntity> reservasCuartos;
 
 }

@@ -3,9 +3,12 @@ package mx.com.basantader.AgenciaViajeTD.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +21,7 @@ import javax.persistence.TemporalType;
 import lombok.*;
 
 @Entity
-@Table(name = "Reservaciones")
+@Table(name="RESERVACIONES")
 @Builder
 @Data
 @NoArgsConstructor
@@ -26,6 +29,23 @@ import lombok.*;
 
 
 public class ReservasEntity implements Serializable{
+	
+	@Id
+	@SequenceGenerator(name = "seq", sequenceName = "RESERVAS_SEQ", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(generator = "seq")
+	private Long idReserva;
+	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_HOTEL")
+	private HotelEntity hotel;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_CUARTO")
+	private CuartosEntity cuarto;
+	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_VUELO")
+	private VuelosEntity vuelo;
 	
 	@Column(name = "FECHA_INICIO", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -47,21 +67,5 @@ public class ReservasEntity implements Serializable{
 	@Column(name = "APELLIDO_MATERNO", nullable = false)
 	private String apellidoMaternoCliente;
 	
-	@Id
-	@SequenceGenerator(name = "sequ", sequenceName = "RESERVAS_SEQ", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "sequ")
-	private Long idReservas;
-	
-	@ManyToOne
-	@JoinColumn(name = "ID_HOTEL")
-	private HotelEntity hotel;
-	
-	@OneToOne
-	@JoinColumn(name = "ID_CUARTO")
-	private CuartosEntity cuarto;
-	
-	@ManyToOne
-	@JoinColumn(name = "ID_VUELO")
-	private VuelosEntity vuelo;
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -34,7 +35,7 @@ public class HotelEntity implements Serializable {
     @GeneratedValue(generator = "hotel")
     private Long id_hotel;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CIUDAD")
 	private CiudadEntity ciudad;
 	
@@ -54,5 +55,5 @@ public class HotelEntity implements Serializable {
 	private Blob logo;
 	
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ReservasEntity> reservas;
+    private List<ReservasEntity> reservasHotel;
 }

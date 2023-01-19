@@ -44,7 +44,7 @@ public class VuelosEntity {
     private Time horaLlegada;
 
     @Column(name = "CODIGO_VUELO", nullable = false)
-    private String codigoViulo;
+    private String codigoVuelo;
 
     @Column(name = "COSTO", nullable = false)
     private Float costo;

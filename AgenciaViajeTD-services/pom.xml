@@ -94,8 +94,13 @@
             <version>${logback.version}</version>
             <scope>runtime</scope>
         </dependency>
-		
-		
+
+
+        <dependency>
+        	<groupId>mx.com.basantader.AgenciaViajeTD</groupId>
+        	<artifactId>AgenciaViajeTD-application</artifactId>
+        	<version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 

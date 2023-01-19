@@ -9,5 +9,7 @@ import mx.com.basantader.AgenciaViajeTD.model.ReservasEntity;
 @Repository
 public interface ReservasRepository extends JpaRepository<ReservasEntity, Long>{
 	
+	
+	
 
 }
