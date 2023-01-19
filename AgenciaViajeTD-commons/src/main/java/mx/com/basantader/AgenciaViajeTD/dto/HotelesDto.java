@@ -16,13 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HotelesDto implements Serializable {
-	private Long id_hotel;
+	private Long idHotel;
 	
-	private CiudadDto ciudad;
+	private String ciudad;
 	
-	private String nombre_Hotel;
+	private String nombreHotel;
 	
-	private String codigo_Hotel;
+	private String codigoHotel;
 	
 	private String direccion;
 	

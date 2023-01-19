@@ -7,9 +7,9 @@ import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
 public interface HotelService {
 	List<HotelesDto>  getallHoteles();
 	
-	HotelesDto getHotelbyName(String nomHotel,String codHotel,Long idCiudad);
+	List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad);
 	
-	HotelesDto getHotelByciudad(Long ciudad_hotel);
+	HotelesDto getHotelBycodigo(String codHotel);
 	
 	HotelesDto createHotel(HotelesDto newHotel);
 }
