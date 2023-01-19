@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuartosDTO {
+public class CuartoDto {
 
   private Long idCuarto;
   private String nombreCuarto;

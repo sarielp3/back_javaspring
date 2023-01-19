@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuartosEntity {
+public class CuartoEntity {
 
     @Id
     @SequenceGenerator(name = "sequ", sequenceName = "CUARTOSALTA_SEQ", initialValue = 1, allocationSize = 1)
