@@ -22,4 +22,5 @@ public class CuartosDTO {
 
   private Long idHotel;
 
+
 }

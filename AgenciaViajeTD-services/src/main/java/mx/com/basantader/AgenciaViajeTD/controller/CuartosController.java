@@ -26,4 +26,11 @@ public class CuartosController {
     public CuartosDTO filterCuartos(@PathVariable("idHotel") Long idHotel){
         return  cuartosService.filterCuartosById(idHotel);
     }
+
+    @PostMapping(value = "/agregar/{idHotel}")
+    public CuartosDTO crearCuarto(@RequestBody CuartosDTO cuartoAdd, @PathVariable("idHotel") Long idHotel){
+
+        return cuartosService.crearCuarto(cuartoAdd, idHotel);
+    }
+
 }
