@@ -24,7 +24,11 @@ public class CuartoController {
     }
 
     @PostMapping(value = "/agregar/{idHotel}")
+<<<<<<< HEAD:AgenciaViajeTD-services/src/main/java/mx/com/basantader/AgenciaViajeTD/controller/CuartoController.java
     public CuartoDto crearCuarto(@RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
+=======
+    public CuartosDTO crearCuarto(@RequestBody CuartosDTO cuartoAdd, @PathVariable("idHotel") Long idHotel){
+>>>>>>> Development:AgenciaViajeTD-services/src/main/java/mx/com/basantader/AgenciaViajeTD/controller/CuartosController.java
 
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
     }

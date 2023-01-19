@@ -17,5 +17,4 @@ public class AerolineaDto {
 
     private String nombreAerolinea;
 
-    private List<VuelosDto> vuelosAeroliea;
 }
