@@ -1,7 +1,9 @@
 package mx.com.basantader.AgenciaViajeTD.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,11 +54,18 @@ public class ReservasController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = "application/json", value = { "/createAlert" })
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
+	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Create an application entry into the application manager")
 	public void createReserva(@Valid @RequestBody ReservasDto createReserva) {
-		reservasService.createReserva(createReserva);
+	reservasService.createReserva(createReserva);
 	}
+	
+//	@PostMapping(value = "/crear")
+//	public ResponseEntity<ReservasDto> crear(@RequestBody ReservasDto reserva){
+//		ReservasEntity save = reservasService.createReserva(reserva);
+//		return new ResponseEntity<ReservasDto>(HttpStatus.CREATED);
+//	}
 
 }

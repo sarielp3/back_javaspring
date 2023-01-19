@@ -49,6 +49,6 @@ public class VuelosEntity {
     @Column(name = "COSTO", nullable = false)
     private Float costo;
     
-    @OneToMany(mappedBy = "vuelo")
+    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ReservasEntity> reservas;
 }

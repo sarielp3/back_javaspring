@@ -64,15 +64,6 @@ public class ReservasServiceImpl implements ReservasService {
 			Optional<HotelEntity> hotelEntity = hotelRepository.findById(createReserva.getIdHotel());
 			Optional<VuelosEntity> vueloEntity = vueloRepository.findById(createReserva.getIdVuelo());
 			Optional<CuartosEntity> cuartosEntity = cuartosRepository.findById(createReserva.getIdCuarto());
-			if (hotelEntity.isEmpty()) {
-				throw new BusinessException(8);
-			}
-			if (vueloEntity.isEmpty()) {
-				throw new BusinessException(9);
-			}
-			if (cuartosEntity.isEmpty()) {
-				throw new BusinessException(10);
-			}
 			
 			ReservasEntity reserva = modelMapper.map(createReserva, ReservasEntity.class);
 			reserva.setHotel(hotelEntity.get());
@@ -81,6 +72,7 @@ public class ReservasServiceImpl implements ReservasService {
 			reservasRepository.save(reserva);
 			
 			return reserva;
+			
 	}
 
 }
