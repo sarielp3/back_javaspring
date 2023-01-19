@@ -29,7 +29,7 @@ public class CuartosController {
 
     @PostMapping(value = "/agregar/{idHotel}")
     public CuartosDTO crearCuarto(@RequestBody CuartosDTO cuartoAdd, @PathVariable("idHotel") Long idHotel){
-        //aqui va una validacion
+
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
     }
 
