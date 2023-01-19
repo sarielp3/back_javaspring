@@ -3,11 +3,11 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
-import mx.com.basantader.AgenciaViajeTD.model.CuartosEntity;
+import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
-import mx.com.basantader.AgenciaViajeTD.repository.CuartosRepository;
+import mx.com.basantader.AgenciaViajeTD.repository.CuartoRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.HotelRepository;
-import mx.com.basantader.AgenciaViajeTD.service.CuartosService;
+import mx.com.basantader.AgenciaViajeTD.service.CuartoService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.slf4j.Logger;
@@ -20,10 +20,10 @@ import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service
-public class CuartosServiceImpl implements CuartosService {
-    private static final Logger log = LoggerFactory.getLogger(CuartosServiceImpl.class);
+public class CuartoServiceImpl implements CuartoService {
+    private static final Logger log = LoggerFactory.getLogger(CuartoServiceImpl.class);
     @Autowired
-    private CuartosRepository cuartosRepository;
+    private CuartoRepository cuartosRepository;
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -33,14 +33,14 @@ public class CuartosServiceImpl implements CuartosService {
 
     @PostConstruct
     private  void init(){
-        TypeMap<CuartosEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartosEntity.class, CuartoDto.class);
+        TypeMap<CuartoEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartoEntity.class, CuartoDto.class);
 
         mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getId_hotel(), CuartoDto::setIdHotel) );
     }
 
     @Override
     public CuartoDto filterCuartosById(Long idHotel) {
-        Optional<CuartosEntity> filter = cuartosRepository.findById(idHotel);
+        Optional<CuartoEntity> filter = cuartosRepository.findById(idHotel);
 
         if (!filter.isPresent()){
             throw new BusinessException(6);
@@ -54,10 +54,10 @@ public class CuartosServiceImpl implements CuartosService {
     @Override
     public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       Optional<HotelEntity> hotelId = hotelRepository.findById(idHotel);
-      CuartosEntity cuartosEntity = mapper.map(cuartoAdd, CuartosEntity.class);
+      CuartoEntity cuartosEntity = mapper.map(cuartoAdd, CuartoEntity.class);
 
-      Optional<CuartosEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
-      Optional<CuartosEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
+      Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
+      Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
 
       if (validarNC.isPresent()){
           throw new BusinessException("El nombre del cuarto ya existe");
@@ -69,7 +69,7 @@ public class CuartosServiceImpl implements CuartosService {
 
       cuartosEntity.setHotel(hotelId.get());
 
-      CuartosEntity cuartosEn = cuartosRepository.save(cuartosEntity);
+      CuartoEntity cuartosEn = cuartosRepository.save(cuartosEntity);
       CuartoDto cuartosDTO = mapper.map(cuartosEn, CuartoDto.class);
 
       return cuartosDTO;
