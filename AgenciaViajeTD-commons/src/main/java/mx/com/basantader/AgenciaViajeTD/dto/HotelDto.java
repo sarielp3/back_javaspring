@@ -15,21 +15,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelesDto implements Serializable {
-	private Long id_hotel;
-	
+public class HotelDto implements Serializable {
+	private Long idHotel;
+
 	private CiudadDto ciudad;
-	
-	private String nombre_Hotel;
-	
-	private String codigo_Hotel;
-	
+
+	private String nombreHotel;
+
+	private String codigoHotel;
+
 	private String direccion;
-	
+
 	private String estatus;
-	
+
 	private String logo;
-	
 
 }
-

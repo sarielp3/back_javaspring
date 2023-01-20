@@ -2,7 +2,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 
 import io.swagger.annotations.Api;
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.service.CiudadService;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 

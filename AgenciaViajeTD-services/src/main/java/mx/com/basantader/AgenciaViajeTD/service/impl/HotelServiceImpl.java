@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
@@ -40,9 +40,9 @@ public class HotelServiceImpl implements HotelService {
 	
 	
 	@Override
-	public List<HotelesDto> getallHoteles() {
-		List<HotelesDto> lstHoteles = hotelRepository.findAll().stream()
-				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
+	public List<HotelDto> getallHoteles() {
+		List<HotelDto> lstHoteles = hotelRepository.findAll().stream()
+				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
 		
 		return lstHoteles;
@@ -50,24 +50,24 @@ public class HotelServiceImpl implements HotelService {
 
 
 	@Override
-	public HotelesDto getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
+	public HotelDto getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByNombre_hotelOrCodigo_hotelOrCiudadIdCiudad(nomHotel,codHotel,idCiudad));
 		if(!hotelEntity.isPresent()) {
 			throw new BusinessException("No existe un hotel con el nombre ingresado");
 		}
-		HotelesDto hoteldto = this.mapper.map(hotelEntity.get(), HotelesDto.class);
+		HotelDto hoteldto = this.mapper.map(hotelEntity.get(), HotelDto.class);
 		
 		return hoteldto;
 	}
 
 
 	@Override
-	public HotelesDto getHotelByciudad(Long ciudad_hotel) {
+	public HotelDto getHotelByciudad(Long ciudad_hotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(ciudad_hotel));
 		if(!hotelEntity.isPresent()) {
 			throw new BusinessException("No existe un hotel con id ciudad ingresado");
 		}
-		HotelesDto hoteldto = this.mapper.map(hotelEntity.get(), HotelesDto.class);
+		HotelDto hoteldto = this.mapper.map(hotelEntity.get(), HotelDto.class);
 		
 		
 		hoteldto.setLogo(null);
@@ -78,8 +78,8 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	@Transactional
-	public HotelesDto createHotel(HotelesDto newHotel) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(Long.parseLong(newHotel.getCodigo_Hotel())));
+	public HotelDto createHotel(HotelDto newHotel) {
+		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByciudad_hotel(Long.parseLong(newHotel.getCodigoHotel())));
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
@@ -89,8 +89,8 @@ public class HotelServiceImpl implements HotelService {
 		
 		HotelEntity nuevoRegistro = new HotelEntity();
 		nuevoRegistro.setCiudad(ciudadentidad);
-		nuevoRegistro.setNombre_hotel(newHotel.getNombre_Hotel());
-		nuevoRegistro.setCodigo_hotel(newHotel.getCodigo_Hotel());
+		nuevoRegistro.setNombre_hotel(newHotel.getNombreHotel());
+		nuevoRegistro.setCodigo_hotel(newHotel.getCodigoHotel());
 		nuevoRegistro.setDireccion(newHotel.getDireccion());
 		nuevoRegistro.setEstatus(newHotel.getEstatus());
 		/*
@@ -107,7 +107,7 @@ public class HotelServiceImpl implements HotelService {
 		}
 		nuevoRegistro.setLogo(b);*/
 		hotelRepository.save(nuevoRegistro);
-		newHotel.setId_hotel(nuevoRegistro.getIdHotel());
+		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		
 		return newHotel;
 	}

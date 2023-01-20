@@ -13,9 +13,9 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuartosEntity {
+public class CuartoEntity {
 
-    @Id
+	@Id
     @SequenceGenerator(name = "sequ", sequenceName = "CUARTOSALTA_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "sequ")
     private Long idCuarto;
@@ -43,6 +43,6 @@ public class CuartosEntity {
     private HotelEntity hotel;
     
     @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ReservasEntity> reservasCuartos;
+    private List<ReservaEntity> reservasCuartos;
 
 }

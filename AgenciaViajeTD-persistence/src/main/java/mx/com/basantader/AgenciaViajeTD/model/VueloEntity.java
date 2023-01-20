@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VuelosEntity {
+public class VueloEntity {
     @Id
     @SequenceGenerator(name = "vuelo", sequenceName = "vuelo_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "vuelo")
@@ -50,5 +50,5 @@ public class VuelosEntity {
     private Float costo;
     
     @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ReservasEntity> reservas;
+    private List<ReservaEntity> reservas;
 }

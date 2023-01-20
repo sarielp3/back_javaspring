@@ -27,7 +27,7 @@ import lombok.*;
 @AllArgsConstructor
 
 
-public class ReservasEntity implements Serializable{
+public class ReservaEntity implements Serializable{
 	
 	@Id
 	@SequenceGenerator(name = "seq", sequenceName = "RESERVAS_SEQ", initialValue = 1, allocationSize = 1)
@@ -40,11 +40,11 @@ public class ReservasEntity implements Serializable{
 	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_CUARTO")
-	private CuartosEntity cuarto;
+	private CuartoEntity cuarto;
 	
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "ID_VUELO")
-	private VuelosEntity vuelo;
+	private VueloEntity vuelo;
 	
 	@Column(name = "FECHA_INICIO", nullable = false)
 	@Temporal(TemporalType.DATE)

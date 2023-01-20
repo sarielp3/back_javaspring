@@ -1,6 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
-import mx.com.basantader.AgenciaViajeTD.dto.VuelosDto;
+import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
@@ -8,7 +8,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.AerolineaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.VueloRepository;
-import mx.com.basantader.AgenciaViajeTD.service.VuelosService;
+import mx.com.basantader.AgenciaViajeTD.service.VueloService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author MarioManuelCortezGrano
  */
 @Service
-public class VuelosServiceImpl implements VuelosService {
+public class VueloServiceImpl implements VueloService {
 
     @Autowired
     private VueloRepository vueloRepository;
@@ -33,7 +33,7 @@ public class VuelosServiceImpl implements VuelosService {
     private ModelMapper mapper;
 
     @Override
-    public List<VuelosDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
+    public List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
         CiudadEntity origenEntity = null;
         CiudadEntity destinoEntity = null;
         AerolineaEntity aerolineaEntity = null;
@@ -48,9 +48,9 @@ public class VuelosServiceImpl implements VuelosService {
         if(aerolinea != null){
             aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
         }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
+        List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
                 .stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
+                .map(vuelosEntity -> mapper.map(vuelosEntity, VueloDto.class))
                 .collect(Collectors.toList());
 
         return listaVuelosDto;

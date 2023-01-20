@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
 @RestController
@@ -22,18 +22,18 @@ public class HotelController {
     HotelService hotelservice;
     
     @GetMapping( produces = "application/json")
-    public List<HotelesDto> listahoteles(){
+    public List<HotelDto> listahoteles(){
         return hotelservice.getallHoteles();
     }
     
     @GetMapping(value="/filtros", produces = "application/json")
-    public HotelesDto getHotel(@RequestParam(required = false, value = "") String nomHotel,@RequestParam(required = false ,value = "") String codHotel
+    public HotelDto getHotel(@RequestParam(required = false, value = "") String nomHotel,@RequestParam(required = false ,value = "") String codHotel
     		,@RequestParam(required = false ,value = "") Long ciudad) {
     	return hotelservice.getHotelbyName(nomHotel,codHotel,ciudad);
     }
     
     @GetMapping(value="/codigo/{ciudad_hotel}", produces = "application/json")
-    public HotelesDto getCodigoHotel(@PathVariable Long ciudad_hotel) {
+    public HotelDto getCodigoHotel(@PathVariable Long ciudad_hotel) {
     	return hotelservice.getHotelByciudad(ciudad_hotel);
     }
    
