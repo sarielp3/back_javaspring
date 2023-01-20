@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cuartos")
 @Api(value = "CRUD de tabla Cuartos")
+@CrossOrigin(origins = "http://localhost:4200" )
 public class CuartoController {
 
     private  static final Logger log = LoggerFactory.getLogger(CuartoController.class);
@@ -19,7 +22,7 @@ public class CuartoController {
     private CuartoService cuartosService;
 
     @GetMapping(value = "filter-cuartos/{idHotel}")
-    public CuartoDto filterCuartos(@PathVariable("idHotel") Long idHotel){
+    public List<CuartoDto> filterCuartos(@PathVariable("idHotel") Long idHotel){
         return  cuartosService.filterCuartosById(idHotel);
     }
 

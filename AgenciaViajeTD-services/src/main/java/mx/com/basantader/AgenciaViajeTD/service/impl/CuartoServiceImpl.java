@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CuartoRepository;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CuartoServiceImpl implements CuartoService {
@@ -39,16 +42,14 @@ public class CuartoServiceImpl implements CuartoService {
     }
 
     @Override
-    public CuartoDto filterCuartosById(Long idHotel) {
-        Optional<CuartoEntity> filter = cuartosRepository.findById(idHotel);
-
-        if (!filter.isPresent()){
-            throw new BusinessException(6);
+    public List<CuartoDto> filterCuartosById(Long idHotel) {
+        HotelEntity hotelEntity = null;
+        if(idHotel != null){
+            hotelEntity = hotelRepository.findById(idHotel).orElseThrow(() -> new ResourceNotFoundException("No hay hoteles disponibles"));
         }
+        List<CuartoDto> filter = cuartosRepository.findByHotel(hotelEntity).stream().map(cuartoEntity ->  mapper.map(cuartoEntity, CuartoDto.class)).collect(Collectors.toList());
 
-       CuartoDto cuartosDTO = mapper.map(filter.get(), CuartoDto.class);
-
-        return  cuartosDTO;
+        return filter;
     }
 
     @Override
