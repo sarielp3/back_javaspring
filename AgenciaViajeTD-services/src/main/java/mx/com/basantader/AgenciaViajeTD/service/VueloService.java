@@ -4,7 +4,7 @@ import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 
 import java.util.List;
 
-public interface VuelosService {
+public interface VueloService {
 
     List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea);
 
