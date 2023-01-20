@@ -107,7 +107,7 @@ public class HotelServiceImpl implements HotelService {
 		}
 		nuevoRegistro.setLogo(b);*/
 		hotelRepository.save(nuevoRegistro);
-		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
+		newHotel.setIdHotel(nuevoRegistro.getId_hotel());
 		
 		return newHotel;
 	}

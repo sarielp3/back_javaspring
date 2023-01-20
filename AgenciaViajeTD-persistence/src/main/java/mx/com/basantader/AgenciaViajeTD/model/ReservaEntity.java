@@ -22,7 +22,8 @@ import lombok.*;
 @Entity
 @Table(name="RESERVACIONES")
 @Builder
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -34,15 +35,15 @@ public class ReservaEntity implements Serializable{
 	@GeneratedValue(generator = "seq")
 	private Long idReserva;
 	
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "ID_HOTEL")
 	private HotelEntity hotel;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "ID_CUARTO")
 	private CuartoEntity cuarto;
 	
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "ID_VUELO")
 	private VueloEntity vuelo;
 	

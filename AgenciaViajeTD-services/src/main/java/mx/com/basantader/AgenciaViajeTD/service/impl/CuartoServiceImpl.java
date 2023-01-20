@@ -34,9 +34,9 @@ public class CuartoServiceImpl implements CuartoService {
 
     @PostConstruct
     private  void init(){
-        TypeMap<CuartoEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartoEntity.class, CuartoDto.class);
+    	TypeMap<CuartoEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartoEntity.class, CuartoDto.class);
 
-        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getIdHotel(), CuartoDto::setIdHotel) );
+        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getId_hotel(), CuartoDto::setIdHotel) );
     }
 
     @Override

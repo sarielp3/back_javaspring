@@ -1,9 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -12,7 +9,8 @@ import java.util.List;
 @Entity
 @Table(name = "VUELOS")
 @Builder
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VueloEntity {

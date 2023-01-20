@@ -70,7 +70,7 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
 			reservaRepository.save(reserva);
-			return null;
+			return reserva;
 			
 	}
 
