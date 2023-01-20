@@ -7,6 +7,8 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
 import mx.com.basantader.AgenciaViajeTD.service.CiudadService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class CiudadServiceImpl implements CiudadService {
     @Autowired
     private ModelMapper mapper;
 
+    private static final Logger log = LoggerFactory.getLogger(VueloServiceImpl.class);
+
     @Override
     public List<CiudadDto> getAllCiudades() {
 
@@ -41,6 +45,7 @@ public class CiudadServiceImpl implements CiudadService {
 
         Optional<CiudadEntity> ciudadEntity = Optional.ofNullable(ciudadRepository.findByNombreCiudad(nombreCiudad));
         if (!ciudadEntity.isPresent()){
+            log.error("No se encontro ciudad con ese nombre");
             throw new ResourceNotFoundException("No se encontro ciudad con ese nombre");
         }
         CiudadDto ciudadDto = this.mapper.map(ciudadEntity.get(), CiudadDto.class);
