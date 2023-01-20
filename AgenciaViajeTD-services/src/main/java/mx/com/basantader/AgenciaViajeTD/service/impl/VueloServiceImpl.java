@@ -7,7 +7,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.AerolineaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.VueloRepository;
-import mx.com.basantader.AgenciaViajeTD.service.VuelosService;
+import mx.com.basantader.AgenciaViajeTD.service.VueloService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author MarioManuelCortezGrano
  */
 @Service
-public class VuelosServiceImpl implements VuelosService {
+public class VueloServiceImpl implements VueloService {
 
     @Autowired
     private VueloRepository vueloRepository;
