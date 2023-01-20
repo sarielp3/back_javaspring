@@ -7,4 +7,6 @@ public interface CuartoService {
     CuartoDto filterCuartosById(Long idHotel);
 
     CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel);
+
 }
+

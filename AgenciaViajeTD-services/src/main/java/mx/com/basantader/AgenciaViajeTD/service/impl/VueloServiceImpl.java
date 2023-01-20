@@ -1,7 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
