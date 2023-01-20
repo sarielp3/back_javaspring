@@ -1,9 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,13 +9,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CUARTOS")
 @Builder
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuartosEntity {
+public class CuartoEntity {
 
     @Id
-    @SequenceGenerator(name = "sequ", sequenceName = "application_seq", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "sequ", sequenceName = "CUARTOSALTA_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "sequ")
     private Long idCuarto;
 

@@ -11,7 +11,7 @@ import java.sql.Time;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VuelosDto {
+public class VueloDto {
 
     private Long idVuelo;
 

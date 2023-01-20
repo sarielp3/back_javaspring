@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.util.List;
 
+<<<<<<< HEAD
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+=======
+import javax.persistence.*;
+>>>>>>> 8690a5340750db68a501e412df52ec8fb0f5cecd
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

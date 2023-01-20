@@ -1,7 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
-import mx.com.basantader.AgenciaViajeTD.dto.VuelosDto;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,57 +30,28 @@ public class VuelosServiceImpl implements VuelosService {
     @Autowired
     private ModelMapper mapper;
 
-
     @Override
-    public List<VuelosDto> getAllVuelos() {
-        List<VuelosDto> listaVuelosDto = vueloRepository.findAll().stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
+    public List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
+        CiudadEntity origenEntity = null;
+        CiudadEntity destinoEntity = null;
+        AerolineaEntity aerolineaEntity = null;
+
+        if(origen != null){
+            origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos desde esta ciudad"));
+        }
+
+        if(destino != null){
+            destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
+        }
+        if(aerolinea != null){
+            aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
+        }
+        List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
+                .stream()
+                .map(vuelosEntity -> mapper.map(vuelosEntity, VueloDto.class))
                 .collect(Collectors.toList());
 
         return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByOrigen(Long origen) {
-        if (!(origen instanceof Long)){
-            throw new ResourceNotFoundException("Tipo de dato invalida");
-        }
-        Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(origen);
-        if (!ciudadEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno con la ciudad");
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByOrigen(ciudadEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByDestino(Long destino) {
-        Optional<CiudadEntity> ciudadEntity = ciudadRepository.findById(destino);
-        if (!ciudadEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno con la ciudad");
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByDestino(ciudadEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-    }
-
-    @Override
-    public List<VuelosDto> getVuelosByAerolinea(Long aerolinea) {
-        Optional<AerolineaEntity> aerolineaEntity = aerolineaRepository.findById(aerolinea);
-        if (!aerolineaEntity.isPresent()){
-            throw new ResourceNotFoundException("No se encotrno aerolinea con el id:" + aerolineaEntity);
-        }
-        List<VuelosDto> listaVuelosDto = vueloRepository.findByAerolinea(aerolineaEntity.get()).stream()
-                .map(vuelosEntity -> mapper.map(vuelosEntity, VuelosDto.class))
-                .collect(Collectors.toList());
-
-        return listaVuelosDto;
-
     }
 
 }

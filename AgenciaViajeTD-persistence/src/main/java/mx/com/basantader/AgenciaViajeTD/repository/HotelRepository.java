@@ -12,7 +12,7 @@ import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
 	
 	
-	List<HotelEntity> findByNombreHotelOrCodigoHotelOrCiudadIdCiudad(String nombreHotel,String codigohotel,Long idCiudad);
+	List<HotelEntity> findByNombreHotelAndCodigoHotelAndCiudadIdCiudad(String nombreHotel,String codigohotel,Long idCiudad);
 
 	HotelEntity findByCodigoHotel(String codHotel);
 	

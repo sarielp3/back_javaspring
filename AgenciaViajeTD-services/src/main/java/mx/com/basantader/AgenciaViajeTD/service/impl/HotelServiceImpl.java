@@ -46,19 +46,19 @@ public class HotelServiceImpl implements HotelService {
 		List<HotelesDto> lstHoteles = hotelRepository.findAll().stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
 				.collect(Collectors.toList());
-		
+
 		return lstHoteles;
 	}
 
 
 	@Override
 	public List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
-		List<HotelEntity> hotelEntity = hotelRepository.findByNombreHotelOrCodigoHotelOrCiudadIdCiudad(nomHotel,codHotel,idCiudad);
+		List<HotelEntity> hotelEntity = hotelRepository.findByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel,codHotel,idCiudad);
 		if(hotelEntity.isEmpty()) {
 			throw new ResourceNotFoundException("No existe un hotel con el nombre ingresado");
 		}
 	
-		List<HotelesDto> lstHoteles = hotelRepository.findByNombreHotelOrCodigoHotelOrCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
+		List<HotelesDto> lstHoteles = hotelRepository.findByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
 				.collect(Collectors.toList());
 		
@@ -95,18 +95,8 @@ public class HotelServiceImpl implements HotelService {
 		nuevoRegistro.setCodigoHotel(newHotel.getCodigoHotel());
 		nuevoRegistro.setDireccion(newHotel.getDireccion());
 		nuevoRegistro.setEstatus(newHotel.getEstatus());
-		byte[] decodedByte = newHotel.getLogo().getBytes(); 
-		Blob b=null;
-		try {
-			b = new SerialBlob(decodedByte);
-		} catch (SerialException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		nuevoRegistro.setLogo(b);
+	
+		nuevoRegistro.setLogo(null);
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		

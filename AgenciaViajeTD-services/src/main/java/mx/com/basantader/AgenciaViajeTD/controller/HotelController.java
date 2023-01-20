@@ -30,6 +30,7 @@ public class HotelController {
     @GetMapping( produces = "application/json")
     @ApiOperation(value = "Ver lista de hoteles", response = HotelesDto.class)
     public List<HotelesDto> listahoteles(){
+    	
         return hotelservice.getallHoteles();
     }
     

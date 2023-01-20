@@ -2,9 +2,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 
 import io.swagger.annotations.Api;
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
 import mx.com.basantader.AgenciaViajeTD.service.CiudadService;
-import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +27,15 @@ public class CiudadController {
     
     @GetMapping(value = "/{nombreCiudad}",  produces = "application/json")
     public CiudadDto getCiudad(@PathVariable String nombreCiudad){
-        return ciudadService.getCiudadbyName(nombreCiudad);
+        return ciudadService.getCiudadByName(nombreCiudad);
     }
-    
-    
+
+    @GetMapping(value = "/origen",  produces = "application/json")
+    public List<CiudadDto> getCiudadesByOrigen(){
+        return ciudadService.getCiudadesByOrigen();
+    }
+    @GetMapping(value = "/destino",  produces = "application/json")
+    public List<CiudadDto> getCiudadesbyDestino(){
+        return ciudadService.getCiudadesByDestino();
+    }
 }

@@ -28,7 +28,7 @@ public class HotelesDto implements Serializable {
 	
 	private String estatus;
 	
-	private String logo;
+	private Blob logo;
 	
 
 }

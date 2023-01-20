@@ -58,7 +58,7 @@ public class ReservasEntity implements Serializable{
 	
 	@OneToOne
 	@JoinColumn(name = "ID_CUARTO")
-	private CuartosEntity cuarto;
+	private CuartoEntity cuarto;
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_VUELO")
