@@ -1,14 +1,19 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
+import mx.com.basantader.AgenciaViajeTD.controller.ApplicationController;
+import mx.com.basantader.AgenciaViajeTD.dto.AltaVueloDto;
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
+import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.AerolineaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.VueloRepository;
 import mx.com.basantader.AgenciaViajeTD.service.VueloService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +35,8 @@ public class VueloServiceImpl implements VueloService {
     @Autowired
     private ModelMapper mapper;
 
+    private static final Logger log = LoggerFactory.getLogger(VueloServiceImpl.class);
+
     @Override
     public List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
         CiudadEntity origenEntity = null;
@@ -37,14 +44,23 @@ public class VueloServiceImpl implements VueloService {
         AerolineaEntity aerolineaEntity = null;
 
         if(origen != null){
-            origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos desde esta ciudad"));
+            origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> {
+                log.error("No hay vuelos desde esta ciudad");
+                return new ResourceNotFoundException("No hay vuelos desde esta ciudad");
+            });
         }
 
         if(destino != null){
-            destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
+            destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> {
+                log.error("No hay vuelos hacia esta ciudad");
+                return new ResourceNotFoundException("No hay vuelos hacia esta ciudad");
+            });
         }
         if(aerolinea != null){
-            aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay vuelos hacia esta ciudad"));
+            aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> {
+                log.error("No hay vuelos hacia esta ciudad");
+                return new ResourceNotFoundException("No hay vuelos hacia esta ciudad");
+            });
         }
         List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
                 .stream()
@@ -52,6 +68,45 @@ public class VueloServiceImpl implements VueloService {
                 .collect(Collectors.toList());
 
         return listaVuelosDto;
+    }
+
+    @Override
+    public AltaVueloDto createVuelo(AltaVueloDto altaVueloDto) {
+        VueloEntity vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto);
+        vueloRepository.save(vuelosEntity);
+
+        altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
+
+        return altaVueloDto;
+    }
+
+    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto){
+        VueloEntity vuelosEntity = new VueloEntity();
+        CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
+                .orElseThrow(() -> {
+                    log.error("No se encontro la ciudad de origen seleccionada");
+                    return new ResourceNotFoundException("No se encontro la ciudad de origen seleccionada");
+                });
+        CiudadEntity destino = ciudadRepository.findById(vueloDto.getDestino())
+                .orElseThrow(() ->{
+                    log.error("No se encontro la ciudad de origen seleccionada");
+                    return new ResourceNotFoundException("No se encontro la ciudad de origen seleccionada");
+                });
+        AerolineaEntity aerolineaEntity = aerolineaRepository.findById(vueloDto.getAerolinea())
+                .orElseThrow(() -> {
+                    log.error("No se encontro la aerolinea seleccionada");
+                    return new ResourceNotFoundException("No se encontro la aerolinea seleccionada");
+                });
+        vuelosEntity.setOrigen(origen);
+        vuelosEntity.setDestino(destino);
+        vuelosEntity.setAerolinea(aerolineaEntity);
+        vuelosEntity.setEstatus(vueloDto.getEstatus());
+        vuelosEntity.setHoraSalida(vueloDto.getHoraSalida());
+        vuelosEntity.setHoraLlegada(vueloDto.getHoraLlegada());
+        vuelosEntity.setCodigoVuelo(vueloDto.getCodigoVuelo());
+        vuelosEntity.setCosto(vueloDto.getCosto());
+
+        return vuelosEntity;
     }
 
 }
