@@ -3,12 +3,14 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -27,7 +29,8 @@ public class HotelController {
     @Autowired
     HotelService hotelservice;
     
-    @GetMapping( produces = "application/json")
+    @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     @ApiOperation(value = "Ver lista de hoteles", response = HotelesDto.class)
     public List<HotelesDto> listahoteles(){
     	
@@ -36,8 +39,8 @@ public class HotelController {
     
     @GetMapping(value="/filtros", produces = "application/json")
     @ApiOperation(value = "Ver lista de hoteles por filtros", response = HotelesDto.class)
-    public List<HotelesDto> getHotel(@RequestParam(required = false, value = "") String nomHotel,@RequestParam(required = false ,value = "") String codHotel
-    		,@RequestParam(required = false ,value = "") Long ciudad) {
+    public List<HotelesDto> getHotel(@RequestParam(required = false) String nomHotel,@RequestParam(required = false) String codHotel
+    		,@RequestParam(required = false) Long ciudad) {
     	return hotelservice.getHotelbyName(nomHotel,codHotel,ciudad);
     }
     

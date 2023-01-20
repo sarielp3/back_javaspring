@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class HotelesDto implements Serializable {
 	private Long idHotel;
 	
-	private String ciudad;
+	private CiudadDto ciudad;
 	
 	private String nombreHotel;
 	
@@ -28,7 +28,7 @@ public class HotelesDto implements Serializable {
 	
 	private String estatus;
 	
-	private Blob logo;
+	private byte[] logo;
 	
 
 }

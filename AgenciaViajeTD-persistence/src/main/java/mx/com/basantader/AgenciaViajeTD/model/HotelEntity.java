@@ -18,6 +18,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 
@@ -54,8 +57,9 @@ public class HotelEntity implements Serializable {
 	@Column(name="ESTATUS",nullable=false)
 	private String estatus;
 	
+	@Lob
 	@Column(name="LOGO",nullable=false)
-	private Blob logo;
+	private byte[] logo;
 	
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ReservasEntity> reservas;

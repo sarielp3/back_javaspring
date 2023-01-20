@@ -20,6 +20,7 @@ import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
+import mx.com.basantader.AgenciaViajeTD.model.ApplicationItem;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
@@ -53,12 +54,12 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
-		List<HotelEntity> hotelEntity = hotelRepository.findByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel,codHotel,idCiudad);
+		List<HotelEntity> hotelEntity = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel,codHotel,idCiudad);
 		if(hotelEntity.isEmpty()) {
-			throw new ResourceNotFoundException("No existe un hotel con el nombre ingresado");
+			throw new ResourceNotFoundException("No existe un hotel con los filtros ingresados");
 		}
 	
-		List<HotelesDto> lstHoteles = hotelRepository.findByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
+		List<HotelesDto> lstHoteles = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
 				.collect(Collectors.toList());
 		
@@ -85,18 +86,10 @@ public class HotelServiceImpl implements HotelService {
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
-	
-		CiudadEntity ciudadentidad = new CiudadEntity();
-		ciudadentidad.setIdCiudad(Long.parseLong(newHotel.getCiudad()));
 		
-		HotelEntity nuevoRegistro = new HotelEntity();
-		nuevoRegistro.setCiudad(ciudadentidad);
-		nuevoRegistro.setNombreHotel(newHotel.getNombreHotel());
-		nuevoRegistro.setCodigoHotel(newHotel.getCodigoHotel());
-		nuevoRegistro.setDireccion(newHotel.getDireccion());
-		nuevoRegistro.setEstatus(newHotel.getEstatus());
-	
-		nuevoRegistro.setLogo(null);
+		HotelEntity nuevoRegistro = this.mapper.map(newHotel, HotelEntity.class);
+		
+		
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		
