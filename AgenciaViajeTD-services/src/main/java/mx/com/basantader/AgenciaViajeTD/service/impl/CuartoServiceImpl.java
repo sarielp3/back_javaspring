@@ -47,9 +47,9 @@ public class CuartoServiceImpl implements CuartoService {
         if(idHotel != null){
             hotelEntity = hotelRepository.findById(idHotel).orElseThrow(() -> new ResourceNotFoundException("No hay hoteles disponibles"));
         }
-        List<CuartoDto> filter = cuartosRepository.findByHotel(hotelEntity).stream().map(cuartoEntity ->  mapper.map(cuartoEntity, CuartoDto.class)).collect(Collectors.toList());
+        List<CuartoDto> filters = cuartosRepository.findByHotel(hotelEntity).stream().map(cuartoEntity ->  mapper.map(cuartoEntity, CuartoDto.class)).collect(Collectors.toList());
 
-        return filter;
+        return filters;
     }
 
     @Override
