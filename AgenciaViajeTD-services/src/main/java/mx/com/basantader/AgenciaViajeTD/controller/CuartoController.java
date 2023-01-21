@@ -21,12 +21,12 @@ public class CuartoController {
     @Autowired
     private CuartoService cuartosService;
 
-    @GetMapping(value = "filter-cuartos/{idHotel:[\\\\d]+}")
+    @GetMapping(value = "filter-cuartos/{idHotel:[\\d]+}")
     public List<CuartoDto> filterCuartos(@PathVariable("idHotel") Long idHotel){
         return  cuartosService.filterCuartosById(idHotel);
     }
 
-    @PostMapping(value = "/agregar/{idHotel:[\\\\d]+}")
+    @PostMapping(value = "/agregar/{idHotel:[\\d]+}")
     public CuartoDto crearCuarto(@RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
 
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
