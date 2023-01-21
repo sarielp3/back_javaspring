@@ -7,5 +7,8 @@ import java.util.List;
 public interface CiudadService {
 
     List<CiudadDto> getAllCiudades();
-    CiudadDto getCiudadbyName(String nombreCiudad);
+    CiudadDto getCiudadByName(String nombreCiudad);
+    List<CiudadDto> getCiudadesByOrigen();
+    List<CiudadDto> getCiudadesByDestino();
+
 }

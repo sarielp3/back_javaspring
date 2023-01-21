@@ -67,5 +67,4 @@ public class ReservaEntity implements Serializable{
 	@Column(name = "APELLIDO_MATERNO", nullable = false)
 	private String apellidoMaternoCliente;
 	
-
 }

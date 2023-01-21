@@ -3,7 +3,6 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
-import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CuartoRepository;
@@ -26,6 +25,7 @@ public class CuartoServiceImpl implements CuartoService {
     @Autowired
     private CuartoRepository cuartoRepository;
 
+
     @Autowired
     private HotelRepository hotelRepository;
 
@@ -41,7 +41,9 @@ public class CuartoServiceImpl implements CuartoService {
 
     @Override
     public CuartoDto filterCuartosById(Long idHotel) {
+
         Optional<CuartoEntity> filter = cuartoRepository.findById(idHotel);
+
 
         if (!filter.isPresent()){
             throw new BusinessException(6);
@@ -60,6 +62,7 @@ public class CuartoServiceImpl implements CuartoService {
       Optional<CuartoEntity> validarNC = cuartoRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
       Optional<CuartoEntity> validarCC = cuartoRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
 
+
       if (validarNC.isPresent()){
           throw new BusinessException("El nombre del cuarto ya existe");
       }
@@ -72,6 +75,7 @@ public class CuartoServiceImpl implements CuartoService {
 
       CuartoEntity cuartosEn = cuartoRepository.save(cuartoEntity);
       CuartoDto cuartoDto = mapper.map(cuartosEn, CuartoDto.class);
+
 
       return cuartoDto;
 
