@@ -2,14 +2,14 @@ package mx.com.basantader.AgenciaViajeTD.service;
 
 import java.util.List;
 
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 
 public interface HotelService {
-	List<HotelesDto>  getallHoteles();
+	List<HotelDto>  getallHoteles();
 	
-	List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad);
+	List<HotelDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad);
 	
-	HotelesDto getHotelBycodigo(String codHotel);
+	HotelDto getHotelBycodigo(String codHotel);
 	
-	HotelesDto createHotel(HotelesDto newHotel);
+	HotelDto createHotel(HotelDto newHotel);
 }

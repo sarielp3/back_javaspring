@@ -10,5 +10,10 @@ public interface CuartoService {
 
     CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel);
 
+<<<<<<< HEAD
     CuartoDto modificarCuarto(CuartoDto cuartoDto, Long idCuarto);
 }
+=======
+}
+
+>>>>>>> Development

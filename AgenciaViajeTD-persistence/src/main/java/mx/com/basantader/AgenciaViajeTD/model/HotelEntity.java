@@ -62,5 +62,5 @@ public class HotelEntity implements Serializable {
 	private byte[] logo;
 	
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ReservasEntity> reservas;
+    private List<ReservaEntity> reservas;
 }

@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ReservasDto {
+public class ReservaDto {
 	
 	private Date fechaInicio;
 	private Date fechaFin;
@@ -18,11 +18,12 @@ public class ReservasDto {
 	private String apellidoPaternoCliente;
 	private String apellidoMaternoCliente;
 	private Long idReserva;
-	private Long Hotel;
-	private Long Cuarto;
-	private Long Vuelo;
-	
-	
+	private HotelDto hotel;
+	private CuartoDto cuarto;
+	private VueloDto vuelo;
+	private Long idHotel;
+	private Long idCuarto;
+	private Long idVuelo;
 	
 
 }

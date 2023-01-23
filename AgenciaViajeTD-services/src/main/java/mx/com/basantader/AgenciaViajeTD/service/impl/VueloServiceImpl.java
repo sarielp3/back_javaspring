@@ -6,7 +6,7 @@ import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
-import mx.com.basantader.AgenciaViajeTD.model.VuelosEntity;
+import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.AerolineaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.VueloRepository;
@@ -72,7 +72,7 @@ public class VueloServiceImpl implements VueloService {
 
     @Override
     public AltaVueloDto createVuelo(AltaVueloDto altaVueloDto) {
-        VuelosEntity vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto);
+        VueloEntity vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto);
         vueloRepository.save(vuelosEntity);
 
         altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
@@ -80,8 +80,8 @@ public class VueloServiceImpl implements VueloService {
         return altaVueloDto;
     }
 
-    private VuelosEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto){
-        VuelosEntity vuelosEntity = new VuelosEntity();
+    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto){
+        VueloEntity vuelosEntity = new VueloEntity();
         CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
                 .orElseThrow(() -> {
                     log.error("No se encontro la ciudad de origen seleccionada");

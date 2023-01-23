@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.ApplicationItem;
@@ -43,9 +43,9 @@ public class HotelServiceImpl implements HotelService {
 	
 	
 	@Override
-	public List<HotelesDto> getallHoteles() {
-		List<HotelesDto> lstHoteles = hotelRepository.findAll().stream()
-				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
+	public List<HotelDto> getallHoteles() {
+		List<HotelDto> lstHoteles = hotelRepository.findAll().stream()
+				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
 
 		return lstHoteles;
@@ -53,14 +53,14 @@ public class HotelServiceImpl implements HotelService {
 
 
 	@Override
-	public List<HotelesDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
+	public List<HotelDto> getHotelbyName(String nomHotel,String codHotel,Long idCiudad) {
 		List<HotelEntity> hotelEntity = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel,codHotel,idCiudad);
 		if(hotelEntity.isEmpty()) {
 			throw new ResourceNotFoundException("No existe un hotel con los filtros ingresados");
 		}
 	
-		List<HotelesDto> lstHoteles = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
-				.map(HotelEntity -> mapper.map(HotelEntity, HotelesDto.class))
+		List<HotelDto> lstHoteles = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
+				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
 		
 		return lstHoteles;
@@ -68,12 +68,12 @@ public class HotelServiceImpl implements HotelService {
 
 
 	@Override
-	public HotelesDto getHotelBycodigo(String codHotel) {
+	public HotelDto getHotelBycodigo(String codHotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(codHotel));
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("No existe un hotel con el codigo ingresado");
 		}
-		HotelesDto hoteldto = this.mapper.map(hotelEntity.get(), HotelesDto.class);
+		HotelDto hoteldto = this.mapper.map(hotelEntity.get(), HotelDto.class);
 		
 		return hoteldto;
 	}
@@ -81,7 +81,7 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	@Transactional
-	public HotelesDto createHotel(HotelesDto newHotel) {
+	public HotelDto createHotel(HotelDto newHotel) {
 		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(newHotel.getCodigoHotel()));
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");

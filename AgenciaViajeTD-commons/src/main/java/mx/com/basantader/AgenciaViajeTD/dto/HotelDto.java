@@ -1,10 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.dto;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.util.Base64;
-
-import com.google.common.primitives.Bytes;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelesDto implements Serializable {
+public class HotelDto implements Serializable {
 	private Long idHotel;
 	
 	private CiudadDto ciudad;

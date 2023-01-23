@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import mx.com.basantader.AgenciaViajeTD.dto.HotelesDto;
-import mx.com.basantader.AgenciaViajeTD.dto.ReservasDto;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
@@ -31,27 +29,27 @@ public class HotelController {
     
     @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @ApiOperation(value = "Ver lista de hoteles", response = HotelesDto.class)
-    public List<HotelesDto> listahoteles(){
+    @ApiOperation(value = "Ver lista de hoteles", response = HotelDto.class)
+    public List<HotelDto> listahoteles(){
     	
         return hotelservice.getallHoteles();
     }
     
     @GetMapping(value="/filtros", produces = "application/json")
-    @ApiOperation(value = "Ver lista de hoteles por filtros", response = HotelesDto.class)
-    public List<HotelesDto> getHotel(@RequestParam(required = false) String nomHotel,@RequestParam(required = false) String codHotel
+    @ApiOperation(value = "Ver lista de hoteles por filtros", response = HotelDto.class)
+    public List<HotelDto> getHotel(@RequestParam(required = false) String nomHotel,@RequestParam(required = false) String codHotel
     		,@RequestParam(required = false) Long ciudad) {
     	return hotelservice.getHotelbyName(nomHotel,codHotel,ciudad);
     }
     
     @GetMapping(value="/codigo/{codHotel}", produces = "application/json")
-    @ApiOperation(value = "Ver hotel por codigo de hotel", response = HotelesDto.class)
-    public HotelesDto getCodigoHotel(@PathVariable String codHotel) {
+    @ApiOperation(value = "Ver hotel por codigo de hotel", response = HotelDto.class)
+    public HotelDto getCodigoHotel(@PathVariable String codHotel) {
     	return hotelservice.getHotelBycodigo(codHotel);
     }
     
     @PostMapping(value="/nuevo-hotel",produces="application/json")
-    public HotelesDto crearHotel(@RequestBody HotelesDto nuevoReg) {
+    public HotelDto crearHotel(@RequestBody HotelDto nuevoReg) {
     	if(nuevoReg.getCodigoHotel() == null) {
     		throw new ResourceNotFoundException("Codigo de hotel necesario");
     	}
