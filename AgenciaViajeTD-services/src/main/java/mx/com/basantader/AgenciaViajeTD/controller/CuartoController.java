@@ -32,5 +32,9 @@ public class CuartoController {
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
     }
 
+    @PutMapping(value = "/updateD/{idCuarto}")
+    public  CuartoDto modifCuarto(@RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
+        return  cuartosService.modificarCuarto(cuartoDto, idCuarto);
+    }
 
 }
