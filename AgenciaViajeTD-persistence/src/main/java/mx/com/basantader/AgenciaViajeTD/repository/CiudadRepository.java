@@ -10,9 +10,9 @@ import java.util.List;
 public interface CiudadRepository extends JpaRepository<CiudadEntity, Long> {
     CiudadEntity findByNombreCiudad(String nombreCiudad);
 
-    @Query("SELECT DISTINCT v.origen FROM VuelosEntity v ")
+    @Query("SELECT DISTINCT v.origen FROM VueloEntity v ")
     List<CiudadEntity> findCiudadesByOrigen();
 
-    @Query("SELECT DISTINCT v.destino FROM VuelosEntity v ")
+    @Query("SELECT DISTINCT v.destino FROM VueloEntity v ")
     List<CiudadEntity> findCiudadesByDestino();
 }

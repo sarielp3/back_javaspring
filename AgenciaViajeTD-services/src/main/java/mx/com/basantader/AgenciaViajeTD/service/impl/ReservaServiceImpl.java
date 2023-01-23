@@ -42,16 +42,20 @@ public class ReservaServiceImpl implements ReservaService {
 	@Autowired
 	private CuartoRepository cuartoRepository;
 	
-	@Autowired 
+	@Autowired
 	private HotelRepository hotelRepository;
 
 	@Override
 	public List<ReservaDto> getReservasByFiltros(Long cuarto) {
         CuartoEntity cuartoEntity = null;
+        VueloEntity origenEntity = null;
+        VueloEntity destinoEntity = null;
+        VueloEntity aerolineaEntity = null;
 
         if(cuarto != null){
         	cuartoEntity  = cuartoRepository.findById(cuarto).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en este hotel"));
         }
+        
         List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(cuartoEntity)
                 .stream()
                 .map(reservasEntity -> modelMapper.map(reservasEntity, ReservaDto.class))
@@ -70,7 +74,7 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
 			reservaRepository.save(reserva);
-			return reserva;
+			return null;
 			
 	}
 

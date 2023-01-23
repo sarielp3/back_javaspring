@@ -15,7 +15,9 @@ import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 @Repository
 public interface ReservaRepository extends JpaRepository<ReservaEntity, Long>{
 	
-	@Query ("SELECT r FROM ReservaEntity r WHERE (:cuarto is null or r.cuarto = :cuarto)")
+	@Query ("SELECT r FROM ReservaEntity r JOIN VueloEntity v ON v.idVuelo = r.vuelo WHERE (:cuarto is null or r.cuarto = :cuarto)"
+			)
 	List<ReservaEntity> findReservasByFiltros(
             @Param("cuarto") CuartoEntity cuarto);
+	        
 }
