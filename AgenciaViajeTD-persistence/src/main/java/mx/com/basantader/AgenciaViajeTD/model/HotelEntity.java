@@ -4,32 +4,52 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.util.List;
 
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "HOTELES")
 @Builder
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class HotelEntity implements Serializable {
 	@Id
     @SequenceGenerator(name = "hotel", sequenceName = "hotel_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "hotel")
-    private Long id_hotel;
+    private Long idHotel;
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_CIUDAD")
 	private CiudadEntity ciudad;
 	
 	@Column(name="NOMBRE_HOTEL",nullable=false)
-	private String nombre_hotel;
+	private String nombreHotel;
 	
 	@Column(name="CODIGO_HOTEL",nullable=false)
-	private String codigo_hotel;
+	private String codigoHotel;
 	
 	@Column(name="DIRECCION",nullable=false)
 	private String direccion;
@@ -37,8 +57,9 @@ public class HotelEntity implements Serializable {
 	@Column(name="ESTATUS",nullable=false)
 	private String estatus;
 	
+	@Lob
 	@Column(name="LOGO",nullable=false)
-	private Blob logo;
+	private byte[] logo;
 	
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ReservaEntity> reservas;

@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CuartoRepository;
@@ -17,14 +18,15 @@ import org.springframework.stereotype.Service;
 
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CuartoServiceImpl implements CuartoService {
     private static final Logger log = LoggerFactory.getLogger(CuartoServiceImpl.class);
     @Autowired
-    private CuartoRepository cuartoRepository;
-
+    private CuartoRepository cuartosRepository;
 
     @Autowired
     private HotelRepository hotelRepository;
@@ -34,34 +36,29 @@ public class CuartoServiceImpl implements CuartoService {
 
     @PostConstruct
     private  void init(){
-    	TypeMap<CuartoEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartoEntity.class, CuartoDto.class);
+        TypeMap<CuartoEntity, CuartoDto> mapeoHotel = mapper.createTypeMap(CuartoEntity.class, CuartoDto.class);
 
-        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getId_hotel(), CuartoDto::setIdHotel) );
+        mapeoHotel.addMappings( mapper -> mapper.map(src -> src.getHotel().getIdHotel(), CuartoDto::setIdHotel) );
     }
 
     @Override
-    public CuartoDto filterCuartosById(Long idHotel) {
-
-        Optional<CuartoEntity> filter = cuartoRepository.findById(idHotel);
-
-
-        if (!filter.isPresent()){
-            throw new BusinessException(6);
+    public List<CuartoDto> filterCuartosById(Long idHotel) {
+        HotelEntity hotelEntity = null;
+        if(idHotel != null){
+            hotelEntity = hotelRepository.findById(idHotel).orElseThrow(() -> new ResourceNotFoundException("No hay hoteles disponibles"));
         }
+        List<CuartoDto> filters = cuartosRepository.findByHotel(hotelEntity).stream().map(cuartoEntity ->  mapper.map(cuartoEntity, CuartoDto.class)).collect(Collectors.toList());
 
-       CuartoDto cuartoDto = mapper.map(filter.get(), CuartoDto.class);
-
-        return  cuartoDto;
+        return filters;
     }
 
     @Override
     public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       Optional<HotelEntity> hotelId = hotelRepository.findById(idHotel);
-      CuartoEntity cuartoEntity = mapper.map(cuartoAdd, CuartoEntity.class);
+      CuartoEntity cuartosEntity = mapper.map(cuartoAdd, CuartoEntity.class);
 
-      Optional<CuartoEntity> validarNC = cuartoRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
-      Optional<CuartoEntity> validarCC = cuartoRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
-
+      Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
+      Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
 
       if (validarNC.isPresent()){
           throw new BusinessException("El nombre del cuarto ya existe");
@@ -71,13 +68,12 @@ public class CuartoServiceImpl implements CuartoService {
             throw new BusinessException("El codigo del cuarto ya existe");
         }
 
-      cuartoEntity.setHotel(hotelId.get());
+      cuartosEntity.setHotel(hotelId.get());
 
-      CuartoEntity cuartosEn = cuartoRepository.save(cuartoEntity);
-      CuartoDto cuartoDto = mapper.map(cuartosEn, CuartoDto.class);
+      CuartoEntity cuartosEn = cuartosRepository.save(cuartosEntity);
+      CuartoDto cuartosDTO = mapper.map(cuartosEn, CuartoDto.class);
 
-
-      return cuartoDto;
+      return cuartosDTO;
 
     }
 }
