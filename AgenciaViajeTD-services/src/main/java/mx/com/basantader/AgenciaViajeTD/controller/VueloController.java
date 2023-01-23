@@ -14,10 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/vuelos")
 @Api(value = "Endpoins para administracion de vuelos")
+@CrossOrigin(origins = "http://localhost:4200" )
 public class VueloController {
 
     @Autowired
-    VueloService vuelosService;
+    VueloService vueloService;
+
 
     @GetMapping(produces = "application/json")
     @ResponseBody
@@ -27,7 +29,7 @@ public class VueloController {
             @RequestParam(required = false) Long destino,
             @RequestParam(required = false) Long aerolinea
     ){
-        return vuelosService.getVuelosByFiltros(origen, destino, aerolinea);
+        return vueloService.getVuelosByFiltros(origen, destino, aerolinea);
     }
 
     @PostMapping
@@ -35,6 +37,6 @@ public class VueloController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Guarda un vuelo en la base de datos", response = AltaVueloDto.class)
     public AltaVueloDto createVuelo(@RequestBody AltaVueloDto vueloDto){
-        return vuelosService.createVuelo(vueloDto);
+        return vueloService.createVuelo(vueloDto);
     }
 }

@@ -27,8 +27,8 @@ public class CiudadEntity {
     private List<HotelEntity> hotel;
 
     @OneToMany(mappedBy = "origen", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<VuelosEntity> vuelosOrigen;
+    private List<VueloEntity> vuelosOrigen;
 
     @OneToMany(mappedBy = "destino", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<VuelosEntity> vuelosDestino;
+    private List<VueloEntity> vuelosDestino;
 }

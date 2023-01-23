@@ -1,9 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Time;
@@ -12,10 +9,11 @@ import java.util.List;
 @Entity
 @Table(name = "VUELOS")
 @Builder
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VuelosEntity {
+public class VueloEntity {
     @Id
     @SequenceGenerator(name = "vuelo", sequenceName = "vuelo_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "vuelo")
@@ -49,6 +47,6 @@ public class VuelosEntity {
     @Column(name = "COSTO", nullable = false)
     private Float costo;
     
-    @OneToMany(mappedBy = "vuelo")
-    private List<ReservasEntity> reservas;
+    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ReservaEntity> reservas;
 }

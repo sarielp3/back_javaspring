@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
+
 import mx.com.basantader.AgenciaViajeTD.service.CiudadService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ciudades")
 @Api(value = "Endpoints para obtener listas ciudades")
+@CrossOrigin(origins = "http://localhost:4200" )
 public class CiudadController {
 
     @Autowired

@@ -24,5 +24,5 @@ public class AerolineaEntity {
     private String nombreAeroliena;
 
     @OneToMany(mappedBy = "aerolinea", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<VuelosEntity> vuelosAerolinea;
+    private List<VueloEntity> vuelosAerolinea;
 }
