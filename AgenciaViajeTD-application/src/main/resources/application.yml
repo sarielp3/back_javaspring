@@ -29,7 +29,7 @@ management:
     health:
       show-details: always
 server:
-  port: 8087
+  port: 8088
   jpa:
     generate-ddl: false
   undertow:
