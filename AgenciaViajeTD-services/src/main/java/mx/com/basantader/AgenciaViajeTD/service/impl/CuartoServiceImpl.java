@@ -94,7 +94,6 @@ public class CuartoServiceImpl implements CuartoService {
         if (validarCC.isPresent()){
             throw new BusinessException("El codigo del cuarto ya existe");
         }
-        System.out.println(cuartosEntity);
 
         cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto());
         cuartosEntity.setDescripcion(cuartoDto.getDescripcion());

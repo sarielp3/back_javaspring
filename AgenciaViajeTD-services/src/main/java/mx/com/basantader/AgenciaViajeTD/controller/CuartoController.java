@@ -32,8 +32,8 @@ public class CuartoController {
     }
     
 
-    @PutMapping(value = "/updateD/{idCuarto}")
-    public  CuartoDto modifCuarto(@RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
+    @PutMapping(value = "/modificar/{idCuarto}")
+    public  CuartoDto modificarCuarto(@RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
         return  cuartosService.modificarCuarto(cuartoDto, idCuarto);
     }
 
