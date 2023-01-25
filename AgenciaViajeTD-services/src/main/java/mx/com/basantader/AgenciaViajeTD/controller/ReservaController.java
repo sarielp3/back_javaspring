@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,28 +35,33 @@ public class ReservaController {
 
 	@Autowired
 	private ReservaService reservaService;
-	
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = ReservaDto.class)
-    public List<ReservaDto> listaReservas(
-            @RequestParam(required = false) Long cuarto,
-            @RequestParam(required = false) Long origen,
-            @RequestParam(required = false) Long destino,
-            @RequestParam(required = false) Long aerolinea
-    ){
-        return reservaService.getReservasByFiltros(cuarto);
-    }
+	public List<ReservaDto> listaReservas(@RequestParam(required = false) Long cuarto,
+			@RequestParam(required = false) Long origen, @RequestParam(required = false) Long destino,
+			@RequestParam(required = false) Long aerolinea) {
+		return reservaService.getReservasByFiltros(cuarto);
+	}
 
-	
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Create an application entry into the application manager")
 	public ReservaEntity createReserva(@Valid @RequestBody ReservaDto createReserva) {
-	return reservaService.createReserva(createReserva);
-	
+		return reservaService.createReserva(createReserva);
+
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, value = {
+			"/actualizar/{id}" })
+	@ResponseBody
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(value = "Create an client entry into the client manager")
+	public void updateCompraProducto(@PathVariable("id") Long idReserva, @Valid @RequestBody ReservaDto updateReserva) {
+		updateReserva.setIdReserva(idReserva);
+		reservaService.updateReserva(updateReserva);
 	}
 
 }
