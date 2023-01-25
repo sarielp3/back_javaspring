@@ -12,4 +12,6 @@ public interface HotelService {
 	HotelDto getHotelBycodigo(String codHotel);
 	
 	HotelDto createHotel(HotelDto newHotel);
+	
+	HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel);
 }

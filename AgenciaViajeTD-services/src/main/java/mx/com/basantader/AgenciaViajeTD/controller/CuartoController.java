@@ -28,9 +28,13 @@ public class CuartoController {
 
     @PostMapping(value = "/agregar/{idHotel:[\\d]+}")
     public CuartoDto crearCuarto(@RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
-
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
     }
+    
 
+    @PutMapping(value = "/modificar/{idCuarto}")
+    public  CuartoDto modificarCuarto(@RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
+        return  cuartosService.modificarCuarto(cuartoDto, idCuarto);
+    }
 
 }

@@ -10,5 +10,5 @@ public interface CuartoService {
 
     CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel);
 
+    CuartoDto modificarCuarto(CuartoDto cuartoDto, Long idCuarto);
 }
-

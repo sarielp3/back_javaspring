@@ -76,4 +76,40 @@ public class CuartoServiceImpl implements CuartoService {
       return cuartosDTO;
 
     }
+
+    @Override
+    public CuartoDto modificarCuarto(CuartoDto cuartoDto, Long idCuarto) {
+        Optional<CuartoEntity> cuartoEditar = cuartosRepository.findById(idCuarto);
+
+        CuartoEntity cuartosEntity = cuartoEditar.orElseThrow(()-> new ResourceNotFoundException("Cuarto no existe"));
+
+
+        Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoDto.getNombreCuarto());
+        Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoDto.getCodigoCuartos());
+
+        if (validarNC.isPresent()){
+            throw new BusinessException("El nombre del cuarto ya existe");
+        }
+
+        if (validarCC.isPresent()){
+            throw new BusinessException("El codigo del cuarto ya existe");
+        }
+
+        cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto());
+        cuartosEntity.setDescripcion(cuartoDto.getDescripcion());
+        cuartosEntity.setNumeroPersonas(cuartoDto.getNumeroPersonas());
+        cuartosEntity.setCodigoCuartos(cuartoDto.getCodigoCuartos());
+        cuartosEntity.setCostoNoche(cuartoDto.getCostoNoche());
+        cuartosEntity.setTipoCuarto(cuartoDto.getTipoCuarto());
+
+        HotelEntity hotelEntity = hotelRepository.findById(cuartoDto.getIdHotel()).orElseThrow(()-> new ResourceNotFoundException("No se encuentra ID de Hotel"));
+        cuartosEntity.setHotel(hotelEntity);
+
+        CuartoEntity cuartosSave = cuartosRepository.save(cuartosEntity);
+
+        CuartoDto cuartos = mapper.map(cuartosSave, CuartoDto.class);
+
+        return  cuartos;
+
+    }
 }
