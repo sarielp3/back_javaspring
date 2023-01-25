@@ -11,5 +11,7 @@ public interface ReservaService {
 	
 	ReservaEntity createReserva(ReservaDto createReserva);
 	
+	ReservaDto updateReserva(ReservaDto updateReserva);
+	
 	
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,8 @@ public class ReservaServiceImpl implements ReservaService {
 	
 	@Autowired
 	private HotelRepository hotelRepository;
+	
+	private static final Logger log = LoggerFactory.getLogger(ReservaServiceImpl.class);
 
 	@Override
 	public List<ReservaDto> getReservasByFiltros(Long cuarto) {
@@ -76,6 +80,24 @@ public class ReservaServiceImpl implements ReservaService {
 			reservaRepository.save(reserva);
 			return null;
 			
+	}
+
+	@Override
+	public ReservaDto updateReserva(ReservaDto updateReserva) {
+		Optional<HotelEntity> hotelEntity = hotelRepository.findById(updateReserva.getIdHotel());
+		Optional<VueloEntity> vueloEntity = vueloRepository.findById(updateReserva.getIdVuelo());
+		Optional<CuartoEntity> cuartoEntity = cuartoRepository.findById(updateReserva.getIdCuarto());
+		ReservaEntity reserva = reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
+            log.error("No hay ninguna reservacion con ese ID");
+            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
+        });
+		
+		ReservaEntity reservaUp = modelMapper.map(updateReserva, ReservaEntity.class);
+		reservaUp.setHotel(hotelEntity.get());
+		reservaUp.setVuelo(vueloEntity.get());
+		reservaUp.setCuarto(cuartoEntity.get());
+		reservaRepository.save(reservaUp);
+		return updateReserva;
 	}
 
 }
