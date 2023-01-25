@@ -48,7 +48,7 @@ public class ReservaController {
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(value = "Create an application entry into the application manager")
+	@ApiOperation(value = "Crear Reserva")
 	public ReservaEntity createReserva(@Valid @RequestBody ReservaDto createReserva) {
 		return reservaService.createReserva(createReserva);
 
@@ -58,10 +58,19 @@ public class ReservaController {
 			"/actualizar/{id}" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	@ApiOperation(value = "Create an client entry into the client manager")
-	public void updateCompraProducto(@PathVariable("id") Long idReserva, @Valid @RequestBody ReservaDto updateReserva) {
+	@ApiOperation(value = "Modificar una reserva")
+	public void updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody ReservaDto updateReserva) {
 		updateReserva.setIdReserva(idReserva);
 		reservaService.updateReserva(updateReserva);
 	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE
+			,value={"/eliminar/{id}"})
+		    @ResponseBody
+		    @ResponseStatus(HttpStatus.ACCEPTED)
+		    @ApiOperation(value = "Eliminar una reserva")
+		    public void deleteReservaEntity(@PathVariable("id") Long idReserva) {
+				reservaService.deleteReservaEntity(idReserva);
+		    }
 
 }

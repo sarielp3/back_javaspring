@@ -100,4 +100,9 @@ public class ReservaServiceImpl implements ReservaService {
 		return updateReserva;
 	}
 
+	@Override
+	public void deleteReservaEntity(Long idReserva) {
+		reservaRepository.deleteById(idReserva);
+	}
+
 }

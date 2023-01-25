@@ -13,5 +13,7 @@ public interface ReservaService {
 	
 	ReservaDto updateReserva(ReservaDto updateReserva);
 	
+	void deleteReservaEntity(Long idReserva);
+	
 	
 }
