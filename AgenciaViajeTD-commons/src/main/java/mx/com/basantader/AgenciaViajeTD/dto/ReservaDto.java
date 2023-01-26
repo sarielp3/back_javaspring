@@ -2,6 +2,8 @@ package mx.com.basantader.AgenciaViajeTD.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 
 @Builder
@@ -13,16 +15,23 @@ public class ReservaDto {
 	
 	private Date fechaInicio;
 	private Date fechaFin;
-	private String descripcion;
+	private Long idReserva;
 	private String nombreCliente;
 	private String apellidoPaternoCliente;
 	private String apellidoMaternoCliente;
-	private Long idReserva;
+	private String descripcion;
 	private HotelDto hotel;
 	private CuartoDto cuarto;
 	private VueloDto vuelo;
+	private Date fechaCreacion;
+	
+	
 	private Long idHotel;
+	
+	
 	private Long idCuarto;
+	
+	
 	private Long idVuelo;
 	
 

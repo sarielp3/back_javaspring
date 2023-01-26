@@ -7,17 +7,24 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
+import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 
 @Repository
-public interface ReservaRepository extends JpaRepository<ReservaEntity, Long>{
-	
-	@Query ("SELECT r FROM ReservaEntity r JOIN VueloEntity v ON v.idVuelo = r.vuelo WHERE (:cuarto is null or r.cuarto = :cuarto)"
-			)
+public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
+
+	@Query("SELECT r FROM ReservaEntity r JOIN VueloEntity v ON v.idVuelo = r.vuelo WHERE (:cuarto is null or r.cuarto = :cuarto)"
+			+"and(:origen is null or v.origen = :origen)"
+			+"and(:destino is null or v.destino = :destino)"
+			+"and(:aerolinea is null or v.aerolinea = :aerolinea)")
 	List<ReservaEntity> findReservasByFiltros(
-            @Param("cuarto") CuartoEntity cuarto);
-	        
+			@Param("cuarto") CuartoEntity cuarto,
+			@Param("origen") CiudadEntity origen,
+	        @Param("destino") CiudadEntity destino,
+	        @Param("aerolinea") AerolineaEntity aerolinea);
+
 }

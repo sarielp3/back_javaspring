@@ -7,7 +7,7 @@ import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 
 public interface ReservaService {
 	
-	List<ReservaDto> getReservasByFiltros(Long cuarto);
+	List<ReservaDto> getReservasByFiltros(Long cuarto, Long origen, Long destino, Long aerolinea);
 	
 	ReservaEntity createReserva(ReservaDto createReserva);
 	
