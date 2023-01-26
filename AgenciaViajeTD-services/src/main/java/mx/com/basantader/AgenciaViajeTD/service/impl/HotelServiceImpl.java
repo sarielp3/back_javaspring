@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
+import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.ApplicationItem;
@@ -59,7 +60,7 @@ public class HotelServiceImpl implements HotelService {
 			throw new ResourceNotFoundException("No existe un hotel con los filtros ingresados");
 		}
 	
-		List<HotelDto> lstHoteles = hotelRepository.encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(nomHotel, codHotel, idCiudad).stream()
+		List<HotelDto> lstHoteles = hotelEntity.stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
 		
@@ -121,6 +122,20 @@ public class HotelServiceImpl implements HotelService {
 		actualizarHotel.setIdHotel(idHotel);
 		
 		return actualizarHotel;
+	}
+
+
+	@Override
+	public RespuestaEliminarDto eliminarHotel(Long idHotel) {
+		RespuestaEliminarDto mensaje = new RespuestaEliminarDto();
+		Optional<HotelEntity> hotelEntity = hotelRepository.findById(idHotel);
+		if(!hotelEntity.isPresent()) {
+			throw new ResourceNotFoundException("No existe un hotel con el ID ingresado");
+		}
+		
+		hotelRepository.deleteById(idHotel);
+		mensaje.setMensajeRespuesta("Registro eliminado correctamente");
+		return mensaje;
 	}
 
 }
