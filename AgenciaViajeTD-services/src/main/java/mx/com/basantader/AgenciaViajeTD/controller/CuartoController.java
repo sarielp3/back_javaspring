@@ -2,6 +2,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 
 import io.swagger.annotations.Api;
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
+import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.service.CuartoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,4 +38,8 @@ public class CuartoController {
         return  cuartosService.modificarCuarto(cuartoDto, idCuarto);
     }
 
+    @DeleteMapping(value = "/eliminar-cuarto/{idCuarto:[\\d]+}")
+    public RespuestaEliminarDto eliminarCuarto(@PathVariable("idCuarto") Long idCuarto){
+        return  cuartosService.eliminarCuarto(idCuarto);
+    }
 }
