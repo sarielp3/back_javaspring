@@ -96,4 +96,31 @@ public class HotelServiceImpl implements HotelService {
 		return newHotel;
 	}
 
+
+	@Override
+	public HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel) {
+		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(actualizarHotel.getCodigoHotel()));
+		if(hotelEntity.isPresent()) {
+			throw new BusinessException("Ya existe hotel con el codigo ingresado");
+		}
+		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
+		if(!registro.isPresent()) {
+			throw new BusinessException("No existe el id Ingresado");
+		}
+		
+		HotelEntity cambiosHotel = registro.get();
+		CiudadEntity ciudad = new CiudadEntity();
+		ciudad.setIdCiudad(actualizarHotel.getCiudad().getIdCiudad());
+		cambiosHotel.setCiudad(ciudad);
+		cambiosHotel.setNombreHotel(actualizarHotel.getNombreHotel());
+		cambiosHotel.setCodigoHotel(actualizarHotel.getCodigoHotel());
+		cambiosHotel.setDireccion(actualizarHotel.getDireccion());
+		cambiosHotel.setEstatus(actualizarHotel.getEstatus());
+		cambiosHotel.setLogo(actualizarHotel.getLogo());
+		hotelRepository.save(cambiosHotel);
+		actualizarHotel.setIdHotel(idHotel);
+		
+		return actualizarHotel;
+	}
+
 }
