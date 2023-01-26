@@ -2,6 +2,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
+import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
@@ -111,5 +112,32 @@ public class CuartoServiceImpl implements CuartoService {
 
         return  cuartos;
 
+    }
+
+    @Override
+    public List<CuartoDto> listaCuartos() {
+        List<CuartoDto> listaCuartosDto = cuartosRepository.findAll().stream()
+                .map(cuartoEntity ->  mapper.map(cuartoEntity,CuartoDto.class))
+                .collect(Collectors.toList());
+        return listaCuartosDto;
+    }
+
+
+    @Override
+    public RespuestaEliminarDto eliminarCuarto(Long idCuarto) {
+        Optional<CuartoEntity> cuartoEntity = cuartosRepository.findById(idCuarto);
+        if (!cuartoEntity.isPresent()){
+            throw  new BusinessException("el id del cuarto no existe");
+        }
+
+        RespuestaEliminarDto respuestaEliminarDto = new RespuestaEliminarDto();
+        CuartoEntity aux = cuartoEntity.get();
+        if (aux.getReservasCuartos().isEmpty()){
+            cuartosRepository.deleteById(idCuarto);
+            respuestaEliminarDto.setMensajeRespuesta("El id del cuarto " + idCuarto + " fue eliminado");
+        }else {
+            respuestaEliminarDto.setMensajeRespuesta("No se puede eliminar cuarto por que tiene una reserva");
+        }
+        return respuestaEliminarDto;
     }
 }
