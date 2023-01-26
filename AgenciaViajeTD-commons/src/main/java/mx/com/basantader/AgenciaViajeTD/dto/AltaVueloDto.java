@@ -20,7 +20,7 @@ public class AltaVueloDto {
 
     private Long aerolinea;
 
-    private String estatus;
+    private Integer estatus;
 
     private Time horaSalida;
 
