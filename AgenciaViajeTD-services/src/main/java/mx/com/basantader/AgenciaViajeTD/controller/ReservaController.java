@@ -3,6 +3,8 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +18,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.aspectj.bridge.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
+import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.service.ReservaService;
 
@@ -39,17 +43,19 @@ public class ReservaController {
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = ReservaDto.class)
-	public List<ReservaDto> listaReservas(@RequestParam(required = false) Long cuarto,
-			@RequestParam(required = false) Long origen, @RequestParam(required = false) Long destino,
+	public List<ReservaDto> listaReservas(
+			@RequestParam(required = false) Long cuarto,
+			@RequestParam(required = false) Long origen, 
+			@RequestParam(required = false) Long destino,
 			@RequestParam(required = false) Long aerolinea) {
-		return reservaService.getReservasByFiltros(cuarto);
+		return reservaService.getReservasByFiltros(cuarto, origen,destino,aerolinea);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Crear Reserva")
-	public ReservaEntity createReserva(@Valid @RequestBody ReservaDto createReserva) {
+	public ReservaEntity createReserva(@RequestBody @Valid ReservaDto createReserva) {
 		return reservaService.createReserva(createReserva);
 
 	}

@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,20 +48,35 @@ public class ReservaServiceImpl implements ReservaService {
 	@Autowired
 	private HotelRepository hotelRepository;
 	
+	@Autowired 
+	private CiudadRepository ciudadRepository;
+	
+	@Autowired 
+	private AerolineaRepository aerolineaRepository;
+	
 	private static final Logger log = LoggerFactory.getLogger(ReservaServiceImpl.class);
 
 	@Override
-	public List<ReservaDto> getReservasByFiltros(Long cuarto) {
+	public List<ReservaDto> getReservasByFiltros(Long cuarto, Long origen, Long destino, Long aerolinea) {
         CuartoEntity cuartoEntity = null;
-        VueloEntity origenEntity = null;
-        VueloEntity destinoEntity = null;
-        VueloEntity aerolineaEntity = null;
+        CiudadEntity origenEntity = null;
+        CiudadEntity destinoEntity = null;
+        AerolineaEntity aerolineaEntity = null;
 
         if(cuarto != null){
         	cuartoEntity  = cuartoRepository.findById(cuarto).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en este hotel"));
         }
+        if(origen != null){
+        	origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de origen"));
+        }
+        if(destino != null){
+        	destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de destino"));
+        }
+        if(aerolinea != null){
+        	aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de origen"));
+        }
         
-        List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(cuartoEntity)
+        List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(cuartoEntity,origenEntity,destinoEntity,aerolineaEntity)
                 .stream()
                 .map(reservasEntity -> modelMapper.map(reservasEntity, ReservaDto.class))
                 .collect(Collectors.toList());
@@ -74,6 +90,7 @@ public class ReservaServiceImpl implements ReservaService {
 			Optional<CuartoEntity> cuartoEntity = cuartoRepository.findById(createReserva.getIdCuarto());
 			
 			ReservaEntity reserva = modelMapper.map(createReserva, ReservaEntity.class);
+			reserva.setFechaCreacion(new Date());
 			reserva.setHotel(hotelEntity.get());
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
@@ -93,6 +110,7 @@ public class ReservaServiceImpl implements ReservaService {
         });
 		
 		ReservaEntity reservaUp = modelMapper.map(updateReserva, ReservaEntity.class);
+		reservaUp.setFechaCreacion(updateReserva.getFechaCreacion());
 		reservaUp.setHotel(hotelEntity.get());
 		reservaUp.setVuelo(vueloEntity.get());
 		reservaUp.setCuarto(cuartoEntity.get());

@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.*;
 
@@ -38,33 +40,36 @@ public class ReservaEntity implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "ID_HOTEL")
 	private HotelEntity hotel;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_CUARTO")
 	private CuartoEntity cuarto;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_VUELO")
 	private VueloEntity vuelo;
-	
+
 	@Column(name = "FECHA_INICIO", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date fechaInicio;
-	
+
 	@Column(name = "FECHA_FIN", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date fechaFin;
-	
+
 	@Column(name = "DESCRIPCION", nullable = false)
 	private String descripcion;
-	
+
 	@Column(name = "NOMBRE_CLIENTE", nullable = false)
 	private String nombreCliente;
-	
+
 	@Column(name = "APELLIDO_PATERNO", nullable = false)
 	private String apellidoPaternoCliente;
-	
+
 	@Column(name = "APELLIDO_MATERNO", nullable = false)
 	private String apellidoMaternoCliente;
+
+	@Column(name="FECHA_CREACION", nullable = false)
+	private Date fechaCreacion;
 	
 }
