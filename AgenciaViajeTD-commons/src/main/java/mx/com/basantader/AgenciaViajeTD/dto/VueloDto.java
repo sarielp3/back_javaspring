@@ -21,7 +21,7 @@ public class VueloDto {
 
     private AerolineaDto aerolinea;
 
-    private String estatus;
+    private Integer estatus;
 
     private Time horaSalida;
 
