@@ -23,6 +23,8 @@ public interface VueloRepository extends JpaRepository<VueloEntity, Long> {
             @Param("origen") CiudadEntity origen,
             @Param("destino") CiudadEntity destino,
             @Param("aerolinea") AerolineaEntity aerolinea);
+    
+    VueloEntity findByCodigoVuelo(String codigoVuelo);
 
 
 }

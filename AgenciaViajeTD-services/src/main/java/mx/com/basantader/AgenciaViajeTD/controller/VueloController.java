@@ -31,6 +31,12 @@ public class VueloController {
     ){
         return vueloService.getVuelosByFiltros(origen, destino, aerolinea);
     }
+    @GetMapping(value = "/codigo/{codigo}",produces = "application/json")
+    @ResponseBody
+    @ApiOperation(value = "vista de la lista de todos los vuelos, asi como filtrados ", response = VueloDto.class)
+    public VueloDto getVueloByCodigo(@PathVariable("codigo") String codigo){
+        return vueloService.getVueloByCodigo(codigo);
+    }
 
     @PostMapping
     @ResponseBody
@@ -38,5 +44,13 @@ public class VueloController {
     @ApiOperation(value = "Guarda un vuelo en la base de datos", response = AltaVueloDto.class)
     public AltaVueloDto createVuelo(@RequestBody AltaVueloDto vueloDto){
         return vueloService.createVuelo(vueloDto);
+    }
+    
+    @PutMapping(value = "/{idVuelo}", produces = "application/json")
+    @ResponseBody
+    @ApiOperation(value = "vista de la lista de todos los vuelos, asi como filtrados ", response = VueloDto.class)
+    public AltaVueloDto updateVuelo(@RequestBody AltaVueloDto vueloDto, @PathVariable("idVuelo") Long idVuelo) {
+    	//vueloDto.setIdVuelo(idVuelo);
+    	return vueloService.updateVuelo(vueloDto, idVuelo);
     }
 }

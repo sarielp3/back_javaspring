@@ -71,8 +71,21 @@ public class VueloServiceImpl implements VueloService {
     }
 
     @Override
+	public VueloDto getVueloByCodigo(String codigoVuelo) {
+    	VueloEntity vueloEntity = vueloRepository.findByCodigoVuelo(codigoVuelo);
+    	if(vueloEntity == null) {
+    		log.error("No se encontro el vuelo del codigo proporcionado");
+    		throw new ResourceNotFoundException("No se encontro el vuelo del codigo proporcionado");
+    	}
+		VueloDto vueloDto =  this.mapper.map(vueloEntity, VueloDto.class);
+		return vueloDto;
+	}
+    
+    
+    @Override
     public AltaVueloDto createVuelo(AltaVueloDto altaVueloDto) {
-        VueloEntity vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto);
+    	VueloEntity vuelosEntity = new VueloEntity();
+        vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto, vuelosEntity);
         vueloRepository.save(vuelosEntity);
 
         altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
@@ -80,8 +93,25 @@ public class VueloServiceImpl implements VueloService {
         return altaVueloDto;
     }
 
-    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto){
-        VueloEntity vuelosEntity = new VueloEntity();
+	@Override
+	public AltaVueloDto updateVuelo(AltaVueloDto vueloDto, Long idVuelo) {
+		
+		Integer estatus;
+		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
+			log.error("No se encontro el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+		});
+		
+		estatus = vueloEntity.getEstatus();
+		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
+		vueloEntity.setEstatus(estatus);
+		vueloRepository.save(vueloEntity);
+		vueloDto.setIdVuelo(vueloEntity.getIdVuelo());
+		return vueloDto;
+	}
+	
+	
+    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto, VueloEntity vuelosEntity){
         CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
                 .orElseThrow(() -> {
                     log.error("No se encontro la ciudad de origen seleccionada");
@@ -108,5 +138,9 @@ public class VueloServiceImpl implements VueloService {
 
         return vuelosEntity;
     }
+
+	
+
+
 
 }
