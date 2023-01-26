@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
+import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
@@ -66,13 +68,18 @@ public class HotelController {
     	return hotelservice.createHotel(nuevoReg);
     }
     
-    @PutMapping(value="/update-hotel/{id}",produces="application/json")
+    @PutMapping(value="/update-hotel/{id:[\\d]+}",produces="application/json")
     public HotelDto updateHotel(@PathVariable Long id,@RequestBody HotelDto actualizarhotel) {
     	if(actualizarhotel.getCodigoHotel() == null) {
     		throw new ResourceNotFoundException("Codigo de hotel necesario");
     	}
     	
     	return hotelservice.updateHotel(actualizarhotel,id);
+    }
+    
+    @DeleteMapping(value="/delete-hotel/{id:[\\d]+}")
+    public RespuestaEliminarDto eliminarHotel(@PathVariable("id") Long id) {
+    	return hotelservice.eliminarHotel(id);
     }
    
 }
