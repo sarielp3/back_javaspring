@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
-import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
+
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 
@@ -27,7 +28,15 @@ public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
 	        @Param("destino") CiudadEntity destino,
 	        @Param("aerolinea") AerolineaEntity aerolinea);
 	
+
+	@Query("SELECT r.fechaInicio FROM ReservaEntity r")
+    List<Date> findCuartoByFechaInicio();
+	
+	@Query("SELECT r.fechaFin FROM ReservaEntity r")
+    List<Date> findCuartoByFechaFin();
+
 	@Query("SELECT r.vuelo FROM ReservaEntity r WHERE r.vuelo = :vuelo")
 	List<VueloEntity> findVuelosReservadosById(@Param("vuelo") VueloEntity vuelo);
+
 
 }
