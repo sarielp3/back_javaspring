@@ -13,6 +13,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
+import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
@@ -27,12 +28,15 @@ public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
 	        @Param("destino") CiudadEntity destino,
 	        @Param("aerolinea") AerolineaEntity aerolinea);
 	
-	@Query("SELECT r.fechaInicio FROM ReservaEntity r WHERE r.fechaInicio = :fechaInicio")
-    List<Date> findCuartoByFechaInicio(
-    		@Param("fechaInicio") Date fechaInicio);
-//	
-//	@Query("SELECT r.fechaFin FROM ReservaEntity r WHERE r.fechaFin = :fechaFin")
-//    ReservaEntity findCuartoByFechaFin(
-//    		@Param("fechaFin") Date fechaFin);
+
+	@Query("SELECT r.fechaInicio FROM ReservaEntity r")
+    List<Date> findCuartoByFechaInicio();
+	
+	@Query("SELECT r.fechaFin FROM ReservaEntity r")
+    List<Date> findCuartoByFechaFin();
+
+	@Query("SELECT r.vuelo FROM ReservaEntity r WHERE r.vuelo = :vuelo")
+	List<VueloEntity> findVuelosReservadosById(@Param("vuelo") VueloEntity vuelo);
+
 
 }

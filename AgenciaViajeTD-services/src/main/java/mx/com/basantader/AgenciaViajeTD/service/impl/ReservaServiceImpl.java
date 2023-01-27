@@ -1,23 +1,16 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
-import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
@@ -100,10 +93,17 @@ public class ReservaServiceImpl implements ReservaService {
 			if(!cuartoEntity.isPresent()) {
 				throw new ResourceNotFoundException("El cuarto ingresado no existe");
 			}
-			ReservaEntity reservaFecha = reservaRepository.findCuartoByFechaInicio(createReserva.getFechaInicio());
-			if(reservaFecha.getFechaInicio().before(createReserva.getFechaFin())&&
-					reservaFecha.getFechaInicio().after(createReserva.getFechaInicio())) {
-				throw new ResourceNotFoundException("El cuarto esta ocupado");
+			Boolean f1 = false;
+			List<Date> fechasReservadasInicio = reservaRepository.findCuartoByFechaInicio();
+			
+			for (int i=0; i < fechasReservadasInicio.size(); i++) {
+				if(fechasReservadasInicio.get(i).before(createReserva.getFechaFin())
+						&&fechasReservadasInicio.get(i).after(createReserva.getFechaInicio())) {
+					f1 = true;
+				}
+			}
+			if (f1 == true) {
+				throw new BadRequestException("El cuarto es ocupado");
 			}
 			
 			ReservaEntity reserva = modelMapper.map(createReserva, ReservaEntity.class);

@@ -42,4 +42,9 @@ public class CuartoController {
     public RespuestaEliminarDto eliminarCuarto(@PathVariable("idCuarto") Long idCuarto){
         return  cuartosService.eliminarCuarto(idCuarto);
     }
+
+    @PostMapping(value = "/status-cuarto/{idCuarto:[\\d]+}")
+    public CuartoDto statusCuarto(@PathVariable(required = true, value = "") Long idCuarto){
+        return  cuartosService.statusCuartos(idCuarto);
+    }
 }

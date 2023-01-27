@@ -22,7 +22,7 @@ public class HotelDto implements Serializable {
 	
 	private String direccion;
 	
-	private String estatus;
+	private int estatus;
 	
 	private byte[] logo;
 	

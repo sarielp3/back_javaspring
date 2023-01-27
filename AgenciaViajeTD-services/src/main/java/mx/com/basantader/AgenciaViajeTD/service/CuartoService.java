@@ -14,4 +14,6 @@ public interface CuartoService {
     CuartoDto modificarCuarto(CuartoDto cuartoDto, Long idCuarto);
     RespuestaEliminarDto eliminarCuarto(Long idCuarto);
     List<CuartoDto> listaCuartos();
+
+    CuartoDto statusCuartos(Long idCuarto);
 }
