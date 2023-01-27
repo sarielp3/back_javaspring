@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/aerolineas")
 @Api(value = "Endpoins para administracion de aerolineas")
-@CrossOrigin(origins = "http://localhost:4200" )
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
 public class AerolineaController {
 
     @Autowired

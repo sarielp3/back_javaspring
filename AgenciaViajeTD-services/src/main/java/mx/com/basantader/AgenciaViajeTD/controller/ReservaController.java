@@ -25,7 +25,7 @@ import mx.com.basantader.AgenciaViajeTD.service.ReservaService;
 @RestController
 @RequestMapping("/reservas")
 @Api(value = "Reservas en Agencia de viajes")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
 
 public class ReservaController {
 

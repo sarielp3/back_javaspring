@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vuelos")
 @Api(value = "Endpoins para administracion de vuelos")
-@CrossOrigin(origins = "http://localhost:4200" )
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
 public class VueloController {
 
     @Autowired

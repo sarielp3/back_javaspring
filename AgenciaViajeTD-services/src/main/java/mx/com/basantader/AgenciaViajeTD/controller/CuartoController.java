@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cuartos")
 @Api(value = "CRUD de tabla Cuartos")
-@CrossOrigin(origins = "http://localhost:4200" )
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
 public class CuartoController {
 
     private  static final Logger log = LoggerFactory.getLogger(CuartoController.class);
