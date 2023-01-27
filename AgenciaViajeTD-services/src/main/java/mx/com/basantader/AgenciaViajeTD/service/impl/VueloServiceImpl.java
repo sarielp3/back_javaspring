@@ -115,17 +115,21 @@ public class VueloServiceImpl implements VueloService {
 	@Override
 	public Respuesta updateEstatusVuelo(Long idVuelo) {
 		Respuesta respuestaEstatus = new Respuesta();
+		String respuesta = "Desactivado";
 		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
 			log.error("No se encontro el id vuelo proporcionado");
 			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
 		});
-		if(vueloEntity.getEstatus() == 1) {
-			vueloEntity.setEstatus(0);
-			respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a Desactivado");
-		}else {
+		
+		if(vueloEntity.getEstatus() == 0) {
 			vueloEntity.setEstatus(1);
-			respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a Activado");
+			respuesta = "Activado";
+		}else {
+			vueloEntity.setEstatus(0);
 		}
+		
+		respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a " + respuesta);
+		
 		vueloRepository.save(vueloEntity);
 		return respuestaEstatus; 
 	}
