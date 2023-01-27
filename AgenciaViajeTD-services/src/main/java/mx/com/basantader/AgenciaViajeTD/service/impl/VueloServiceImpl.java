@@ -2,6 +2,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.controller.ApplicationController;
 import mx.com.basantader.AgenciaViajeTD.dto.AltaVueloDto;
+import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
@@ -111,6 +112,23 @@ public class VueloServiceImpl implements VueloService {
 		return vueloDto;
 	}
 	
+	@Override
+	public Respuesta updateEstatusVuelo(Long idVuelo) {
+		Respuesta respuestaEstatus = new Respuesta();
+		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
+			log.error("No se encontro el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+		});
+		if(vueloEntity.getEstatus() == 1) {
+			vueloEntity.setEstatus(0);
+			respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a Desactivado");
+		}else {
+			vueloEntity.setEstatus(1);
+			respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a Activado");
+		}
+		vueloRepository.save(vueloEntity);
+		return respuestaEstatus; 
+	}
 	
     private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto, VueloEntity vuelosEntity){
         CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
@@ -139,6 +157,8 @@ public class VueloServiceImpl implements VueloService {
 
         return vuelosEntity;
     }
+
+	
 
 	
 
