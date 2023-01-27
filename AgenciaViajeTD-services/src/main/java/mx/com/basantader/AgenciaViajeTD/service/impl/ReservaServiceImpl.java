@@ -1,5 +1,8 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -86,8 +89,22 @@ public class ReservaServiceImpl implements ReservaService {
 	@Override
 	public ReservaEntity createReserva(ReservaDto createReserva) {
 			Optional<HotelEntity> hotelEntity = hotelRepository.findById(createReserva.getIdHotel());
+			if(!hotelEntity.isPresent()) {
+				throw new ResourceNotFoundException("El Hotel ingresado no existe");
+			}
 			Optional<VueloEntity> vueloEntity = vueloRepository.findById(createReserva.getIdVuelo());
+			if(!vueloEntity.isPresent()) {
+				throw new ResourceNotFoundException("El vuelo ingresado no existe");
+			}
 			Optional<CuartoEntity> cuartoEntity = cuartoRepository.findById(createReserva.getIdCuarto());
+			if(!cuartoEntity.isPresent()) {
+				throw new ResourceNotFoundException("El cuarto ingresado no existe");
+			}
+			ReservaEntity reservaFecha = reservaRepository.findCuartoByFechaInicio(createReserva.getFechaInicio());
+			if(reservaFecha.getFechaInicio().before(createReserva.getFechaFin())&&
+					reservaFecha.getFechaInicio().after(createReserva.getFechaInicio())) {
+				throw new ResourceNotFoundException("El cuarto esta ocupado");
+			}
 			
 			ReservaEntity reserva = modelMapper.map(createReserva, ReservaEntity.class);
 			reserva.setFechaCreacion(new Date());
@@ -95,15 +112,23 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
 			reservaRepository.save(reserva);
-			return null;
-			
+				return null;
 	}
 
 	@Override
 	public ReservaDto updateReserva(ReservaDto updateReserva) {
 		Optional<HotelEntity> hotelEntity = hotelRepository.findById(updateReserva.getIdHotel());
+		if(!hotelEntity.isPresent()) {
+			throw new ResourceNotFoundException("El Hotel ingresado no existe");
+		}
 		Optional<VueloEntity> vueloEntity = vueloRepository.findById(updateReserva.getIdVuelo());
+		if(!vueloEntity.isPresent()) {
+			throw new ResourceNotFoundException("El vuelo ingresado no existe");
+		}
 		Optional<CuartoEntity> cuartoEntity = cuartoRepository.findById(updateReserva.getIdCuarto());
+		if(!cuartoEntity.isPresent()) {
+			throw new ResourceNotFoundException("El cuarto ingresado no existe");
+		}
 		ReservaEntity reserva = reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
             log.error("No hay ninguna reservacion con ese ID");
             return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");

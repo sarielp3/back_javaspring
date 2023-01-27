@@ -2,8 +2,6 @@ package mx.com.basantader.AgenciaViajeTD.dto;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.*;
 
 @Builder
