@@ -9,8 +9,6 @@ public interface VueloService {
 
 
     List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea);
-
-    VueloDto getVueloByCodigo(String codigoVuelo);
     
     AltaVueloDto createVuelo(AltaVueloDto vueloDto);
     

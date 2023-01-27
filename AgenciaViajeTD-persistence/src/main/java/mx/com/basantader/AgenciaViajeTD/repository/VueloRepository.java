@@ -6,10 +6,12 @@ import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-
+@Repository
 public interface VueloRepository extends JpaRepository<VueloEntity, Long> {
 
     List<VueloEntity> findByOrigen(CiudadEntity origen);
@@ -24,7 +26,8 @@ public interface VueloRepository extends JpaRepository<VueloEntity, Long> {
             @Param("destino") CiudadEntity destino,
             @Param("aerolinea") AerolineaEntity aerolinea);
     
-    VueloEntity findByCodigoVuelo(String codigoVuelo);
+    Optional<VueloEntity> findByCodigoVuelo(String codigoVuelo);
+
 
 
 }

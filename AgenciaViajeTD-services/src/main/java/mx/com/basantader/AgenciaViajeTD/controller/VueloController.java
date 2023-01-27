@@ -31,12 +31,6 @@ public class VueloController {
     ){
         return vueloService.getVuelosByFiltros(origen, destino, aerolinea);
     }
-    @GetMapping(value = "/codigo/{codigo}",produces = "application/json")
-    @ResponseBody
-    @ApiOperation(value = "vista de la lista de todos los vuelos, asi como filtrados ", response = VueloDto.class)
-    public VueloDto getVueloByCodigo(@PathVariable("codigo") String codigo){
-        return vueloService.getVueloByCodigo(codigo);
-    }
 
     @PostMapping
     @ResponseBody
