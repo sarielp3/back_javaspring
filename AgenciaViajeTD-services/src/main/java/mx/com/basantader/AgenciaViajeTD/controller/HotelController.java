@@ -77,7 +77,7 @@ public class HotelController {
     	if(nuevoReg.getDireccion() == null || nuevoReg.getDireccion().trim().isEmpty()) {
     		throw new ResourceNotFoundException("direccion de hotel necesario");
     	}
-    	if(nuevoReg.getEstatus() == null || nuevoReg.getEstatus().trim().isEmpty()) {
+    	if(Integer.toString(nuevoReg.getEstatus()) == null || Integer.toString(nuevoReg.getEstatus()).trim().isEmpty()) {
     		throw new ResourceNotFoundException("estatus de hotel necesario");
     	}
     	
@@ -98,7 +98,7 @@ public class HotelController {
     	if(actualizarhotel.getDireccion() == null || actualizarhotel.getDireccion().trim().isEmpty()) {
     		throw new ResourceNotFoundException("direccion de hotel necesario");
     	}
-    	if(actualizarhotel.getEstatus() == null || actualizarhotel.getEstatus().trim().isEmpty()) {
+    	if(Integer.toString(actualizarhotel.getEstatus()) == null || Integer.toString(actualizarhotel.getEstatus()).toString().trim().isEmpty()) {
     		throw new ResourceNotFoundException("estatus de hotel necesario");
     	}
     	

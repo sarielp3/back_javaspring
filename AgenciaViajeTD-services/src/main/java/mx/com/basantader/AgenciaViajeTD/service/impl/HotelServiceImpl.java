@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -34,8 +35,8 @@ import mx.com.basantader.AgenciaViajeTD.service.HotelService;
  * @author VictorHugoAcostaHernandez
  */
 @Service
-public class HotelServiceImpl implements HotelService {
-
+public class HotelServiceImpl implements HotelService,Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Autowired
 	private HotelRepository hotelRepository;
@@ -147,12 +148,11 @@ public class HotelServiceImpl implements HotelService {
 			throw new ResourceNotFoundException("No existe el id Ingresado");
 		}
 		HotelEntity cambiosStatusHotel = registro.get();
-		System.out.print(cambiosStatusHotel.getEstatus());
-		if(cambiosStatusHotel.getEstatus().equals("1")) {
-			cambiosStatusHotel.setEstatus("0");
+		if(cambiosStatusHotel.getEstatus()==1) {
+			cambiosStatusHotel.setEstatus(0);
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Desactivo");
-		}else if(cambiosStatusHotel.getEstatus().equals("0")) {
-			cambiosStatusHotel.setEstatus("1");
+		}else if(cambiosStatusHotel.getEstatus()==0) {
+			cambiosStatusHotel.setEstatus(1);
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Activo");
 		}
 		hotelRepository.save(cambiosStatusHotel);
