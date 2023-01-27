@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 import mx.com.basantader.AgenciaViajeTD.controller.ApplicationController;
 import mx.com.basantader.AgenciaViajeTD.dto.AltaVueloDto;
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -69,10 +71,16 @@ public class VueloServiceImpl implements VueloService {
 
         return listaVuelosDto;
     }
-
+        
     @Override
     public AltaVueloDto createVuelo(AltaVueloDto altaVueloDto) {
-        VueloEntity vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto);
+    	VueloEntity vuelosEntity = new VueloEntity();
+        vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto, vuelosEntity);
+        
+        Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo());
+		if(vueloEntityAux.isPresent()){
+			throw new BusinessException(8);
+		}
         vueloRepository.save(vuelosEntity);
 
         altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
@@ -80,8 +88,31 @@ public class VueloServiceImpl implements VueloService {
         return altaVueloDto;
     }
 
-    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto){
-        VueloEntity vuelosEntity = new VueloEntity();
+	@Override
+	public AltaVueloDto updateVuelo(AltaVueloDto vueloDto, Long idVuelo) {
+		
+		Integer estatus;
+		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
+			log.error("No se encontro el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+		});
+		estatus = vueloEntity.getEstatus();
+		
+		Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo());
+		if(vueloEntityAux.get().getIdVuelo() != vueloEntity.getIdVuelo() && vueloEntityAux.isPresent()) {
+			throw new BusinessException(8);
+		}
+		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
+		vueloEntity.setEstatus(estatus);
+		
+		
+		vueloRepository.save(vueloEntity);
+		vueloDto.setIdVuelo(vueloEntity.getIdVuelo());
+		return vueloDto;
+	}
+	
+	
+    private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto, VueloEntity vuelosEntity){
         CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
                 .orElseThrow(() -> {
                     log.error("No se encontro la ciudad de origen seleccionada");
@@ -108,5 +139,9 @@ public class VueloServiceImpl implements VueloService {
 
         return vuelosEntity;
     }
+
+	
+
+
 
 }

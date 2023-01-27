@@ -9,9 +9,10 @@ public interface VueloService {
 
 
     List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea);
-
-
+    
     AltaVueloDto createVuelo(AltaVueloDto vueloDto);
+    
+    AltaVueloDto updateVuelo(AltaVueloDto vueloDto,Long idVuelo);
 
 
 }
