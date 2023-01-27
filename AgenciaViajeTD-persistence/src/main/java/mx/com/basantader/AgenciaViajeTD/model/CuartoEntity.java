@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CuartoEntity {
 
-	@Id
+    @Id
     @SequenceGenerator(name = "sequ", sequenceName = "CUARTOSALTA_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "sequ")
     private Long idCuarto;
@@ -37,11 +37,13 @@ public class CuartoEntity {
 
     @Column(name = "TIPO_CUARTO", nullable = false)
     private String tipoCuarto;
+    @Column(name = "STATUS", nullable = true)
+    private Byte status;
 
     @ManyToOne
     @JoinColumn(name = "ID_HOTEL")
     private HotelEntity hotel;
-    
+
     @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ReservaEntity> reservasCuartos;
 

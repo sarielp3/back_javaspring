@@ -20,6 +20,8 @@ public class CuartoDto {
   private Float costoNoche;
   private String tipoCuarto;
 
+  private Byte status;
+
   private Long idHotel;
 
 
