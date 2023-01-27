@@ -36,6 +36,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HotelEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
     @SequenceGenerator(name = "hotel", sequenceName = "hotel_seq", initialValue = 1, allocationSize = 1)
     @GeneratedValue(generator = "hotel")
@@ -55,7 +56,7 @@ public class HotelEntity implements Serializable {
 	private String direccion;
 	
 	@Column(name="ESTATUS",nullable=false)
-	private String estatus;
+	private int estatus;
 	
 	@Lob
 	@Column(name="LOGO",nullable=false)

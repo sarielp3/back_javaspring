@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.service;
 import java.util.List;
 
 import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
+import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 
 public interface HotelService {
@@ -17,4 +18,6 @@ public interface HotelService {
 	HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel);
 	
 	RespuestaEliminarDto eliminarHotel(Long idHotel);
+	
+	Respuesta cambiarEstatus(Long idHotel);
 }

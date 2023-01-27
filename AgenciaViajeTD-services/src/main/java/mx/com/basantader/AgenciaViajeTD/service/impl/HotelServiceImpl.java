@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
+import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
@@ -33,8 +35,8 @@ import mx.com.basantader.AgenciaViajeTD.service.HotelService;
  * @author VictorHugoAcostaHernandez
  */
 @Service
-public class HotelServiceImpl implements HotelService {
-
+public class HotelServiceImpl implements HotelService,Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Autowired
 	private HotelRepository hotelRepository;
@@ -137,5 +139,27 @@ public class HotelServiceImpl implements HotelService {
 		mensaje.setMensajeRespuesta("Registro eliminado correctamente");
 		return mensaje;
 	}
+
+	@Override
+	public Respuesta cambiarEstatus(Long idHotel) {
+		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
+		Respuesta mensaje = new Respuesta();
+		if(!registro.isPresent()) {
+			throw new ResourceNotFoundException("No existe el id Ingresado");
+		}
+		HotelEntity cambiosStatusHotel = registro.get();
+		if(cambiosStatusHotel.getEstatus()==1) {
+			cambiosStatusHotel.setEstatus(0);
+			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Desactivo");
+		}else if(cambiosStatusHotel.getEstatus()==0) {
+			cambiosStatusHotel.setEstatus(1);
+			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Activo");
+		}
+		hotelRepository.save(cambiosStatusHotel);
+		
+		return mensaje;
+	}
+	
+
 
 }
