@@ -127,7 +127,7 @@ public class CuartoServiceImpl implements CuartoService {
     public RespuestaEliminarDto eliminarCuarto(Long idCuarto) {
         Optional<CuartoEntity> cuartoEntity = cuartosRepository.findById(idCuarto);
         if (!cuartoEntity.isPresent()){
-            throw  new BusinessException("el id del cuarto no existe");
+            throw  new ResourceNotFoundException("el id del cuarto no existe");
         }
 
         RespuestaEliminarDto respuestaEliminarDto = new RespuestaEliminarDto();
@@ -139,5 +139,22 @@ public class CuartoServiceImpl implements CuartoService {
             respuestaEliminarDto.setMensajeRespuesta("No se puede eliminar cuarto por que tiene una reserva");
         }
         return respuestaEliminarDto;
+    }
+
+    @Override
+    public CuartoDto statusCuartos(Long idCuarto) {
+        Optional<CuartoEntity> cuartoEntity = cuartosRepository.findById(idCuarto);
+        Byte statusActual;
+        CuartoDto cuartoDto;
+
+        if (!cuartoEntity.isPresent()){
+            throw  new ResourceNotFoundException("el id del cuarto no existe");
+        }else {
+            statusActual = cuartoEntity.get().getStatus();
+            cuartoEntity.get().setStatus((byte)(statusActual == 0 ? 1: 0));
+            cuartosRepository.save(cuartoEntity.get());
+            cuartoDto= mapper.map(cuartoEntity.get(), CuartoDto.class);
+        }
+        return  cuartoDto;
     }
 }
