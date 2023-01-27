@@ -4,6 +4,7 @@ import mx.com.basantader.AgenciaViajeTD.controller.ApplicationController;
 import mx.com.basantader.AgenciaViajeTD.dto.AltaVueloDto;
 import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
@@ -11,13 +12,17 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.VueloEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.AerolineaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
+import mx.com.basantader.AgenciaViajeTD.repository.ReservaRepository;
 import mx.com.basantader.AgenciaViajeTD.repository.VueloRepository;
 import mx.com.basantader.AgenciaViajeTD.service.VueloService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +40,8 @@ public class VueloServiceImpl implements VueloService {
     private AerolineaRepository aerolineaRepository;
     @Autowired
     private CiudadRepository ciudadRepository;
+    @Autowired
+    private ReservaRepository reservaRepository;
     @Autowired
     private ModelMapper mapper;
 
@@ -80,7 +87,7 @@ public class VueloServiceImpl implements VueloService {
         
         Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo());
 		if(vueloEntityAux.isPresent()){
-			throw new BusinessException(8);
+			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
         vueloRepository.save(vuelosEntity);
 
@@ -101,7 +108,7 @@ public class VueloServiceImpl implements VueloService {
 		
 		Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo());
 		if(vueloEntityAux.get().getIdVuelo() != vueloEntity.getIdVuelo() && vueloEntityAux.isPresent()) {
-			throw new BusinessException(8);
+			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
 		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
 		vueloEntity.setEstatus(estatus);
@@ -128,10 +135,29 @@ public class VueloServiceImpl implements VueloService {
 			vueloEntity.setEstatus(0);
 		}
 		
+		log.info("Se modifico el estatus");
 		respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a " + respuesta);
 		
 		vueloRepository.save(vueloEntity);
 		return respuestaEstatus; 
+	}
+	
+	@Override
+	public Respuesta deleteVuelo(Long idVuelo) {
+		Respuesta respuestaEstatus = new Respuesta();
+		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
+			log.error("No se encontro el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+		});
+		List<VueloEntity> vuelosReservados = reservaRepository.findVuelosReservadosById(vueloEntity);
+		if(vuelosReservados.size() > 0) {
+			log.info("Entro en la excepcion");
+			throw new BadRequestException("No se puede eliminar el vuelo");
+		}
+		vueloRepository.delete(vueloEntity);
+		log.info("Se ha eliminado el vuelo ");
+		respuestaEstatus.setMensajeRespuesta("Se ha eliminado el vuelo de manera exitosa");
+		return respuestaEstatus;
 	}
 	
     private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto, VueloEntity vuelosEntity){
@@ -161,6 +187,8 @@ public class VueloServiceImpl implements VueloService {
 
         return vuelosEntity;
     }
+
+
 
 	
 

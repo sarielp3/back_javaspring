@@ -54,4 +54,11 @@ public class VueloController {
     public Respuesta updateEstatusVuelo(@PathVariable("idVuelo") Long idVuelo) {
     	return vueloService.updateEstatusVuelo(idVuelo);
     }
+    
+    @DeleteMapping(value = "/{idVuelo}", produces = "application/json")
+    @ResponseBody
+    @ApiOperation(value = "Cambia el estatus de vuelo ", response = Respuesta.class)
+    public Respuesta deleteVuelo(@PathVariable("idVuelo") Long idVuelo) {
+    	return vueloService.deleteVuelo(idVuelo);
+    }
 }
