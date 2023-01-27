@@ -16,6 +16,8 @@ public interface VueloService {
     AltaVueloDto updateVuelo(AltaVueloDto vueloDto,Long idVuelo);
     
     Respuesta updateEstatusVuelo(Long idVuelo);
+    
+    Respuesta deleteVuelo(Long idVuelo);
 
 
 }
