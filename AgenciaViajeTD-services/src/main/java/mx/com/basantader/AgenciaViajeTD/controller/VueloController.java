@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.AltaVueloDto;
+import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.VueloDto;
 import mx.com.basantader.AgenciaViajeTD.service.VueloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,15 @@ public class VueloController {
     
     @PutMapping(value = "/{idVuelo}", produces = "application/json")
     @ResponseBody
-    @ApiOperation(value = "vista de la lista de todos los vuelos, asi como filtrados ", response = VueloDto.class)
+    @ApiOperation(value = "actauliza los datos del vuelo correspondiente al id proporcionado ", response = AltaVueloDto.class)
     public AltaVueloDto updateVuelo(@RequestBody AltaVueloDto vueloDto, @PathVariable("idVuelo") Long idVuelo) {
-    	//vueloDto.setIdVuelo(idVuelo);
     	return vueloService.updateVuelo(vueloDto, idVuelo);
+    }
+    
+    @PutMapping(value = "/cambiar-estado/{idVuelo}", produces = "application/json")
+    @ResponseBody
+    @ApiOperation(value = "Cambia el estatus de vuelo ", response = Respuesta.class)
+    public Respuesta updateEstatusVuelo(@PathVariable("idVuelo") Long idVuelo) {
+    	return vueloService.updateEstatusVuelo(idVuelo);
     }
 }
