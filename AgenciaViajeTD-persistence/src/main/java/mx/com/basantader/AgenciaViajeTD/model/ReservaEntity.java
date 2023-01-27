@@ -34,7 +34,6 @@ public class ReservaEntity implements Serializable{
 	@GeneratedValue(generator = "seq")
 	private Long idReserva;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ID_HOTEL")
 	private HotelEntity hotel;
