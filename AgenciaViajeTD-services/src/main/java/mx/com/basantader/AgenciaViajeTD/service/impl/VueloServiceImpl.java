@@ -70,6 +70,9 @@ public class VueloServiceImpl implements VueloService {
                 .stream()
                 .map(vuelosEntity -> mapper.map(vuelosEntity, VueloDto.class))
                 .collect(Collectors.toList());
+        if (listaVuelosDto.isEmpty()) {
+        	throw new ResourceNotFoundException("No hay coincidencias de vuelos con los filtros seleccionados");
+        }
 
         return listaVuelosDto;
     }

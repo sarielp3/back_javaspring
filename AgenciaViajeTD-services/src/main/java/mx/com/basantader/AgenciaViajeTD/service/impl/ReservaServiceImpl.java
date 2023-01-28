@@ -76,6 +76,9 @@ public class ReservaServiceImpl implements ReservaService {
                 .stream()
                 .map(reservasEntity -> modelMapper.map(reservasEntity, ReservaDto.class))
                 .collect(Collectors.toList());
+        if (listaReservas.isEmpty()) {
+        	throw new ResourceNotFoundException("No hay coincidencias de reservas con los filtros seleccionados");
+        }
 		return listaReservas;
 	}
 	

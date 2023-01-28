@@ -53,7 +53,9 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		List<HotelDto> lstHoteles = hotelEntity.stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
-		
+		if (lstHoteles.isEmpty()) {
+        	throw new ResourceNotFoundException("No hay coincidencias de hoteles con los filtros seleccionados");
+        }
 		return lstHoteles;
 	}
 

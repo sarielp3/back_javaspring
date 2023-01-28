@@ -4,7 +4,6 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
