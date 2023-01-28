@@ -58,7 +58,7 @@ public class CuartoServiceImpl implements CuartoService {
     @Override
     public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       HotelEntity hotelId = hotelRepository.findById(idHotel)
-    		  .orElseThrow(() -> new ResourceNotFoundException("No hay hoteles disponibles"));
+    		  .orElseThrow(() -> new ResourceNotFoundException("No se encontro el hotel"));
       CuartoEntity cuartosEntity = mapper.map(cuartoAdd, CuartoEntity.class);
 
       Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
