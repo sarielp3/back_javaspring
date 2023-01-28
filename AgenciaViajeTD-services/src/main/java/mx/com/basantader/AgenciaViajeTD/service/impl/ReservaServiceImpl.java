@@ -69,13 +69,16 @@ public class ReservaServiceImpl implements ReservaService {
         	destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de destino"));
         }
         if(aerolinea != null){
-        	aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de origen"));
+        	aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en esta aerolinea"));
         }
         
         List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(cuartoEntity,origenEntity,destinoEntity,aerolineaEntity)
                 .stream()
                 .map(reservasEntity -> modelMapper.map(reservasEntity, ReservaDto.class))
                 .collect(Collectors.toList());
+        if (listaReservas.isEmpty()) {
+        	throw new ResourceNotFoundException("No hay coincidencias de reservas con los filtros seleccionados");
+        }
 		return listaReservas;
 	}
 	
@@ -135,7 +138,7 @@ public class ReservaServiceImpl implements ReservaService {
         });
 		
 		ReservaEntity reservaUp = modelMapper.map(updateReserva, ReservaEntity.class);
-		reservaUp.setFechaCreacion(updateReserva.getFechaCreacion());
+		reservaUp.setFechaCreacion(new Date());
 		reservaUp.setHotel(hotelEntity.get());
 		reservaUp.setVuelo(vueloEntity.get());
 		reservaUp.setCuarto(cuartoEntity.get());

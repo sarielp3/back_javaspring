@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +38,7 @@ public class ReservaController {
 	@Autowired
 	private ReservaService reservaService;
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = ReservaDto.class)
 	public List<ReservaDto> listaReservas(@RequestParam(required = false) Long cuarto,
@@ -43,7 +47,7 @@ public class ReservaController {
 		return reservaService.getReservasByFiltros(cuarto, origen, destino, aerolinea);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Crear Reserva")
@@ -52,7 +56,7 @@ public class ReservaController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, value = {
+	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = {
 			"/actualizar/{id}" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
@@ -62,7 +66,7 @@ public class ReservaController {
 		reservaService.updateReserva(updateReserva);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = {
+	@DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = {
 			"/eliminar/{id}" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.ACCEPTED)
