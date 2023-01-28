@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,8 +62,8 @@ public class VueloServiceImpl implements VueloService {
         }
         if(aerolinea != null){
             aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> {
-                log.error("No hay vuelos hacia esta ciudad");
-                return new ResourceNotFoundException("No hay vuelos hacia esta ciudad");
+                log.error("No hay vuelos en esta aerolinea");
+                return new ResourceNotFoundException("No hay vuelos en esta aerolinea");
             });
         }
         List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
@@ -163,8 +162,8 @@ public class VueloServiceImpl implements VueloService {
                 });
         CiudadEntity destino = ciudadRepository.findById(vueloDto.getDestino())
                 .orElseThrow(() ->{
-                    log.error("No se encontro la ciudad de origen seleccionada");
-                    return new ResourceNotFoundException("No se encontro la ciudad de origen seleccionada");
+                    log.error("No se encontro la ciudad de destino seleccionada");
+                    return new ResourceNotFoundException("No se encontro la ciudad de destino seleccionada");
                 });
         AerolineaEntity aerolineaEntity = aerolineaRepository.findById(vueloDto.getAerolinea())
                 .orElseThrow(() -> {
