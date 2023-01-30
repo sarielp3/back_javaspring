@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/cuartos")
 @Api(value = "CRUD de tabla Cuartos")
@@ -28,13 +30,13 @@ public class CuartoController {
     }
 
     @PostMapping(value = "/agregar/{idHotel:[\\d]+}")
-    public CuartoDto crearCuarto(@RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
+    public CuartoDto crearCuarto(@Valid @RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
         return cuartosService.crearCuarto(cuartoAdd, idHotel);
     }
     
 
     @PutMapping(value = "/modificar/{idCuarto}")
-    public  CuartoDto modificarCuarto(@RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
+    public  CuartoDto modificarCuarto(@Valid @RequestBody CuartoDto cuartoDto, @PathVariable Long idCuarto){
         return  cuartosService.modificarCuarto(cuartoDto, idCuarto);
     }
 
