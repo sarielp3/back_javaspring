@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
+import mx.com.basantader.AgenciaViajeTD.dto.AltaReservaDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.AerolineaEntity;
@@ -53,14 +55,14 @@ public class ReservaServiceImpl implements ReservaService {
 	private static final Logger log = LoggerFactory.getLogger(ReservaServiceImpl.class);
 
 	@Override
-	public List<ReservaDto> getReservasByFiltros(Long cuarto, Long origen, Long destino, Long aerolinea) {
-        CuartoEntity cuartoEntity = null;
+	public List<ReservaDto> getReservasByFiltros(Long hotel, Long origen, Long destino, Long aerolinea) {
+        HotelEntity hotelEntity = null;
         CiudadEntity origenEntity = null;
         CiudadEntity destinoEntity = null;
         AerolineaEntity aerolineaEntity = null;
 
-        if(cuarto != null){
-        	cuartoEntity  = cuartoRepository.findById(cuarto).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en este hotel"));
+        if(hotel != null){
+        	hotelEntity  = hotelRepository.findById(hotel).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en este hotel"));
         }
         if(origen != null){
         	origenEntity  = ciudadRepository.findById(origen).orElseThrow( () -> new ResourceNotFoundException("No hay reservas con esta ciudad de origen"));
@@ -72,7 +74,7 @@ public class ReservaServiceImpl implements ReservaService {
         	aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> new ResourceNotFoundException("No hay reservas en esta aerolinea"));
         }
         
-        List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(cuartoEntity,origenEntity,destinoEntity,aerolineaEntity)
+        List<ReservaDto> listaReservas = reservaRepository.findReservasByFiltros(hotelEntity,origenEntity,destinoEntity,aerolineaEntity)
                 .stream()
                 .map(reservasEntity -> modelMapper.map(reservasEntity, ReservaDto.class))
                 .collect(Collectors.toList());
@@ -83,7 +85,7 @@ public class ReservaServiceImpl implements ReservaService {
 	}
 	
 	@Override
-	public ReservaEntity createReserva(ReservaDto createReserva) {
+	public AltaReservaDto createReserva(AltaReservaDto createReserva) {
 			Optional<HotelEntity> hotelEntity = hotelRepository.findById(createReserva.getIdHotel());
 			if(!hotelEntity.isPresent()) {
 				throw new ResourceNotFoundException("El Hotel ingresado no existe");
@@ -96,16 +98,23 @@ public class ReservaServiceImpl implements ReservaService {
 			if(!cuartoEntity.isPresent()) {
 				throw new ResourceNotFoundException("El cuarto ingresado no existe");
 			}
+			
 			Boolean f1 = false;
+			Boolean f2 = false;
 			List<Date> fechasReservadasInicio = reservaRepository.findCuartoByFechaInicio();
+			List<Date> fechasReservadasFin = reservaRepository.findCuartoByFechaFin();
 			
 			for (int i=0; i < fechasReservadasInicio.size(); i++) {
 				if(fechasReservadasInicio.get(i).before(createReserva.getFechaFin())
 						&&fechasReservadasInicio.get(i).after(createReserva.getFechaInicio())) {
 					f1 = true;
 				}
+				if(fechasReservadasFin.get(i).before(createReserva.getFechaFin())
+						&&fechasReservadasFin.get(i).after(createReserva.getFechaInicio())) {
+					f2 = true;
+				}
 			}
-			if (f1 == true) {
+			if (f1 == true || f2 == true) {
 				throw new BadRequestException("El cuarto es ocupado");
 			}
 			
@@ -115,11 +124,13 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
 			reservaRepository.save(reserva);
-				return null;
+			createReserva.setIdReserva(reserva.getIdReserva());
+			createReserva.setFechaCreacion(reserva.getFechaCreacion());
+				return createReserva;
 	}
 
 	@Override
-	public ReservaDto updateReserva(ReservaDto updateReserva) {
+	public AltaReservaDto updateReserva(AltaReservaDto updateReserva) {
 		Optional<HotelEntity> hotelEntity = hotelRepository.findById(updateReserva.getIdHotel());
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("El Hotel ingresado no existe");
@@ -148,6 +159,10 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public void deleteReservaEntity(Long idReserva) {
+		ReservaEntity reserva = reservaRepository.findById(idReserva).orElseThrow(() -> {
+            log.error("No hay ninguna reservacion con ese ID");
+            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
+        });
 		reservaRepository.deleteById(idReserva);
 	}
 

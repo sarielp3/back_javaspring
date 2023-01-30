@@ -1,18 +1,16 @@
 package mx.com.basantader.AgenciaViajeTD.service;
 
-import java.util.Date;
 import java.util.List;
-
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
-import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
+import mx.com.basantader.AgenciaViajeTD.dto.AltaReservaDto;
 
 public interface ReservaService {
 	
-	List<ReservaDto> getReservasByFiltros(Long cuarto, Long origen, Long destino, Long aerolinea);
+	List<ReservaDto> getReservasByFiltros(Long hotel, Long origen, Long destino, Long aerolinea);
 	
-	ReservaEntity createReserva(ReservaDto createReserva);
+	AltaReservaDto createReserva(AltaReservaDto createReserva);
 	
-	ReservaDto updateReserva(ReservaDto updateReserva);
+	AltaReservaDto updateReserva(AltaReservaDto updateReserva);
 	
 	void deleteReservaEntity(Long idReserva);
 	

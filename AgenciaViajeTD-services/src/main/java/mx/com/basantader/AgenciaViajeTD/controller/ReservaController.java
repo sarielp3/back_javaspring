@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
+import mx.com.basantader.AgenciaViajeTD.dto.AltaReservaDto;
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.service.ReservaService;
 
@@ -40,18 +42,20 @@ public class ReservaController {
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	@ApiOperation(value = "Ver lista de Reservas", response = ReservaDto.class)
-	public List<ReservaDto> listaReservas(@RequestParam(required = false) Long cuarto,
-			@RequestParam(required = false) Long origen, @RequestParam(required = false) Long destino,
+	@ApiOperation(value = "Ver lista de Reservas", response = AltaReservaDto.class)
+	public List<ReservaDto> listaReservas(
+			@RequestParam(required = false) Long hotel,
+			@RequestParam(required = false) Long origen, 
+			@RequestParam(required = false) Long destino,
 			@RequestParam(required = false) Long aerolinea) {
-		return reservaService.getReservasByFiltros(cuarto, origen, destino, aerolinea);
+		return reservaService.getReservasByFiltros(hotel, origen, destino, aerolinea);
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = { "/creart" })
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Crear Reserva")
-	public ReservaEntity createReserva(@RequestBody @Valid ReservaDto createReserva) {
+	public AltaReservaDto createReserva(@RequestBody @Valid AltaReservaDto createReserva) {
 		return reservaService.createReserva(createReserva);
 
 	}
@@ -61,7 +65,7 @@ public class ReservaController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Modificar una reserva")
-	public void updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody ReservaDto updateReserva) {
+	public void updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody AltaReservaDto updateReserva) {
 		updateReserva.setIdReserva(idReserva);
 		reservaService.updateReserva(updateReserva);
 	}
