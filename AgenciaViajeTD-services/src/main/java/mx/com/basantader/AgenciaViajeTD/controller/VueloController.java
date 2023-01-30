@@ -28,6 +28,7 @@ public class VueloController {
     @ResponseBody
     @ApiOperation(value = "vista de la lista de todos los vuelos, asi como filtrados ", response = VueloDto.class)
     public List<VueloDto> listaVuelosfiltrados(
+    		@RequestParam(required = false) Long hotel,
             @RequestParam(required = false) Long origen,
             @RequestParam(required = false) Long destino,
             @RequestParam(required = false) Long aerolinea
