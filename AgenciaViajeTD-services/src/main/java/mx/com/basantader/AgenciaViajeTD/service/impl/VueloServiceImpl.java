@@ -86,6 +86,7 @@ public class VueloServiceImpl implements VueloService {
 		if(vueloEntityAux.isPresent()){
 			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
+		vuelosEntity.setEstatus(1L);
         vueloRepository.save(vuelosEntity);
 
         altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
@@ -95,22 +96,17 @@ public class VueloServiceImpl implements VueloService {
 
 	@Override
 	public AltaVueloDto updateVuelo(AltaVueloDto vueloDto, Long idVuelo) {
-		
-		Integer estatus;
 		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
 			log.error("No se encontro el id vuelo proporcionado");
 			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
 		});
-		estatus = vueloEntity.getEstatus();
 		
 		Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo());
 		if(vueloEntityAux.get().getIdVuelo() != vueloEntity.getIdVuelo() && vueloEntityAux.isPresent()) {
 			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
 		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
-		vueloEntity.setEstatus(estatus);
-		
-		
+			
 		vueloRepository.save(vueloEntity);
 		vueloDto.setIdVuelo(vueloEntity.getIdVuelo());
 		return vueloDto;
@@ -125,11 +121,11 @@ public class VueloServiceImpl implements VueloService {
 			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
 		});
 		
-		if(vueloEntity.getEstatus() == 0) {
-			vueloEntity.setEstatus(1);
+		if(vueloEntity.getEstatus() == 0L) {
+			vueloEntity.setEstatus(1L);
 			respuesta = "Activado";
 		}else {
-			vueloEntity.setEstatus(0);
+			vueloEntity.setEstatus(0L);
 		}
 		
 		log.info("Se modifico el estatus");
@@ -176,7 +172,6 @@ public class VueloServiceImpl implements VueloService {
         vuelosEntity.setOrigen(origen);
         vuelosEntity.setDestino(destino);
         vuelosEntity.setAerolinea(aerolineaEntity);
-        vuelosEntity.setEstatus(vueloDto.getEstatus());
         vuelosEntity.setHoraSalida(vueloDto.getHoraSalida());
         vuelosEntity.setHoraLlegada(vueloDto.getHoraLlegada());
         vuelosEntity.setCodigoVuelo(vueloDto.getCodigoVuelo());
