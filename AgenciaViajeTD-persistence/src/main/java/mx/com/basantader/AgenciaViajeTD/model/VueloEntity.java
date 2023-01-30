@@ -33,7 +33,7 @@ public class VueloEntity {
 
 
     @Column(name = "ESTATUS", nullable = false)
-    private Integer estatus;
+    private Long estatus;
 
     @Column(name = "HORA_SALIDA", nullable = false)
     private Time horaSalida;

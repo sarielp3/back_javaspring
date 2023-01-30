@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/vuelos")
 @Api(value = "Endpoins para administracion de vuelos")
@@ -37,14 +39,14 @@ public class VueloController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Guarda un vuelo en la base de datos", response = AltaVueloDto.class)
-    public AltaVueloDto createVuelo(@RequestBody AltaVueloDto vueloDto){
+    public AltaVueloDto createVuelo(@Valid @RequestBody AltaVueloDto vueloDto){
         return vueloService.createVuelo(vueloDto);
     }
     
     @PutMapping(value = "/{idVuelo}", produces = "application/json")
     @ResponseBody
     @ApiOperation(value = "actauliza los datos del vuelo correspondiente al id proporcionado ", response = AltaVueloDto.class)
-    public AltaVueloDto updateVuelo(@RequestBody AltaVueloDto vueloDto, @PathVariable("idVuelo") Long idVuelo) {
+    public AltaVueloDto updateVuelo(@Valid @RequestBody AltaVueloDto vueloDto, @PathVariable("idVuelo") Long idVuelo) {
     	return vueloService.updateVuelo(vueloDto, idVuelo);
     }
     
