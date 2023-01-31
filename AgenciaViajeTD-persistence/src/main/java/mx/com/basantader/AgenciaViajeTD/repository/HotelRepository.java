@@ -18,4 +18,6 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
 
 	HotelEntity findByCodigoHotel(String codHotel);
 	
+	HotelEntity findByNombreHotel(String nomHotel);
+	
 }
