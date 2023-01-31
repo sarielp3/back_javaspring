@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ReservaDto {
 	
+	private Long idReserva;
 	private VueloDto vuelo;
 	private String nombreCliente;
 	private String apellidoPaternoCliente;
