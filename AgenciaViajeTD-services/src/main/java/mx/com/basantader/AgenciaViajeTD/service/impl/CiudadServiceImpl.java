@@ -1,7 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
-import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
@@ -11,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +25,7 @@ public class CiudadServiceImpl implements CiudadService {
     @Autowired
     private ModelMapper mapper;
 
-    private static final Logger log = LoggerFactory.getLogger(VueloServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CiudadServiceImpl.class);
 
     @Override
     public List<CiudadDto> getAllCiudades() {

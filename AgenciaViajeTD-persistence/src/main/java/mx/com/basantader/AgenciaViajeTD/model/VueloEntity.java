@@ -33,7 +33,7 @@ public class VueloEntity {
 
 
     @Column(name = "ESTATUS", nullable = false)
-    private Integer estatus;
+    private Long estatus;
 
     @Column(name = "HORA_SALIDA", nullable = false)
     private Time horaSalida;
@@ -47,6 +47,6 @@ public class VueloEntity {
     @Column(name = "COSTO", nullable = false)
     private Float costo;
     
-    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "vuelo", fetch = FetchType.LAZY, orphanRemoval = false)
     private List<ReservaEntity> reservas;
 }

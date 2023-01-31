@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.dto.CustomErrorResponse;
@@ -48,6 +49,15 @@ public class ErrorHandler {
 		log.error("Generic exception", ex);
 		return new CustomErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value()
 				,HttpStatus.INTERNAL_SERVER_ERROR,Messages.getMessage(1));
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)  // 400
+	@ExceptionHandler(BadRequestException.class)
+	@ResponseBody
+	public CustomErrorResponse handleNotFound(BadRequestException ex) {
+		log.error("Bad Request", ex);
+		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
+				,HttpStatus.BAD_REQUEST,ex.getMessage());
 	}
 
 
