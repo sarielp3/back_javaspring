@@ -39,8 +39,8 @@ public class VueloController {
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Guarda un vuelo en la base de datos", response = AltaVueloDto.class)
-    public AltaVueloDto createVuelo(@Valid @RequestBody AltaVueloDto vueloDto){
+    @ApiOperation(value = "Guarda un vuelo en la base de datos", response = VueloDto.class)
+    public VueloDto createVuelo(@Valid @RequestBody AltaVueloDto vueloDto){
         return vueloService.createVuelo(vueloDto);
     }
     
