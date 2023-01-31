@@ -78,8 +78,9 @@ public class VueloServiceImpl implements VueloService {
     }
         
     @Override
-    public AltaVueloDto createVuelo(AltaVueloDto altaVueloDto) {
+    public VueloDto createVuelo(AltaVueloDto altaVueloDto) {
     	VueloEntity vuelosEntity = new VueloEntity();
+    	VueloDto vueloDto;
         vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto, vuelosEntity);
         
         Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo());
@@ -88,10 +89,9 @@ public class VueloServiceImpl implements VueloService {
 		}
 		vuelosEntity.setEstatus(1L);
         vueloRepository.save(vuelosEntity);
+        vueloDto = mapper.map(vuelosEntity, VueloDto.class);
 
-        altaVueloDto.setIdVuelo(vuelosEntity.getIdVuelo());
-
-        return altaVueloDto;
+        return vueloDto;
     }
 
 	@Override
