@@ -28,6 +28,12 @@ public class CuartoController {
     public List<CuartoDto> filterCuartos(@PathVariable("idHotel") Long idHotel){
         return  cuartosService.filterCuartosById(idHotel);
     }
+    
+    @GetMapping(value = "/lista-cuartos")
+    public List<CuartoDto> listaCuartos()
+    {
+    	return  cuartosService.listaCuartos();
+    }
 
     @PostMapping(value = "/agregar/{idHotel:[\\d]+}")
     public CuartoDto crearCuarto(@Valid @RequestBody CuartoDto cuartoAdd, @PathVariable("idHotel") Long idHotel){
