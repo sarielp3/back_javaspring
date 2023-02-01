@@ -93,9 +93,9 @@ public class CuartoServiceImpl implements CuartoService {
         Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoDto.getCodigoCuartos());
 
         if (validarNC.isPresent() && !validarNC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){   
-        	throw new BusinessException("El nombre del cuarto ya existe");  }
+        	throw new BadRequestException("El nombre del cuarto ya existe");  }
         if (validarCC.isPresent() && !validarCC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){     
-        	throw new BusinessException("El codigo del cuarto ya existe"); }
+        	throw new BadRequestException("El codigo del cuarto ya existe"); }
 
         cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto());
         cuartosEntity.setDescripcion(cuartoDto.getDescripcion());
