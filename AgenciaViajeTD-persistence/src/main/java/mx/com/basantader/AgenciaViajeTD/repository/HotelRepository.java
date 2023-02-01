@@ -12,10 +12,7 @@ import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 
 @Repository
 public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
-	
-/*	@Query("SELECT v FROM HotelEntity v WHERE v.ciudad.idCiudad IN (SELECT DISTINCT destino.idCiudad from VueloEntity) and (:nombreHotel is null or v.nombreHotel = :nombreHotel) " +
-            "and (:codigohotel is null or v.codigoHotel = :codigohotel) " +
-            "and (:idCiudad is null or v.ciudad.idCiudad = :idCiudad)")*/
+
 	@Query("SELECT v FROM HotelEntity v " +      "WHERE (:idCiudad is null or v.ciudad.idCiudad IN (SELECT DISTINCT destino.idCiudad from VueloEntity))" +      "and (:nombreHotel is null or v.nombreHotel = :nombreHotel)" +      "and (:codigohotel is null or v.codigoHotel = :codigohotel)" +      "and (:idCiudad is null or v.ciudad.idCiudad = :idCiudad)")
 	List<HotelEntity> encontrarByNombreHotelAndCodigoHotelAndCiudadIdCiudad(String nombreHotel,String codigohotel,Long idCiudad);
 
