@@ -11,6 +11,7 @@ public class ReservaDto {
 	
 	private Long idReserva;
 	private VueloDto vuelo;
+	private CuartoDto cuarto;
 	private String nombreCliente;
 	private String apellidoPaternoCliente;
 	private String apellidoMaternoCliente;
