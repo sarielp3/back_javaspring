@@ -16,5 +16,7 @@ public class ReservaDto {
 	private String apellidoMaternoCliente;
 	private String descripcion;
 	private Date fechaCreacion;
+	private Date fechaInicio;
+	private Date fechaFin;
 
 }
