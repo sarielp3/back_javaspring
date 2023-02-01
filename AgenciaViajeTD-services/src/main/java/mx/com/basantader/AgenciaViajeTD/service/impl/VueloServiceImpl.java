@@ -102,7 +102,7 @@ public class VueloServiceImpl implements VueloService {
 		});
 		
 		Optional<VueloEntity> vueloEntityAux = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo());
-		if(vueloEntityAux.get().getIdVuelo() != vueloEntity.getIdVuelo() && vueloEntityAux.isPresent()) {
+		if(vueloEntityAux.isPresent()  && vueloEntityAux.get().getIdVuelo() != vueloEntity.getIdVuelo()) {
 			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
 		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
