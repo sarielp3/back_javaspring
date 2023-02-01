@@ -4,6 +4,7 @@ package mx.com.basantader.AgenciaViajeTD.service.impl;
 import mx.com.basantader.AgenciaViajeTD.dto.CuartoDto;
 import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CuartoEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
@@ -86,18 +87,15 @@ public class CuartoServiceImpl implements CuartoService {
         Optional<CuartoEntity> cuartoEditar = cuartosRepository.findById(idCuarto);
 
         CuartoEntity cuartosEntity = cuartoEditar.orElseThrow(()-> new ResourceNotFoundException("Cuarto no existe"));
-
+        
 
         Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoDto.getNombreCuarto());
         Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoDto.getCodigoCuartos());
 
-        if (validarNC.isPresent()){
-            throw new BadRequestException("El nombre del cuarto ya existe");
-        }
-
-        if (validarCC.isPresent()){
-            throw new BadRequestException("El codigo del cuarto ya existe");
-        }
+        if (validarNC.isPresent() && !validarNC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){   
+        	throw new BusinessException("El nombre del cuarto ya existe");  }
+        if (validarCC.isPresent() && !validarCC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){     
+        	throw new BusinessException("El codigo del cuarto ya existe"); }
 
         cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto());
         cuartosEntity.setDescripcion(cuartoDto.getDescripcion());
