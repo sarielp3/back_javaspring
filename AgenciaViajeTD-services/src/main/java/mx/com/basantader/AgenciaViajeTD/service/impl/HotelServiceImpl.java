@@ -11,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import mx.com.basantader.AgenciaViajeTD.dto.HotelDto;
 import mx.com.basantader.AgenciaViajeTD.dto.Respuesta;
 import mx.com.basantader.AgenciaViajeTD.dto.RespuestaEliminarDto;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
+import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.HotelRepository;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
@@ -62,7 +64,7 @@ public class HotelServiceImpl implements HotelService,Serializable {
 
 	@Override
 	public HotelDto getHotelBycodigo(String codHotel) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(codHotel));
+		Optional<HotelEntity> hotelEntity = hotelRepository.findByCodigoHotel(codHotel);
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("No existe un hotel con el codigo ingresado");
 		}
@@ -75,11 +77,15 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	@Transactional
 	public HotelDto createHotel(HotelDto newHotel) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(newHotel.getCodigoHotel()));
+		Optional<HotelEntity> hotelEntity = hotelRepository.findByCodigoHotel(newHotel.getCodigoHotel());
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
 		
+		Optional<HotelEntity> hotelEntityNombre = hotelRepository.findByNombreHotel(newHotel.getNombreHotel());
+		if(hotelEntityNombre.isPresent()) {
+			throw new BusinessException("Ya existe hotel con el nombre ingresado");
+		}
 		HotelEntity nuevoRegistro = this.mapper.map(newHotel, HotelEntity.class);
 		
 		
@@ -92,13 +98,19 @@ public class HotelServiceImpl implements HotelService,Serializable {
 
 	@Override
 	public HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel) {
-		Optional<HotelEntity> hotelEntity = Optional.ofNullable(hotelRepository.findByCodigoHotel(actualizarHotel.getCodigoHotel()));
-		if(hotelEntity.isPresent()) {
-			throw new BusinessException("Ya existe hotel con el codigo ingresado");
-		}
 		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
-		if(!registro.isPresent()) {
-			throw new BusinessException("No existe el id Ingresado");
+		HotelEntity hotelEntiy = registro.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
+		
+		Optional<HotelEntity> hotelEntidad = hotelRepository.findByCodigoHotel(actualizarHotel.getCodigoHotel());
+		
+		Optional<HotelEntity> hotelEntidadAux = hotelRepository.findByNombreHotel(actualizarHotel.getNombreHotel());
+		
+		if(hotelEntidad.isPresent() && !hotelEntidad.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+			throw new BadRequestException("El codigo del hotel debe ser unico");
+		}
+		
+		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+			throw new BadRequestException("El nombre del hotel debe ser unico");
 		}
 		
 		HotelEntity cambiosHotel = registro.get();
@@ -123,6 +135,11 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		Optional<HotelEntity> hotelEntity = hotelRepository.findById(idHotel);
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("No existe un hotel con el ID ingresado");
+		}
+		
+		List<ReservaEntity> reservaEntity = hotelRepository.findByIdHotel(idHotel);
+		if(!reservaEntity.isEmpty()) {
+			throw new BadRequestException("No se puede eliminar el hotel porque ya existe una reservacion con ese ID");
 		}
 		
 		hotelRepository.deleteById(idHotel);
