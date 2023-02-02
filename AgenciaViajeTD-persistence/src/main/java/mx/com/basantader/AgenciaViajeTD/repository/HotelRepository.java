@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
@@ -23,4 +24,9 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
 	@Query("SELECT v FROM ReservaEntity v WHERE v.hotel.idHotel = :id")
 	List<ReservaEntity> findByIdHotel(Long id);
 	
+	@Query("SELECT h.idHotel FROM HotelEntity h WHERE codigoHotel = :codigoHotel")
+    Optional<Long> findHotelByCodigo(@Param("codigoHotel")String codigoHotel);
+	
+	@Query("SELECT h.idHotel FROM HotelEntity h WHERE nombreHotel = :nombreHotel")
+    Optional<Long> findHotelByNombre(@Param("nombreHotel")String nombreHotel);
 }

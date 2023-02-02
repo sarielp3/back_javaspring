@@ -75,12 +75,12 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	@Transactional
 	public HotelDto createHotel(HotelDto newHotel) {
-		Optional<HotelEntity> hotelEntity = hotelRepository.findByCodigoHotel(newHotel.getCodigoHotel());
+		Optional<Long> hotelEntity = hotelRepository.findHotelByCodigo(newHotel.getCodigoHotel());
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
 		
-		Optional<HotelEntity> hotelEntityNombre = hotelRepository.findByNombreHotel(newHotel.getNombreHotel());
+		Optional<Long> hotelEntityNombre = hotelRepository.findHotelByNombre(newHotel.getNombreHotel());
 		if(hotelEntityNombre.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el nombre ingresado");
 		}
