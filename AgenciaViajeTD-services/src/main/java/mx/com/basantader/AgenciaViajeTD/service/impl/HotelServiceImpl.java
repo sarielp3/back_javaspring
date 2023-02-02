@@ -86,7 +86,7 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		}
 		HotelEntity nuevoRegistro = this.mapper.map(newHotel, HotelEntity.class);
 		
-		
+		nuevoRegistro.setEstatus(1);
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		
@@ -99,15 +99,15 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
 		HotelEntity hotelEntiy = registro.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
 		
-		Optional<HotelEntity> hotelEntidad = hotelRepository.findByCodigoHotel(actualizarHotel.getCodigoHotel());
+		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel());
 		
-		Optional<HotelEntity> hotelEntidadAux = hotelRepository.findByNombreHotel(actualizarHotel.getNombreHotel());
+		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
 		
-		if(hotelEntidad.isPresent() && !hotelEntidad.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(hotelEntiy.getIdHotel())) {
 			throw new BadRequestException("El codigo del hotel debe ser unico");
 		}
 		
-		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(hotelEntiy.getIdHotel())) {
 			throw new BadRequestException("El nombre del hotel debe ser unico");
 		}
 		
