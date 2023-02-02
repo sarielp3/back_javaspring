@@ -98,9 +98,13 @@ public class ReservaServiceImpl implements ReservaService {
 			if(!cuartoEntity.isPresent()) {
 				throw new ResourceNotFoundException("El cuarto ingresado no existe");
 			}
+			if(createReserva.getFechaFin().before(createReserva.getFechaInicio())) {
+				throw new ResourceNotFoundException("La fecha de Fin no puede ser antes de fecha inicio");
+			}
 			
 			Boolean f1 = false;
 			Boolean f2 = false;
+			Boolean f3 = false;
 			List<Date> fechasReservadasInicio = reservaRepository.findCuartoByFechaInicio();
 			List<Date> fechasReservadasFin = reservaRepository.findCuartoByFechaFin();
 			
@@ -113,8 +117,12 @@ public class ReservaServiceImpl implements ReservaService {
 						&&fechasReservadasFin.get(i).after(createReserva.getFechaInicio())) {
 					f2 = true;
 				}
+				if(fechasReservadasInicio.get(i).equals(createReserva.getFechaInicio())
+						&&fechasReservadasFin.get(i).equals(createReserva.getFechaFin())) {
+					f3 = true;
+				}
 			}
-			if (f1 == true || f2 == true) {
+			if (f1 == true || f2 == true || f3 ==true) {
 				throw new BadRequestException("El cuarto es ocupado");
 			}
 			
@@ -131,6 +139,10 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public AltaReservaDto updateReserva(AltaReservaDto updateReserva) {
+		reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
+            log.error("No hay ninguna reservacion con ese ID");
+            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
+        });
 		Optional<HotelEntity> hotelEntity = hotelRepository.findById(updateReserva.getIdHotel());
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("El Hotel ingresado no existe");
@@ -143,10 +155,7 @@ public class ReservaServiceImpl implements ReservaService {
 		if(!cuartoEntity.isPresent()) {
 			throw new ResourceNotFoundException("El cuarto ingresado no existe");
 		}
-		reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
-            log.error("No hay ninguna reservacion con ese ID");
-            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
-        });
+		
 		
 		ReservaEntity reservaUp = modelMapper.map(updateReserva, ReservaEntity.class);
 		reservaUp.setFechaCreacion(new Date());
