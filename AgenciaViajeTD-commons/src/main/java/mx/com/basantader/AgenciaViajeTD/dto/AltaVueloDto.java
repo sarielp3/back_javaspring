@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Time;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AltaVueloDto {
+public class AltaVueloDto implements Serializable{
 	
 	
     private Long idVuelo;

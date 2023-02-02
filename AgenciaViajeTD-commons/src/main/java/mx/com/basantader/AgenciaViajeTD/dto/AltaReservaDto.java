@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.Future;
@@ -14,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class AltaReservaDto {
+public class AltaReservaDto implements Serializable{
 	
 	private Long idReserva;
 	

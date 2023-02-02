@@ -20,9 +20,8 @@ public class AerolineaServiceImpl implements AerolineaService {
 
     @Override
     public List<AerolineaDto> getAllAerolineas() {
-        List<AerolineaDto> listaAerolineas = aerolineaRepository.findAll().stream()
+        return aerolineaRepository.findAll().stream()
                 .map(aerolineaEntity -> mapper.map(aerolineaEntity, AerolineaDto.class))
                 .collect(Collectors.toList());
-        return listaAerolineas;
     }
 }

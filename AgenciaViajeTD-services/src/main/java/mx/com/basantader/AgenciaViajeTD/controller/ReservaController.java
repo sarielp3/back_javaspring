@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import javax.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
@@ -31,8 +29,6 @@ import mx.com.basantader.AgenciaViajeTD.service.ReservaService;
 @CrossOrigin(origins = {"http://localhost:4200","https://capbasanfetdd01.azurewebsites.net"} )
 
 public class ReservaController {
-
-	private static final Logger log = LoggerFactory.getLogger(ReservaController.class);
 
 	@Autowired
 	private ReservaService reservaService;

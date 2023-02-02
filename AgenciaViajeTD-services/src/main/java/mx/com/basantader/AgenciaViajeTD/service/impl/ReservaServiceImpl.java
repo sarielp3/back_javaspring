@@ -143,7 +143,7 @@ public class ReservaServiceImpl implements ReservaService {
 		if(!cuartoEntity.isPresent()) {
 			throw new ResourceNotFoundException("El cuarto ingresado no existe");
 		}
-		ReservaEntity reserva = reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
+		reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
             log.error("No hay ninguna reservacion con ese ID");
             return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
         });
@@ -159,7 +159,7 @@ public class ReservaServiceImpl implements ReservaService {
 
 	@Override
 	public void deleteReservaEntity(Long idReserva) {
-		ReservaEntity reserva = reservaRepository.findById(idReserva).orElseThrow(() -> {
+		reservaRepository.findById(idReserva).orElseThrow(() -> {
             log.error("No hay ninguna reservacion con ese ID");
             return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
         });

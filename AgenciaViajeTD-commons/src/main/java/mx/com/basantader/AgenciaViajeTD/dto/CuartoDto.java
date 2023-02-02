@@ -1,6 +1,8 @@
 package mx.com.basantader.AgenciaViajeTD.dto;
 
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CuartoDto {
+public class CuartoDto implements Serializable{
 
   private Long idCuarto;
   
