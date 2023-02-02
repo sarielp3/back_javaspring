@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Time;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VueloDto {
+public class VueloDto implements Serializable{
 
     private Long idVuelo;
 

@@ -30,11 +30,9 @@ public class CiudadServiceImpl implements CiudadService {
     @Override
     public List<CiudadDto> getAllCiudades() {
 
-        List<CiudadDto> listaCiudadesDto = ciudadRepository.findAll().stream()
+        return ciudadRepository.findAll().stream()
                 .map(ciudadEntity -> mapper.map(ciudadEntity, CiudadDto.class))
                 .collect(Collectors.toList());
-
-        return listaCiudadesDto;
     }
 
     @Override
@@ -52,19 +50,16 @@ public class CiudadServiceImpl implements CiudadService {
 
     @Override
     public List<CiudadDto> getCiudadesByOrigen() {
-        List<CiudadDto> listaCiudadesDto = ciudadRepository.findCiudadesByOrigen().stream()
+        return ciudadRepository.findCiudadesByOrigen().stream()
                 .map(ciudadEntity -> mapper.map(ciudadEntity, CiudadDto.class))
                 .collect(Collectors.toList());
 
-        return listaCiudadesDto;
     }
 
     @Override
     public List<CiudadDto> getCiudadesByDestino() {
-        List<CiudadDto> listaCiudadesDto = ciudadRepository.findCiudadesByDestino().stream()
+        return ciudadRepository.findCiudadesByDestino().stream()
                 .map(ciudadEntity -> mapper.map(ciudadEntity, CiudadDto.class))
                 .collect(Collectors.toList());
-
-        return listaCiudadesDto;
     }
 }

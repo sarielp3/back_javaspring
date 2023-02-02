@@ -1,5 +1,6 @@
 package mx.com.basantader.AgenciaViajeTD.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.*;
 
@@ -7,7 +8,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservaDto {
+public class ReservaDto implements Serializable{
 	
 	private Long idReserva;
 	private VueloDto vuelo;

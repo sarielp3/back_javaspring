@@ -37,11 +37,10 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	
 	@Override
 	public List<HotelDto> getallHoteles() {
-		List<HotelDto> lstHoteles = hotelRepository.findAll().stream()
+		return hotelRepository.findAll().stream()
 				.map(HotelEntity -> mapper.map(HotelEntity, HotelDto.class))
 				.collect(Collectors.toList());
 
-		return lstHoteles;
 	}
 
 
@@ -68,9 +67,8 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		if(!hotelEntity.isPresent()) {
 			throw new ResourceNotFoundException("No existe un hotel con el codigo ingresado");
 		}
-		HotelDto hoteldto = this.mapper.map(hotelEntity.get(), HotelDto.class);
-		
-		return hoteldto;
+		return this.mapper.map(hotelEntity.get(), HotelDto.class);
+
 	}
 
 

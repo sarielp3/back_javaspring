@@ -40,7 +40,8 @@ public class VueloServiceImpl implements VueloService {
     private ModelMapper mapper;
 
     private static final Logger log = LoggerFactory.getLogger(VueloServiceImpl.class);
-
+    private final String errorDestino = "No hay vuelo hacia esta ciudad"; 
+    private final String errorOrigen = "No se encontro la ciudad de origen seleccionada";
     @Override
     public List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
         CiudadEntity origenEntity = null;
@@ -56,8 +57,8 @@ public class VueloServiceImpl implements VueloService {
 
         if(destino != null){
             destinoEntity  = ciudadRepository.findById(destino).orElseThrow( () -> {
-                log.error("No hay vuelos hacia esta ciudad");
-                return new ResourceNotFoundException("No hay vuelos hacia esta ciudad");
+                log.error(errorDestino);
+                return new ResourceNotFoundException(errorDestino);
             });
         }
         if(aerolinea != null){
@@ -156,8 +157,8 @@ public class VueloServiceImpl implements VueloService {
     private VueloEntity vueloEntityToAltaVueloDto(AltaVueloDto vueloDto, VueloEntity vuelosEntity){
         CiudadEntity origen = ciudadRepository.findById(vueloDto.getOrigen())
                 .orElseThrow(() -> {
-                    log.error("No se encontro la ciudad de origen seleccionada");
-                    return new ResourceNotFoundException("No se encontro la ciudad de origen seleccionada");
+                    log.error(errorOrigen);
+                    return new ResourceNotFoundException(errorOrigen);
                 });
         CiudadEntity destino = ciudadRepository.findById(vueloDto.getDestino())
                 .orElseThrow(() ->{
