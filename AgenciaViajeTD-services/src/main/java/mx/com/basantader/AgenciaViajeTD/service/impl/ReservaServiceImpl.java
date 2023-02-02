@@ -131,6 +131,9 @@ public class ReservaServiceImpl implements ReservaService {
 			reserva.setHotel(hotelEntity.get());
 			reserva.setVuelo(vueloEntity.get());
 			reserva.setCuarto(cuartoEntity.get());
+			if (createReserva.getIdHotel() != reserva.getCuarto().getHotel().getIdHotel()) {
+				throw new BadRequestException("El cuarto no pertenece al hotel ingresado");
+			}
 			reservaRepository.save(reserva);
 			createReserva.setIdReserva(reserva.getIdReserva());
 			createReserva.setFechaCreacion(reserva.getFechaCreacion());
