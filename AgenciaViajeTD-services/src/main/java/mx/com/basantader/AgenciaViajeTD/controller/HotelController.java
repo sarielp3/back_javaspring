@@ -1,6 +1,9 @@
 package mx.com.basantader.AgenciaViajeTD.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -58,43 +61,13 @@ public class HotelController {
     }
     
     @PostMapping(value="/nuevo-hotel",produces="application/json")
-    public HotelDto crearHotel(@RequestBody HotelDto nuevoReg) {
-    	if(nuevoReg.getCodigoHotel() == null || nuevoReg.getCodigoHotel().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("Codigo de hotel necesario");
-    	}
-    	if(nuevoReg.getCiudad().getIdCiudad() == null || nuevoReg.getCiudad().getIdCiudad().toString().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("ID de ciudad necesario");
-    	}
-    	if(nuevoReg.getNombreHotel() == null || nuevoReg.getNombreHotel().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("Nombre de hotel necesario");
-    	}
-    	if(nuevoReg.getDireccion() == null || nuevoReg.getDireccion().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("direccion de hotel necesario");
-    	}
-    	if(Integer.toString(nuevoReg.getEstatus()) == null || Integer.toString(nuevoReg.getEstatus()).trim().isEmpty()) {
-    		throw new ResourceNotFoundException("estatus de hotel necesario");
-    	}
+    public HotelDto crearHotel(@Valid @RequestBody HotelDto nuevoReg) { 
     	
     	return hotelservice.createHotel(nuevoReg);
     }
     
     @PutMapping(value="/update-hotel/{id:[\\d]+}",produces="application/json")
-    public HotelDto updateHotel(@PathVariable("id") Long id,@RequestBody HotelDto actualizarhotel) {
-    	if(actualizarhotel.getCodigoHotel() == null || actualizarhotel.getCodigoHotel().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("Codigo de hotel necesario");
-    	}
-    	if(actualizarhotel.getCiudad().getIdCiudad() == null || actualizarhotel.getCiudad().getIdCiudad().toString().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("ID de ciudad necesario");
-    	}
-    	if(actualizarhotel.getNombreHotel() == null || actualizarhotel.getNombreHotel().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("Nombre de hotel necesario");
-    	}
-    	if(actualizarhotel.getDireccion() == null || actualizarhotel.getDireccion().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("direccion de hotel necesario");
-    	}
-    	if(Integer.toString(actualizarhotel.getEstatus()) == null || Integer.toString(actualizarhotel.getEstatus()).toString().trim().isEmpty()) {
-    		throw new ResourceNotFoundException("estatus de hotel necesario");
-    	}
+    public HotelDto updateHotel(@Valid @PathVariable("id") Long id,@RequestBody HotelDto actualizarhotel) {
     	
     	return hotelservice.updateHotel(actualizarhotel,id);
     }
