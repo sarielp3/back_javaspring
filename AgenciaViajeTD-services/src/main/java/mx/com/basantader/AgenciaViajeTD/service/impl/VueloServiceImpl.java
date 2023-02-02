@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -114,26 +116,28 @@ public class VueloServiceImpl implements VueloService {
 		return vueloDto;
 	}
 	
+	@Transactional
 	@Override
 	public Respuesta updateEstatusVuelo(Long idVuelo) {
 		Respuesta respuestaEstatus = new Respuesta();
 		String respuesta = "Desactivado";
-		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
+		Long estatusVuelo = vueloRepository.findEstatusByIdVuelo(idVuelo).orElseThrow(() -> {
 			log.error("No se encontro el id vuelo proporcionado");
 			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
 		});
 		
-		if(vueloEntity.getEstatus() == 0L) {
-			vueloEntity.setEstatus(1L);
-			respuesta = "Activado";
-		}else {
-			vueloEntity.setEstatus(0L);
+		switch(estatusVuelo.compareTo(0L)) {
+			case 0:
+				estatusVuelo = 1L;
+				respuesta = "Activado";
+				break;
+			case 1:
+				estatusVuelo = 0L;
+				break;
 		}
-		
 		log.info("Se modifico el estatus");
 		respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a " + respuesta);
-		
-		vueloRepository.save(vueloEntity);
+		vueloRepository.updateEstatusVuelo(idVuelo, estatusVuelo);
 		return respuestaEstatus; 
 	}
 	
