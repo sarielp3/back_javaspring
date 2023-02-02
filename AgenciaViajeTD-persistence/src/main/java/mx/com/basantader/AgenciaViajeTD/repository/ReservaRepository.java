@@ -35,6 +35,10 @@ public interface ReservaRepository extends JpaRepository<ReservaEntity, Long> {
 
 	@Query("SELECT r.vuelo FROM ReservaEntity r WHERE r.vuelo = :vuelo")
 	List<VueloEntity> findVuelosReservadosById(@Param("vuelo") VueloEntity vuelo);
+	
+	
+	@Query("SELECT r.hotel.idHotel FROM ReservaEntity r WHERE r.hotel.idHotel = :id")
+	List<Long> findByIdHotel(Long id);
 
 
 }

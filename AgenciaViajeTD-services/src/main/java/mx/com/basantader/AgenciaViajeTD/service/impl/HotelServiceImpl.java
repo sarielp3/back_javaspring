@@ -18,6 +18,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.HotelRepository;
+import mx.com.basantader.AgenciaViajeTD.repository.ReservaRepository;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
 
@@ -30,6 +31,9 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	
 	@Autowired
 	private HotelRepository hotelRepository;
+	
+	@Autowired 
+	private ReservaRepository reservaRepository;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -96,31 +100,29 @@ public class HotelServiceImpl implements HotelService,Serializable {
 
 	@Override
 	public HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel) {
-		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
-		HotelEntity hotelEntiy = registro.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
+		HotelEntity registro = hotelRepository.findById(idHotel)
+				.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
 		
 		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel());
 		
 		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
 		
-		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El codigo del hotel debe ser unico");
 		}
 		
-		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El nombre del hotel debe ser unico");
 		}
-		
-		HotelEntity cambiosHotel = registro.get();
 		CiudadEntity ciudad = new CiudadEntity();
 		ciudad.setIdCiudad(actualizarHotel.getCiudad().getIdCiudad());
-		cambiosHotel.setCiudad(ciudad);
-		cambiosHotel.setNombreHotel(actualizarHotel.getNombreHotel());
-		cambiosHotel.setCodigoHotel(actualizarHotel.getCodigoHotel());
-		cambiosHotel.setDireccion(actualizarHotel.getDireccion());
-		cambiosHotel.setEstatus(actualizarHotel.getEstatus());
-		cambiosHotel.setLogo(actualizarHotel.getLogo());
-		hotelRepository.save(cambiosHotel);
+		registro.setCiudad(ciudad);
+		registro.setNombreHotel(actualizarHotel.getNombreHotel());
+		registro.setCodigoHotel(actualizarHotel.getCodigoHotel());
+		registro.setDireccion(actualizarHotel.getDireccion());
+		registro.setEstatus(actualizarHotel.getEstatus());
+		registro.setLogo(actualizarHotel.getLogo());
+		hotelRepository.save(registro);
 		actualizarHotel.setIdHotel(idHotel);
 		
 		return actualizarHotel;
@@ -130,12 +132,12 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	public RespuestaEliminarDto eliminarHotel(Long idHotel) {
 		RespuestaEliminarDto mensaje = new RespuestaEliminarDto();
-		Optional<HotelEntity> hotelEntity = hotelRepository.findById(idHotel);
-		if(!hotelEntity.isPresent()) {
+		boolean hotelExiste = hotelRepository.existsById(idHotel);
+		if(hotelExiste == false) {
 			throw new ResourceNotFoundException("No existe un hotel con el ID ingresado");
 		}
 		
-		List<ReservaEntity> reservaEntity = hotelRepository.findByIdHotel(idHotel);
+		List<Long> reservaEntity = reservaRepository.findByIdHotel(idHotel);
 		if(!reservaEntity.isEmpty()) {
 			throw new BadRequestException("No se puede eliminar el hotel porque ya existe una reservacion con ese ID");
 		}

@@ -21,9 +21,6 @@ public interface HotelRepository extends JpaRepository<HotelEntity, Long>{
 	
 	Optional<HotelEntity> findByNombreHotel(String nomHotel);
 	
-	@Query("SELECT v FROM ReservaEntity v WHERE v.hotel.idHotel = :id")
-	List<ReservaEntity> findByIdHotel(Long id);
-	
 	@Query("SELECT h.idHotel FROM HotelEntity h WHERE codigoHotel = :codigoHotel")
     Optional<Long> findHotelByCodigo(@Param("codigoHotel")String codigoHotel);
 	
