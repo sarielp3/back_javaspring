@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ciudades")
 @Api(value = "Endpoints para obtener listas ciudades")
-@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanfetdd01.azurewebsites.net"} )
 public class CiudadController {
 
     @Autowired

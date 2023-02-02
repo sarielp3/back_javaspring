@@ -32,7 +32,7 @@ import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 @RestController
 @RequestMapping("/hoteles")
 @Api(value = "Endpoints para obtener lista de hoteles, obtener por nombre y codigo de hotel")
-@CrossOrigin(origins = {"http://localhost:4200","https://capbasanapptdd01.azurewebsites.net"} )
+@CrossOrigin(origins = {"http://localhost:4200","https://capbasanfetdd01.azurewebsites.net"} )
 @Validated
 public class HotelController {
     
