@@ -56,13 +56,13 @@ public class CuartoServiceImpl implements CuartoService {
     		  .orElseThrow(() -> new ResourceNotFoundException("No se encontro el hotel"));
       CuartoEntity cuartosEntity = modelMapper.map(cuartoAdd, CuartoEntity.class);
 
-      Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoAdd.getNombreCuarto());
+      Optional<Long> validarNC = cuartosRepository.findCuartoByNombreCuarto(cuartoAdd.getNombreCuarto());
       
-      Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoAdd.getCodigoCuartos());
-
       if (validarNC.isPresent()){
           throw new BadRequestException("El nombre del cuarto ya existe");
       }
+      
+      Optional<Long> validarCC = cuartosRepository.findCuartoByCodigoCuarto(cuartoAdd.getCodigoCuartos());
 	
 	  if (validarCC.isPresent()){
 		  throw new BadRequestException("El codigo del cuarto ya existe");
