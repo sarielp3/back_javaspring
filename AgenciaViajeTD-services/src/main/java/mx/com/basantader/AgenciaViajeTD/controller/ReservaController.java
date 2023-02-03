@@ -19,6 +19,8 @@ import java.util.List;
 import javax.validation.Valid;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import mx.com.basantader.AgenciaViajeTD.dto.ReservaDto;
 import mx.com.basantader.AgenciaViajeTD.dto.AltaReservaDto;
 import mx.com.basantader.AgenciaViajeTD.service.ReservaService;
@@ -36,6 +38,11 @@ public class ReservaController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	@ApiOperation(value = "Ver lista de Reservas", response = AltaReservaDto.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK, Reserva encontrada", response = ReservaDto.class),
+            @ApiResponse(code = 400, message = "Bad Request, Error en los parametros de busqueda"),
+            @ApiResponse(code = 404, message = "Not Found, No se encuentran los parametros vinculados con la reserva ingresada")
+	})
 	public List<ReservaDto> listaReservas(
 			@RequestParam(required = false) Long hotel,
 			@RequestParam(required = false) Long origen, 
@@ -48,6 +55,11 @@ public class ReservaController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Crear Reserva")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created, Se guardo en reserva correctamente", response = ReservaDto.class),
+            @ApiResponse(code = 400, message = "Bad Request, Error en los parametros de request body"),
+            @ApiResponse(code = 404, message = "Not Found, No se encuentran los parametros vinculados con la reserva dados en body request")
+	})
 	public AltaReservaDto createReserva(@RequestBody @Valid AltaReservaDto createReserva) {
 		return reservaService.createReserva(createReserva);
 
@@ -58,6 +70,11 @@ public class ReservaController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiOperation(value = "Modificar una reserva")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created, Se guardo en reserva correctamente", response = ReservaDto.class),
+            @ApiResponse(code = 400, message = "Bad Request, Error en los parametros ingresados en el body request"),
+            @ApiResponse(code = 404, message = "Not Found, No se encuentran los parametros vinculados con la reserva ingresada")
+	})
 	public void updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody AltaReservaDto updateReserva) {
 		updateReserva.setIdReserva(idReserva);
 		reservaService.updateReserva(updateReserva);
@@ -68,6 +85,11 @@ public class ReservaController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ApiOperation(value = "Eliminar una reserva")
+	@ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Accepted, Se elimino la reserva correctamente", response = ReservaDto.class),
+            @ApiResponse(code = 400, message = "Bad Request, Error en los parametros de busqueda"),
+            @ApiResponse(code = 404, message = "Not Found, No se encuentran la reserva con el identificador ingresado")
+	})
 	public void deleteReservaEntity(@PathVariable("id") Long idReserva) {
 		reservaService.deleteReservaEntity(idReserva);
 	}
