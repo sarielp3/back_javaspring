@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import lombok.*;
 
@@ -20,11 +19,11 @@ public class AltaReservaDto implements Serializable{
 	private Long idReserva;
 	
 	@NotNull(message = "La fecha de inicio no puede ser nula")
-	@Future
+	@FutureOrPresent(message = "La fecha no puede ser anteior a la actual")
 	private Date fechaInicio;
 	
 	@NotNull(message = "La fecha de fin no puede ser nula")
-	@Future
+	@Future(message = "La fecha no puede ser anteior a la actual")
 	private Date fechaFin;
 	
 	@NotNull(message = "El nombre del cliente no puede ser nulo")
