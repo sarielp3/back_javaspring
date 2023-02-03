@@ -3,6 +3,7 @@ package mx.com.basantader.AgenciaViajeTD.handler;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,6 +79,15 @@ public class ErrorHandler {
 		log.error("Bad Request", ex);
 		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
 				,HttpStatus.BAD_REQUEST,"Bad Request los parametros de busqueda incorrectos ");
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)  // 500
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseBody
+	public CustomErrorResponse badRequest(MethodArgumentNotValidException ex) {
+		log.error("Bad Request", ex);
+		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
+				,HttpStatus.BAD_REQUEST,"Bad Request " + ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
 	}
 
 
