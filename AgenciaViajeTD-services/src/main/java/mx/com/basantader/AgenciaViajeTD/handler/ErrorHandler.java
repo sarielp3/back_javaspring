@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.BusinessException;
@@ -68,6 +69,15 @@ public class ErrorHandler {
 		log.error("Bad Request", ex);
 		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
 				,HttpStatus.BAD_REQUEST,"Bad Requst parametros de entrada no admitidos");
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)  // 500
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseBody
+	public CustomErrorResponse badRequest(MethodArgumentTypeMismatchException ex) {
+		log.error("Bad Request", ex);
+		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
+				,HttpStatus.BAD_REQUEST,"Bad Request los parametros de busqueda incorrectos ");
 	}
 
 
