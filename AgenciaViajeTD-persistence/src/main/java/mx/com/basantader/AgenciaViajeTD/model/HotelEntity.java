@@ -42,7 +42,7 @@ public class HotelEntity implements Serializable {
 	private String direccion;
 	
 	@Column(name="ESTATUS",nullable=false)
-	private int estatus;
+	private Integer estatus;
 	
 	@Lob
 	@Column(name="LOGO",nullable=false)

@@ -18,6 +18,7 @@ import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.model.HotelEntity;
 import mx.com.basantader.AgenciaViajeTD.model.ReservaEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.HotelRepository;
+import mx.com.basantader.AgenciaViajeTD.repository.ReservaRepository;
 import mx.com.basantader.AgenciaViajeTD.service.HotelService;
 
 
@@ -30,6 +31,9 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	
 	@Autowired
 	private HotelRepository hotelRepository;
+	
+	@Autowired 
+	private ReservaRepository reservaRepository;
 	
 	@Autowired
 	private ModelMapper mapper;
@@ -75,18 +79,18 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	@Transactional
 	public HotelDto createHotel(HotelDto newHotel) {
-		Optional<HotelEntity> hotelEntity = hotelRepository.findByCodigoHotel(newHotel.getCodigoHotel());
+		Optional<Long> hotelEntity = hotelRepository.findHotelByCodigo(newHotel.getCodigoHotel());
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
 		
-		Optional<HotelEntity> hotelEntityNombre = hotelRepository.findByNombreHotel(newHotel.getNombreHotel());
+		Optional<Long> hotelEntityNombre = hotelRepository.findHotelByNombre(newHotel.getNombreHotel());
 		if(hotelEntityNombre.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el nombre ingresado");
 		}
 		HotelEntity nuevoRegistro = this.mapper.map(newHotel, HotelEntity.class);
 		
-		
+		nuevoRegistro.setEstatus(1);
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		
@@ -96,31 +100,28 @@ public class HotelServiceImpl implements HotelService,Serializable {
 
 	@Override
 	public HotelDto updateHotel(HotelDto actualizarHotel,Long idHotel) {
-		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
-		HotelEntity hotelEntiy = registro.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
+		HotelEntity registro = hotelRepository.findById(idHotel)
+				.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
 		
-		Optional<HotelEntity> hotelEntidad = hotelRepository.findByCodigoHotel(actualizarHotel.getCodigoHotel());
+		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel());
 		
-		Optional<HotelEntity> hotelEntidadAux = hotelRepository.findByNombreHotel(actualizarHotel.getNombreHotel());
-		
-		if(hotelEntidad.isPresent() && !hotelEntidad.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El codigo del hotel debe ser unico");
 		}
+		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
 		
-		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().getIdHotel().equals(hotelEntiy.getIdHotel())) {
+		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El nombre del hotel debe ser unico");
 		}
-		
-		HotelEntity cambiosHotel = registro.get();
 		CiudadEntity ciudad = new CiudadEntity();
 		ciudad.setIdCiudad(actualizarHotel.getCiudad().getIdCiudad());
-		cambiosHotel.setCiudad(ciudad);
-		cambiosHotel.setNombreHotel(actualizarHotel.getNombreHotel());
-		cambiosHotel.setCodigoHotel(actualizarHotel.getCodigoHotel());
-		cambiosHotel.setDireccion(actualizarHotel.getDireccion());
-		cambiosHotel.setEstatus(actualizarHotel.getEstatus());
-		cambiosHotel.setLogo(actualizarHotel.getLogo());
-		hotelRepository.save(cambiosHotel);
+		registro.setCiudad(ciudad);
+		registro.setNombreHotel(actualizarHotel.getNombreHotel());
+		registro.setCodigoHotel(actualizarHotel.getCodigoHotel());
+		registro.setDireccion(actualizarHotel.getDireccion());
+		registro.setEstatus(actualizarHotel.getEstatus());
+		registro.setLogo(actualizarHotel.getLogo());
+		hotelRepository.save(registro);
 		actualizarHotel.setIdHotel(idHotel);
 		
 		return actualizarHotel;
@@ -130,12 +131,12 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	public RespuestaEliminarDto eliminarHotel(Long idHotel) {
 		RespuestaEliminarDto mensaje = new RespuestaEliminarDto();
-		Optional<HotelEntity> hotelEntity = hotelRepository.findById(idHotel);
-		if(!hotelEntity.isPresent()) {
+		boolean hotelExiste = hotelRepository.existsById(idHotel);
+		if(hotelExiste == false) {
 			throw new ResourceNotFoundException("No existe un hotel con el ID ingresado");
 		}
 		
-		List<ReservaEntity> reservaEntity = hotelRepository.findByIdHotel(idHotel);
+		List<Long> reservaEntity = reservaRepository.findByIdHotel(idHotel);
 		if(!reservaEntity.isEmpty()) {
 			throw new BadRequestException("No se puede eliminar el hotel porque ya existe una reservacion con ese ID");
 		}
@@ -145,22 +146,23 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		return mensaje;
 	}
 
+	@Transactional
 	@Override
 	public Respuesta cambiarEstatus(Long idHotel) {
-		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
+		
+		Integer estatusHotel = hotelRepository.findEstatusByIdHotel(idHotel).orElseThrow(() -> {
+			return new ResourceNotFoundException("No existe nungun hotel con el id ingresado");
+		});
 		Respuesta mensaje = new Respuesta();
-		if(!registro.isPresent()) {
-			throw new ResourceNotFoundException("No existe el id Ingresado");
-		}
-		HotelEntity cambiosStatusHotel = registro.get();
-		if(cambiosStatusHotel.getEstatus()==1) {
-			cambiosStatusHotel.setEstatus(0);
+		
+		if(estatusHotel == 1) {
+			estatusHotel = 0;
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Desactivo");
-		}else if(cambiosStatusHotel.getEstatus()==0) {
-			cambiosStatusHotel.setEstatus(1);
+		}else if(estatusHotel ==0) {
+			estatusHotel = 1;
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Activo");
 		}
-		hotelRepository.save(cambiosStatusHotel);
+		hotelRepository.updateEstatusHotel(idHotel, estatusHotel);;
 		
 		return mensaje;
 	}
