@@ -105,11 +105,10 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		
 		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel());
 		
-		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
-		
 		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El codigo del hotel debe ser unico");
 		}
+		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
 		
 		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El nombre del hotel debe ser unico");
@@ -147,22 +146,23 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		return mensaje;
 	}
 
+	@Transactional
 	@Override
 	public Respuesta cambiarEstatus(Long idHotel) {
-		Optional<HotelEntity> registro = hotelRepository.findById(idHotel);
+		
+		Integer estatusHotel = hotelRepository.findEstatusByIdHotel(idHotel).orElseThrow(() -> {
+			return new ResourceNotFoundException("No existe nungun hotel con el id ingresado");
+		});
 		Respuesta mensaje = new Respuesta();
-		if(!registro.isPresent()) {
-			throw new ResourceNotFoundException("No existe el id Ingresado");
-		}
-		HotelEntity cambiosStatusHotel = registro.get();
-		if(cambiosStatusHotel.getEstatus()==1) {
-			cambiosStatusHotel.setEstatus(0);
+		
+		if(estatusHotel == 1) {
+			estatusHotel = 0;
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Desactivo");
-		}else if(cambiosStatusHotel.getEstatus()==0) {
-			cambiosStatusHotel.setEstatus(1);
+		}else if(estatusHotel ==0) {
+			estatusHotel = 1;
 			mensaje.setMensajeRespuesta("Cambio el estatus del hotel a Activo");
 		}
-		hotelRepository.save(cambiosStatusHotel);
+		hotelRepository.updateEstatusHotel(idHotel, estatusHotel);;
 		
 		return mensaje;
 	}
