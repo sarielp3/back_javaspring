@@ -8,9 +8,12 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.sql.Time;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Builder
 @Data
@@ -38,8 +41,10 @@ public class AltaVueloDto implements Serializable{
 
     @NotNull(message = "El codigo del vuelo no pueder ser nulo")
     @NotBlank(message = "El codigo del vuelo no puede contener solo espacios en banco")
+    @Size(min = 10  ,max = 10,message = "El codigo del vuelo debe contener 10 caracteres")
     private String codigoVuelo;
 
     @NotNull(message = "El costo no pueder ser nula")
+    @Min(value = 1, message = "El costo minimo del vuelo es 1")
     private Float costo;
 }
