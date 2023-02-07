@@ -56,23 +56,25 @@ public class CuartoServiceImpl implements CuartoService {
     		  .orElseThrow(() -> new ResourceNotFoundException("No se encontro el hotel"));
       CuartoEntity cuartosEntity = modelMapper.map(cuartoAdd, CuartoEntity.class);
 
-      Optional<Long> validarNC = cuartosRepository.findCuartoByNombreCuarto(cuartoAdd.getNombreCuarto());
+      cuartosEntity.setNombreCuarto(cuartosEntity.getNombreCuarto().toUpperCase());
+      cuartosEntity.setCodigoCuartos(cuartosEntity.getCodigoCuartos().toUpperCase());
+      Optional<Long> validarNC = cuartosRepository.findCuartoByNombreCuarto(cuartoAdd.getNombreCuarto().toUpperCase());
       
       if (validarNC.isPresent()){
           throw new BadRequestException("El nombre del cuarto ya existe");
       }
       
-      Optional<Long> validarCC = cuartosRepository.findCuartoByCodigoCuarto(cuartoAdd.getCodigoCuartos());
+      Optional<Long> validarCC = cuartosRepository.findCuartoByCodigoCuarto(cuartoAdd.getCodigoCuartos().toUpperCase());
 	
 	  if (validarCC.isPresent()){
 		  throw new BadRequestException("El codigo del cuarto ya existe");
 	  }
 
       cuartosEntity.setHotel(hotelId);
-
+      
       CuartoEntity cuartosEn = cuartosRepository.save(cuartosEntity);
+      
       return modelMapper.map(cuartosEn, CuartoDto.class);
-
 
     }
 
@@ -83,18 +85,18 @@ public class CuartoServiceImpl implements CuartoService {
         CuartoEntity cuartosEntity = cuartoEditar.orElseThrow(()-> new ResourceNotFoundException("Cuarto no existe"));
         
 
-        Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoDto.getNombreCuarto());
-        Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoDto.getCodigoCuartos());
+        Optional<CuartoEntity> validarNC = cuartosRepository.findByNombreCuarto(cuartoDto.getNombreCuarto().toUpperCase());
+        Optional<CuartoEntity> validarCC = cuartosRepository.findByCodigoCuartos(cuartoDto.getCodigoCuartos().toUpperCase());
 
         if (validarNC.isPresent() && !validarNC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){   
         	throw new BadRequestException("El nombre del cuarto ya existe");  }
         if (validarCC.isPresent() && !validarCC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){     
         	throw new BadRequestException("El codigo del cuarto ya existe"); }
 
-        cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto());
+        cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto().toUpperCase());
         cuartosEntity.setDescripcion(cuartoDto.getDescripcion());
         cuartosEntity.setNumeroPersonas(cuartoDto.getNumeroPersonas());
-        cuartosEntity.setCodigoCuartos(cuartoDto.getCodigoCuartos());
+        cuartosEntity.setCodigoCuartos(cuartoDto.getCodigoCuartos().toUpperCase());
         cuartosEntity.setCostoNoche(cuartoDto.getCostoNoche());
         cuartosEntity.setTipoCuarto(cuartoDto.getTipoCuarto());
 
