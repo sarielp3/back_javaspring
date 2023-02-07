@@ -79,18 +79,21 @@ public class HotelServiceImpl implements HotelService,Serializable {
 	@Override
 	@Transactional
 	public HotelDto createHotel(HotelDto newHotel) {
-		Optional<Long> hotelEntity = hotelRepository.findHotelByCodigo(newHotel.getCodigoHotel());
+		Optional<Long> hotelEntity = hotelRepository.findHotelByCodigo(newHotel.getCodigoHotel().toUpperCase());
 		if(hotelEntity.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el codigo ingresado");
 		}
 		
-		Optional<Long> hotelEntityNombre = hotelRepository.findHotelByNombre(newHotel.getNombreHotel());
+		Optional<Long> hotelEntityNombre = hotelRepository.findHotelByNombre(newHotel.getNombreHotel().toUpperCase());
 		if(hotelEntityNombre.isPresent()) {
 			throw new BusinessException("Ya existe hotel con el nombre ingresado");
 		}
 		HotelEntity nuevoRegistro = this.mapper.map(newHotel, HotelEntity.class);
 		
 		nuevoRegistro.setEstatus(1);
+		nuevoRegistro.setCodigoHotel(nuevoRegistro.getCodigoHotel().toUpperCase());
+		nuevoRegistro.setNombreHotel(nuevoRegistro.getNombreHotel().toUpperCase());
+		
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());
 		
@@ -103,12 +106,12 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		HotelEntity registro = hotelRepository.findById(idHotel)
 				.orElseThrow(()-> new ResourceNotFoundException("Hotel no existe"));
 		
-		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel());
+		Optional<Long> hotelEntidad = hotelRepository.findHotelByCodigo(actualizarHotel.getCodigoHotel().toUpperCase());
 		
 		if(hotelEntidad.isPresent() && !hotelEntidad.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El codigo del hotel debe ser unico");
 		}
-		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel());
+		Optional<Long> hotelEntidadAux = hotelRepository.findHotelByNombre(actualizarHotel.getNombreHotel().toUpperCase());
 		
 		if(hotelEntidadAux.isPresent() && !hotelEntidadAux.get().equals(registro.getIdHotel())) {
 			throw new BadRequestException("El nombre del hotel debe ser unico");
@@ -116,8 +119,8 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		CiudadEntity ciudad = new CiudadEntity();
 		ciudad.setIdCiudad(actualizarHotel.getCiudad().getIdCiudad());
 		registro.setCiudad(ciudad);
-		registro.setNombreHotel(actualizarHotel.getNombreHotel());
-		registro.setCodigoHotel(actualizarHotel.getCodigoHotel());
+		registro.setNombreHotel(actualizarHotel.getNombreHotel().toUpperCase());
+		registro.setCodigoHotel(actualizarHotel.getCodigoHotel().toUpperCase());
 		registro.setDireccion(actualizarHotel.getDireccion());
 		registro.setEstatus(actualizarHotel.getEstatus());
 		registro.setLogo(actualizarHotel.getLogo());
