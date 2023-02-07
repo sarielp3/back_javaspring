@@ -75,9 +75,9 @@ public class ReservaController {
             @ApiResponse(code = 400, message = "Bad Request, Error en los parametros ingresados en el body request"),
             @ApiResponse(code = 404, message = "Not Found, No se encuentran los parametros vinculados con la reserva ingresada")
 	})
-	public void updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody AltaReservaDto updateReserva) {
+	public AltaReservaDto updateReserva(@PathVariable("id") Long idReserva, @Valid @RequestBody AltaReservaDto updateReserva) {
 		updateReserva.setIdReserva(idReserva);
-		reservaService.updateReserva(updateReserva);
+		return reservaService.updateReserva(updateReserva);
 	}
 
 	@DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = {

@@ -159,6 +159,25 @@ public class ReservaServiceImpl implements ReservaService {
 			throw new ResourceNotFoundException("El cuarto ingresado no existe");
 		}
 		
+		Boolean f1 = false;
+		Boolean f2 = false;
+		List<Date> fechasReservadasInicio = reservaRepository.findCuartoByFechaInicio();
+		List<Date> fechasReservadasFin = reservaRepository.findCuartoByFechaFin();
+		
+		for (int i=0; i < fechasReservadasInicio.size(); i++) {
+			if(fechasReservadasInicio.get(i).before(updateReserva.getFechaFin())
+					&&fechasReservadasInicio.get(i).after(updateReserva.getFechaInicio())) {
+				f1 = true;
+			}
+			if(fechasReservadasFin.get(i).before(updateReserva.getFechaFin())
+					&&fechasReservadasFin.get(i).after(updateReserva.getFechaInicio())) {
+				f2 = true;
+			}
+		}
+		if (f1 == true || f2 == true) {
+			throw new BadRequestException("El cuarto es ocupado");
+		}
+		
 		
 		ReservaEntity reservaUp = modelMapper.map(updateReserva, ReservaEntity.class);
 		reservaUp.setFechaCreacion(new Date());
