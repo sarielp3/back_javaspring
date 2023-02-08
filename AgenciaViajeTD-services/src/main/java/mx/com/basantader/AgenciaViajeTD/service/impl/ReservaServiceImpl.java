@@ -123,7 +123,7 @@ public class ReservaServiceImpl implements ReservaService {
 				}
 			}
 			if (f1 == true || f2 == true || f3 ==true) {
-				throw new BadRequestException("El cuarto es ocupado");
+				throw new BadRequestException("El cuarto está ocupado");
 			}
 			
 			ReservaEntity reserva = modelMapper.map(createReserva, ReservaEntity.class);
@@ -143,12 +143,12 @@ public class ReservaServiceImpl implements ReservaService {
 	@Override
 	public AltaReservaDto updateReserva(AltaReservaDto updateReserva) {
 		reservaRepository.findById(updateReserva.getIdReserva()).orElseThrow(() -> {
-            log.error("No hay ninguna reservacion con ese ID");
-            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
+            log.error("No hay ninguna reservación con ese ID");
+            return new ResourceNotFoundException("No hay ninguna reservación con ese ID");
         });
 		Optional<HotelEntity> hotelEntity = hotelRepository.findById(updateReserva.getIdHotel());
 		if(!hotelEntity.isPresent()) {
-			throw new ResourceNotFoundException("El Hotel ingresado no existe");
+			throw new ResourceNotFoundException("El hotel ingresado no existe");
 		}
 		Optional<VueloEntity> vueloEntity = vueloRepository.findById(updateReserva.getIdVuelo());
 		if(!vueloEntity.isPresent()) {
@@ -175,7 +175,7 @@ public class ReservaServiceImpl implements ReservaService {
 			}
 		}
 		if (f1 == true || f2 == true) {
-			throw new BadRequestException("El cuarto es ocupado");
+			throw new BadRequestException("El cuarto está ocupado");
 		}
 		
 		
@@ -191,8 +191,8 @@ public class ReservaServiceImpl implements ReservaService {
 	@Override
 	public void deleteReservaEntity(Long idReserva) {
 		reservaRepository.findById(idReserva).orElseThrow(() -> {
-            log.error("No hay ninguna reservacion con ese ID");
-            return new ResourceNotFoundException("No hay ninguna reservacion con ese ID");
+            log.error("No hay ninguna reservación con ese ID");
+            return new ResourceNotFoundException("No hay ninguna reservación con ese ID");
         });
 		reservaRepository.deleteById(idReserva);
 	}

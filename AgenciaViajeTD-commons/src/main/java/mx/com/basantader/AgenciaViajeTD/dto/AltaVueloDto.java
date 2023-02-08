@@ -30,7 +30,7 @@ public class AltaVueloDto implements Serializable{
     @NotNull(message = "La ciudad de destino no pueder ser nula")
     private Long destino;
 
-    @NotNull(message = "La aerolinea no pueder ser nula")
+    @NotNull(message = "La aerolínea no pueder ser nula")
     private Long aerolinea;
 
     @NotNull(message = "La hora de salida no pueder ser nula")
@@ -39,12 +39,12 @@ public class AltaVueloDto implements Serializable{
     @NotNull(message = "La hora de llegada no pueder ser nula")
     private Time horaLlegada;
 
-    @NotNull(message = "El codigo del vuelo no pueder ser nulo")
-    @NotBlank(message = "El codigo del vuelo no puede contener solo espacios en banco")
-    @Size(min = 10  ,max = 10,message = "El codigo del vuelo debe contener 10 caracteres")
+    @NotNull(message = "El código del vuelo no pueder ser nulo")
+    @NotBlank(message = "El código del vuelo no puede contener solo espacios en blanco")
+    @Size(min = 10  ,max = 10,message = "El código del vuelo debe contener 10 caracteres")
     private String codigoVuelo;
 
     @NotNull(message = "El costo no pueder ser nula")
-    @Min(value = 1, message = "El costo minimo del vuelo es 1")
+    @Min(value = 1, message = "El costo mínimo del vuelo es 1")
     private Float costo;
 }

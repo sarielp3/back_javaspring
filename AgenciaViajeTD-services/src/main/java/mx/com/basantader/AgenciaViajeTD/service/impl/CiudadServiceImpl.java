@@ -40,8 +40,8 @@ public class CiudadServiceImpl implements CiudadService {
 
         Optional<CiudadEntity> ciudadEntity = Optional.ofNullable(ciudadRepository.findByNombreCiudad(nombreCiudad));
         if (!ciudadEntity.isPresent()){
-            log.error("No se encontro ciudad con ese nombre");
-            throw new ResourceNotFoundException("No se encontro ciudad con ese nombre");
+            log.error("No se encontró ciudad con ese nombre");
+            throw new ResourceNotFoundException("No se encontró ciudad con ese nombre");
         }
         CiudadDto ciudadDto = this.mapper.map(ciudadEntity.get(), CiudadDto.class);
 
