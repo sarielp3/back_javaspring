@@ -134,6 +134,9 @@ public class ReservaServiceImpl implements ReservaService {
 			if (createReserva.getIdHotel() != reserva.getCuarto().getHotel().getIdHotel()) {
 				throw new BadRequestException("El cuarto no pertenece al hotel ingresado");
 			}
+			reserva.setNombreCliente(reserva.getNombreCliente().toUpperCase());
+			reserva.setApellidoPaternoCliente(reserva.getApellidoPaternoCliente().toUpperCase());
+			reserva.setApellidoMaternoCliente(reserva.getApellidoMaternoCliente().toUpperCase());
 			reservaRepository.save(reserva);
 			createReserva.setIdReserva(reserva.getIdReserva());
 			createReserva.setFechaCreacion(reserva.getFechaCreacion());
@@ -184,6 +187,9 @@ public class ReservaServiceImpl implements ReservaService {
 		reservaUp.setHotel(hotelEntity.get());
 		reservaUp.setVuelo(vueloEntity.get());
 		reservaUp.setCuarto(cuartoEntity.get());
+		reservaUp.setNombreCliente(reservaUp.getNombreCliente().toUpperCase());
+		reservaUp.setApellidoPaternoCliente(reservaUp.getApellidoPaternoCliente().toUpperCase());
+		reservaUp.setApellidoMaternoCliente(reservaUp.getApellidoMaternoCliente().toUpperCase());
 		reservaRepository.save(reservaUp);
 		return updateReserva;
 	}
