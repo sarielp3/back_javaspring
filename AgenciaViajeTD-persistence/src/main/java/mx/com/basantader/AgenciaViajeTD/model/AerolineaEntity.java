@@ -16,12 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 public class AerolineaEntity {
     @Id
-    @SequenceGenerator(name = "aerolinea", sequenceName = "aeroliena_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(generator = "aeroliena")
+    @SequenceGenerator(name = "aerolinea", sequenceName = "aerolinea_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "aerolinea")
     private Long idAerolinea;
 
     @Column(name = "NOMBRE_AEROLINEA", nullable = false)
-    private String nombreAeroliena;
+    private String nombreAerolinea;
 
     @OneToMany(mappedBy = "aerolinea", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<VueloEntity> vuelosAerolinea;
