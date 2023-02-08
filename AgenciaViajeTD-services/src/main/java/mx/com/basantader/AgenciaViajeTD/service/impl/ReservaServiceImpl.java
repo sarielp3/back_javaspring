@@ -99,7 +99,10 @@ public class ReservaServiceImpl implements ReservaService {
 				throw new ResourceNotFoundException("El cuarto ingresado no existe");
 			}
 			if(createReserva.getFechaFin().before(createReserva.getFechaInicio())) {
-				throw new ResourceNotFoundException("La fecha de Fin no puede ser antes de fecha inicio");
+				throw new BadRequestException("La fecha de Fin no puede ser antes de fecha inicio");
+			}
+			if(createReserva.getFechaInicio().getDate() == createReserva.getFechaFin().getDate()) {
+				throw new BadRequestException("Debe registrarse al menos un día en el cuarto");
 			}
 			
 			Boolean f1 = false;
@@ -160,6 +163,12 @@ public class ReservaServiceImpl implements ReservaService {
 		Optional<CuartoEntity> cuartoEntity = cuartoRepository.findById(updateReserva.getIdCuarto());
 		if(!cuartoEntity.isPresent()) {
 			throw new ResourceNotFoundException("El cuarto ingresado no existe");
+		}
+		if(updateReserva.getFechaFin().before(updateReserva.getFechaInicio())) {
+			throw new BadRequestException("La fecha de Fin no puede ser antes de fecha inicio");
+		}
+		if(updateReserva.getFechaInicio().getDate() == updateReserva.getFechaFin().getDate()) {
+			throw new BadRequestException("Debe registrarse al menos un día en el cuarto");
 		}
 		
 		Boolean f1 = false;
