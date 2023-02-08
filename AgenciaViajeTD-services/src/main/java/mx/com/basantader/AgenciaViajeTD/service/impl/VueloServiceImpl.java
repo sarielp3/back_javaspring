@@ -65,8 +65,8 @@ public class VueloServiceImpl implements VueloService {
         }
         if(aerolinea != null){
             aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> {
-                log.error("No hay vuelos en esta aerolinea");
-                return new ResourceNotFoundException("No hay vuelos en esta aerolinea");
+                log.error("No hay vuelos en esta aerolínea");
+                return new ResourceNotFoundException("No hay vuelos en esta aerolínea");
             });
         }
         List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
@@ -174,8 +174,8 @@ public class VueloServiceImpl implements VueloService {
                 });
         AerolineaEntity aerolineaEntity = aerolineaRepository.findById(vueloDto.getAerolinea())
                 .orElseThrow(() -> {
-                    log.error("No se encontró la aerolinea seleccionada");
-                    return new ResourceNotFoundException("No se encontró la aerolinea seleccionada");
+                    log.error("No se encontró la aerolínea seleccionada");
+                    return new ResourceNotFoundException("No se encontró la aerolínea seleccionada");
                 });
         vuelosEntity.setOrigen(origen);
         vuelosEntity.setDestino(destino);

@@ -93,6 +93,7 @@ public class HotelServiceImpl implements HotelService,Serializable {
 		nuevoRegistro.setEstatus(1);
 		nuevoRegistro.setCodigoHotel(nuevoRegistro.getCodigoHotel().toUpperCase());
 		nuevoRegistro.setNombreHotel(nuevoRegistro.getNombreHotel().toUpperCase());
+		nuevoRegistro.setDireccion(nuevoRegistro.getDireccion().toUpperCase());
 		
 		hotelRepository.save(nuevoRegistro);
 		newHotel.setIdHotel(nuevoRegistro.getIdHotel());

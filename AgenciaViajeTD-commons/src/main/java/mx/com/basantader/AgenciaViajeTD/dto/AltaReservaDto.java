@@ -28,15 +28,15 @@ public class AltaReservaDto implements Serializable{
 	private Date fechaFin;
 	
 	@NotNull(message = "El nombre del cliente no puede ser nulo")
-	@Size(min = 1, max = 30, message = "El nombre solo puede contener entre 1 y 30 caracteres")
+	@Size(min = 1, max = 40, message = "El nombre solo puede contener entre 1 y 40 caracteres")
 	private String nombreCliente;
 	
 	@NotNull(message = "El apellido paterno del cliente no puede ser nulo")
-	@Size(min = 1, max = 30, message = "El apellido materno solo puede contener entre 1 y 30 caracteres")
+	@Size(min = 1, max = 40, message = "El apellido paterno solo puede contener entre 1 y 40 caracteres")
 	private String apellidoPaternoCliente;
 	
 	@NotNull(message = "El apellido materno del cliente no puede ser nulo")
-	@Size(min = 1, max = 30, message = "El apellido materno solo puede contener entre 1 y 30 caracteres")
+	@Size(min = 1, max = 40, message = "El apellido materno solo puede contener entre 1 y 40 caracteres")
 	private String apellidoMaternoCliente;
 	
 	@NotNull(message = "La descripción no puede ser nula")
