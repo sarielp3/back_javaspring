@@ -1,6 +1,7 @@
 package mx.com.basantader.AgenciaViajeTD.service.impl;
 
 import mx.com.basantader.AgenciaViajeTD.dto.CiudadDto;
+import mx.com.basantader.AgenciaViajeTD.exceptions.BadRequestException;
 import mx.com.basantader.AgenciaViajeTD.exceptions.ResourceNotFoundException;
 import mx.com.basantader.AgenciaViajeTD.model.CiudadEntity;
 import mx.com.basantader.AgenciaViajeTD.repository.CiudadRepository;
@@ -40,8 +41,8 @@ public class CiudadServiceImpl implements CiudadService {
 
         Optional<CiudadEntity> ciudadEntity = Optional.ofNullable(ciudadRepository.findByNombreCiudad(nombreCiudad));
         if (!ciudadEntity.isPresent()){
-            log.error("No se encontro ciudad con ese nombre");
-            throw new ResourceNotFoundException("No se encontro ciudad con ese nombre");
+            log.error("No se encontró ciudad con ese nombre");
+            throw new ResourceNotFoundException("No se encontró ciudad con ese nombre");
         }
         CiudadDto ciudadDto = this.mapper.map(ciudadEntity.get(), CiudadDto.class);
 
@@ -62,4 +63,19 @@ public class CiudadServiceImpl implements CiudadService {
                 .map(ciudadEntity -> mapper.map(ciudadEntity, CiudadDto.class))
                 .collect(Collectors.toList());
     }
+
+	@Override
+	public CiudadDto createCiudad(CiudadDto ciudadDto) {
+		CiudadEntity ciudadEntity = mapper.map(ciudadDto, CiudadEntity.class);
+		Optional<Long> ciudadValidacion = ciudadRepository.findCiudadByNombre(ciudadDto.getNombreCiudad().toUpperCase());
+		if(ciudadValidacion.isPresent()) {
+			throw new BadRequestException("La ciudad ya se encuentra registrada");
+		}
+		ciudadEntity.setNombreCiudad(ciudadEntity.getNombreCiudad().toUpperCase());
+		ciudadRepository.save(ciudadEntity);
+		
+		ciudadDto.setIdCiudad(ciudadEntity.getIdCiudad());
+		
+		return ciudadDto;
+	}
 }

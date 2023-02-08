@@ -43,7 +43,7 @@ public class VueloServiceImpl implements VueloService {
 
     private static final Logger log = LoggerFactory.getLogger(VueloServiceImpl.class);
     private final String errorDestino = "No hay vuelo hacia esta ciudad"; 
-    private final String errorOrigen = "No se encontro la ciudad de origen seleccionada";
+    private final String errorOrigen = "No se encontró la ciudad de origen seleccionada";
     @Override
     public List<VueloDto> getVuelosByFiltros(Long origen, Long destino, Long aerolinea) {
         CiudadEntity origenEntity = null;
@@ -65,8 +65,8 @@ public class VueloServiceImpl implements VueloService {
         }
         if(aerolinea != null){
             aerolineaEntity  = aerolineaRepository.findById(aerolinea).orElseThrow( () -> {
-                log.error("No hay vuelos en esta aerolinea");
-                return new ResourceNotFoundException("No hay vuelos en esta aerolinea");
+                log.error("No hay vuelos en esta aerolínea");
+                return new ResourceNotFoundException("No hay vuelos en esta aerolínea");
             });
         }
         List<VueloDto> listaVuelosDto = vueloRepository.findVuelosByFiltros(origenEntity, destinoEntity,aerolineaEntity)
@@ -88,7 +88,7 @@ public class VueloServiceImpl implements VueloService {
         
         Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo().toUpperCase());
 		if(vueloByCodigo.isPresent()){
-			throw new BadRequestException("El codigo del vuelo debe ser unico");
+			throw new BadRequestException("El código del vuelo debe ser único");
 		}
 		
 		vuelosEntity.setEstatus(1L);
@@ -101,13 +101,13 @@ public class VueloServiceImpl implements VueloService {
 	@Override
 	public AltaVueloDto updateVuelo(AltaVueloDto vueloDto, Long idVuelo) {
 		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
-			log.error("No se encontro el id vuelo proporcionado");
-			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+			log.error("No se encontró el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontró el vuelo proporcionado");
 		});
 		
 		Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo().toUpperCase());
 		if(vueloByCodigo.isPresent()  && (vueloByCodigo.get().compareTo(vueloEntity.getIdVuelo()) != 0)) {
-			throw new BadRequestException("El codigo del vuelo debe ser unico");
+			throw new BadRequestException("El código del vuelo debe ser único");
 		}
 		vueloEntity = vueloEntityToAltaVueloDto(vueloDto, vueloEntity);
 			
@@ -124,8 +124,8 @@ public class VueloServiceImpl implements VueloService {
 		Respuesta respuestaEstatus = new Respuesta();
 		String respuesta = "Desactivado";
 		Long estatusVuelo = vueloRepository.findEstatusByIdVuelo(idVuelo).orElseThrow(() -> {
-			log.error("No se encontro el id vuelo proporcionado");
-			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+			log.error("No se encontró el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontró el vuelo proporcionado");
 		});
 		
 		switch(estatusVuelo.compareTo(0L)) {
@@ -137,7 +137,7 @@ public class VueloServiceImpl implements VueloService {
 				estatusVuelo = 0L;
 				break;
 		}
-		log.info("Se modifico el estatus");
+		log.info("Se modificó el estatus");
 		respuestaEstatus.setMensajeRespuesta("El estatus del vuelo ha cambiado a " + respuesta);
 		vueloRepository.updateEstatusVuelo(idVuelo, estatusVuelo);
 		return respuestaEstatus; 
@@ -147,12 +147,12 @@ public class VueloServiceImpl implements VueloService {
 	public Respuesta deleteVuelo(Long idVuelo) {
 		Respuesta respuestaEstatus = new Respuesta();
 		VueloEntity vueloEntity = vueloRepository.findById(idVuelo).orElseThrow(() -> {
-			log.error("No se encontro el id vuelo proporcionado");
-			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
+			log.error("No se encontró el id vuelo proporcionado");
+			return new ResourceNotFoundException("No se encontró el vuelo proporcionado");
 		});
 		List<VueloEntity> vuelosReservados = reservaRepository.findVuelosReservadosById(vueloEntity);
 		if(vuelosReservados.size() > 0) {
-			log.info("Entro en la excepcion");
+			log.info("Entró en la excepción");
 			throw new BadRequestException("No se puede eliminar el vuelo");
 		}
 		vueloRepository.delete(vueloEntity);
@@ -169,13 +169,13 @@ public class VueloServiceImpl implements VueloService {
                 });
         CiudadEntity destino = ciudadRepository.findById(vueloDto.getDestino())
                 .orElseThrow(() ->{
-                    log.error("No se encontro la ciudad de destino seleccionada");
-                    return new ResourceNotFoundException("No se encontro la ciudad de destino seleccionada");
+                    log.error("No se encontró la ciudad de destino seleccionada");
+                    return new ResourceNotFoundException("No se encontró la ciudad de destino seleccionada");
                 });
         AerolineaEntity aerolineaEntity = aerolineaRepository.findById(vueloDto.getAerolinea())
                 .orElseThrow(() -> {
-                    log.error("No se encontro la aerolinea seleccionada");
-                    return new ResourceNotFoundException("No se encontro la aerolinea seleccionada");
+                    log.error("No se encontró la aerolínea seleccionada");
+                    return new ResourceNotFoundException("No se encontró la aerolínea seleccionada");
                 });
         vuelosEntity.setOrigen(origen);
         vuelosEntity.setDestino(destino);

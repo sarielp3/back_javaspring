@@ -69,7 +69,7 @@ public class ErrorHandler {
 	public CustomErrorResponse badRequest(HttpMessageNotReadableException ex) {
 		log.error("Bad Request", ex);
 		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
-				,HttpStatus.BAD_REQUEST,"Bad Requst parametros de entrada no admitidos");
+				,HttpStatus.BAD_REQUEST,"Bad Requset, parámetros de entrada no admitidos");
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)  // 500
@@ -78,7 +78,7 @@ public class ErrorHandler {
 	public CustomErrorResponse badRequest(MethodArgumentTypeMismatchException ex) {
 		log.error("Bad Request", ex);
 		return new CustomErrorResponse(HttpStatus.BAD_REQUEST.value()
-				,HttpStatus.BAD_REQUEST,"Bad Request los parametros de busqueda incorrectos ");
+				,HttpStatus.BAD_REQUEST,"Bad Request, los parámetros de búsqueda incorrectos ");
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)  // 500
