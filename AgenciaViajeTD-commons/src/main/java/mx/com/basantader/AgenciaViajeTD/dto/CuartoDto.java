@@ -25,21 +25,21 @@ public class CuartoDto implements Serializable{
   @NotNull(message = "El nombre del cuarto no puede ser nulo")
   private String nombreCuarto;
   
-  @Size(min = 1, max = 300, message = "La descripcion solo puede contener entre 1 y 300 caracteres")
-  @NotNull(message = "La descripcion del cuarton no puede ser nula")
+  @Size(min = 1, max = 300, message = "La descripción solo puede contener entre 1 y 300 caracteres")
+  @NotNull(message = "La descripción del cuarto no puede ser nula")
   private String descripcion;
   
-  @NotNull(message = "El numero de personas no puede ser nulo")
-  @Min(value = 1, message = "El numero minimo de personas por habitacion es de 1")
-  @Max(value = 10, message = "El numero maximo de personas por habitacion es de 10")
+  @NotNull(message = "El número de personas no puede ser nulo")
+  @Min(value = 1, message = "El número mínimo de personas por habitación es de 1")
+  @Max(value = 10, message = "El número máximo de personas por habitación es de 10")
   private Long numeroPersonas;
   
-  @NotNull(message = "El codigo del cuarto no puede ser nulo")
-  @Size(min = 10  ,max = 10,message = "El codigo del cuarto debe contener 10 caracteres")
+  @NotNull(message = "El código del cuarto no puede ser nulo")
+  @Size(min = 10  ,max = 10,message = "El código del cuarto debe contener 10 caracteres")
   private String codigoCuartos;
   
   @NotNull(message = "El costo de cuarto no puede ser nulo")
-  @Min(value = 1, message = "El costo minimo del cuarto es 1")
+  @Min(value = 1, message = "El costo mínimo del cuarto es 1")
   private Float costoNoche;
   
   @NotNull(message = "El tipo de cuarto no puede ser nulo")

@@ -53,7 +53,7 @@ public class CuartoServiceImpl implements CuartoService {
     @Override
     public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       HotelEntity hotelId = hotelRepository.findById(idHotel)
-    		  .orElseThrow(() -> new ResourceNotFoundException("No se encontro el hotel"));
+    		  .orElseThrow(() -> new ResourceNotFoundException("No se encontró el hotel"));
       CuartoEntity cuartosEntity = modelMapper.map(cuartoAdd, CuartoEntity.class);
 
       cuartosEntity.setNombreCuarto(cuartosEntity.getNombreCuarto().toUpperCase());
@@ -67,7 +67,7 @@ public class CuartoServiceImpl implements CuartoService {
       Optional<Long> validarCC = cuartosRepository.findCuartoByCodigoCuarto(cuartoAdd.getCodigoCuartos().toUpperCase());
 	
 	  if (validarCC.isPresent()){
-		  throw new BadRequestException("El codigo del cuarto ya existe");
+		  throw new BadRequestException("El código del cuarto ya existe");
 	  }
 
       cuartosEntity.setHotel(hotelId);
@@ -91,7 +91,7 @@ public class CuartoServiceImpl implements CuartoService {
         if (validarNC.isPresent() && !validarNC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){   
         	throw new BadRequestException("El nombre del cuarto ya existe");  }
         if (validarCC.isPresent() && !validarCC.get().getIdCuarto().equals(cuartosEntity.getIdCuarto())){     
-        	throw new BadRequestException("El codigo del cuarto ya existe"); }
+        	throw new BadRequestException("El código del cuarto ya existe"); }
 
         cuartosEntity.setNombreCuarto(cuartoDto.getNombreCuarto().toUpperCase());
         cuartosEntity.setDescripcion(cuartoDto.getDescripcion());
@@ -123,7 +123,7 @@ public class CuartoServiceImpl implements CuartoService {
     public RespuestaEliminarDto eliminarCuarto(Long idCuarto) {
         Optional<CuartoEntity> cuartoEntity = cuartosRepository.findById(idCuarto);
         if (!cuartoEntity.isPresent()){
-            throw  new ResourceNotFoundException("el id del cuarto no existe");
+            throw  new ResourceNotFoundException("El id del cuarto no existe");
         }
 
         RespuestaEliminarDto respuestaEliminarDto = new RespuestaEliminarDto();
