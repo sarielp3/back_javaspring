@@ -130,7 +130,7 @@ public class CuartoServiceImpl implements CuartoService {
             cuartosRepository.deleteById(idCuarto);
             respuestaEliminarDto.setMensajeRespuesta("El id del cuarto " + idCuarto + " fue eliminado");
         }else {
-            respuestaEliminarDto.setMensajeRespuesta("No se puede eliminar cuarto por que tiene una reserva");
+            throw new BadRequestException("No se puede eliminar cuarto por que tiene una reserva");
         }
         return respuestaEliminarDto;
     }
