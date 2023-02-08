@@ -86,7 +86,7 @@ public class VueloServiceImpl implements VueloService {
     	VueloDto vueloDto;
         vuelosEntity = vueloEntityToAltaVueloDto(altaVueloDto, vuelosEntity);
         
-        Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo());
+        Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(altaVueloDto.getCodigoVuelo().toUpperCase());
 		if(vueloByCodigo.isPresent()){
 			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
@@ -105,7 +105,7 @@ public class VueloServiceImpl implements VueloService {
 			return new ResourceNotFoundException("No se encontro el vuelo proporcionado");
 		});
 		
-		Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo());
+		Optional<Long> vueloByCodigo = vueloRepository.findByCodigoVuelo(vueloDto.getCodigoVuelo().toUpperCase());
 		if(vueloByCodigo.isPresent()  && (vueloByCodigo.get().compareTo(vueloEntity.getIdVuelo()) != 0)) {
 			throw new BadRequestException("El codigo del vuelo debe ser unico");
 		}
@@ -113,6 +113,8 @@ public class VueloServiceImpl implements VueloService {
 			
 		vueloRepository.save(vueloEntity);
 		vueloDto.setIdVuelo(vueloEntity.getIdVuelo());
+		vueloDto.setCodigoVuelo(vueloEntity.getCodigoVuelo());
+		
 		return vueloDto;
 	}
 	
@@ -180,7 +182,7 @@ public class VueloServiceImpl implements VueloService {
         vuelosEntity.setAerolinea(aerolineaEntity);
         vuelosEntity.setHoraSalida(vueloDto.getHoraSalida());
         vuelosEntity.setHoraLlegada(vueloDto.getHoraLlegada());
-        vuelosEntity.setCodigoVuelo(vueloDto.getCodigoVuelo());
+        vuelosEntity.setCodigoVuelo(vueloDto.getCodigoVuelo().toUpperCase());
         vuelosEntity.setCosto(vueloDto.getCosto());
 
         return vuelosEntity;
