@@ -10,4 +10,5 @@ public interface CiudadService {
     List<CiudadDto> getCiudadesByOrigen();
     List<CiudadDto> getCiudadesByDestino();
 
+    CiudadDto createCiudad(CiudadDto ciudad);
 }
