@@ -7,4 +7,6 @@ import java.util.List;
 public interface AerolineaService {
 
     List<AerolineaDto> getAllAerolineas();
+    
+    AerolineaDto createAerolinea(AerolineaDto aerolinea);
 }
