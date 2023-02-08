@@ -53,7 +53,7 @@ public class CuartoServiceImpl implements CuartoService {
     @Override
     public CuartoDto crearCuarto(CuartoDto cuartoAdd, Long idHotel) {
       HotelEntity hotelId = hotelRepository.findById(idHotel)
-    		  .orElseThrow(() -> new ResourceNotFoundException("No se encontro el hotel"));
+    		  .orElseThrow(() -> new ResourceNotFoundException("No se encontró el hotel"));
       CuartoEntity cuartosEntity = modelMapper.map(cuartoAdd, CuartoEntity.class);
 
       cuartosEntity.setNombreCuarto(cuartosEntity.getNombreCuarto().toUpperCase());
